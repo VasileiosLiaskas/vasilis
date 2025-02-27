@@ -1,0 +1,19 @@
+
+<header>
+  <div class="logo">Osoo</div>
+
+  <nav [class.open]="menuOpen">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="icons">
+    <span class="notification">🔔</span>
+    <span class="profile">👤</span>
+    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+  </div>
+</header>

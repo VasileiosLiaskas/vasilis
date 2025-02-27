@@ -1,0 +1,189 @@
+<table class="table">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Ημερομηνία</th>
+    <th>Τύπος</th>
+    <th>Ποιος</th>
+    <th>Περιοχή</th>
+    <th>Λεπτομέρειες</th>
+    <th>Αμοιβή</th>
+    <th>Προκαταβολή</th>
+    <th>Υπόλοιπο</th>
+    <th>Εξοφλήθηκε</th>
+    <th>Αρχεία</th>
+    <th>Παράδοση</th>
+    <th>Σχόλια</th>
+    <th>Ενέργειες</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let business of businessList; let i = index">
+    <td>{{ i + 1 }}</td>
+
+    <!-- Editable Date Field -->
+    <td>{{ business.date }}</td>
+    <td>{{ business.type }}</td>
+    <td>{{ business.who }}</td>
+    <td>{{ business.area }}</td>
+    <td>{{ business.details }}</td>
+    <td>{{ business.fee }}</td>
+    <td>{{ business.advancePayment }}</td>
+    <td>{{ business.remainingMoney }}</td>
+    <td>{{ business.payout }}</td>
+    <td>{{ business.filesCompleted }}</td>
+    <td>{{ business.filesDelivered }}</td>
+    <td>{{ business.comments }}</td>
+
+    <!-- Action Buttons -->
+    <td>
+      <button >Save</button>
+      <button >Cancel</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div style="position: fixed; bottom: 20px; right: 20px;">
+  <button (click)="addBusiness()" style="border: none; background: #007bff; color: white; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer;">
+    <i class="fas fa-plus"></i>
+  </button>
+</div>
+<div  *ngIf="showForm" class="form-container">
+  <form class="modal-container"  [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
+    <div class="form-row">
+      <div class="input-fields">
+        <span class="details">Ημερομηνία</span>
+        <input type="date" formControlName="date" >
+      </div>
+      <div class="input-fields">
+        <span class="details">Τύπος</span>
+        <input type="text" formControlName="type" >
+
+      </div>
+      <div class="input-fields">
+        <span class="details">Ποιος</span>
+        <input type="text" formControlName="who" >
+      </div>
+
+
+      <div class="input-fields">
+        <span class="details">Περιοχή</span>
+        <input type="text" formControlName="area" >
+      </div>
+      <div class="input-fields">
+        <span class="details">Λεπτομέρειες</span>
+        <input type="text"  formControlName="details">
+      </div>
+
+    <div class="form-row">
+      <div class="input-fields">
+        <span class="details">Αμοιβή</span>
+        <input type="number" formControlName="fee" >
+      </div>
+
+    <div class="input-fields">
+      <span class="details">Προκαταβολή</span>
+      <input type="number" formControlName="advancePayment">
+    </div>
+
+    <div class="input-fields">
+      <span class="details">Υπόλοιπο</span>
+      <input style="width: 100%" type="number" formControlName="remainingMoney" >
+    </div>
+    </div>
+
+
+    <div class="input-fields">
+      <span class="details" >Σχόλια</span>
+      <textarea  rows="3" formControlName="comments" ></textarea>
+    </div>
+    </div>
+
+    <div  style="margin: 10px; align-content: center " class="form-row">
+      <span class="details-checkbox" >Αποπληρωμή</span>
+      <input type="checkbox" formControlName="payout" >
+
+
+      <span class="details-checkbox" >Αρχεία</span>
+      <input type="checkbox" formControlName="filesCompleted" >
+
+
+      <span class="details-checkbox" >Παράδοση</span>
+      <input type="checkbox" formControlName="filesDelivered" >
+
+    </div>
+    <div class="form-actions">
+      <button class="cancel-button" type="button">
+        <i class="fas fa-times"></i> Cancel
+      </button>
+      <button class="save-button" type="submit">
+        <i class="fas fa-save"></i> Save
+      </button>
+    </div>
+
+  </form>
+</div>
+
+
+<!--  <div class="modal-container">-->
+<!--  <form   [formGroup]="businessForm" (ngSubmit)="submitBusiness()">-->
+<!--    <div class="user-details">-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Τύπος</span>-->
+<!--        <input type="text" formControlName="type" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Ποιος</span>-->
+<!--        <input type="text" formControlName="who" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Περιοχή</span>-->
+<!--        <input type="text" formControlName="area" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Λεπτομέρειες</span>-->
+<!--        <input type="text"  formControlName="details">-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Αμοιβή</span>-->
+<!--        <input type="number" formControlName="fee" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Προκαταβολή</span>-->
+<!--        <input type="number" formControlName="advancePayment">-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details">Υπόλοιπο</span>-->
+<!--        <input type="number" formControlName="remainingMoney" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details" >Σχόλια</span>-->
+<!--        <input type="text" formControlName="comments" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details" >Αποπληρωμή</span>-->
+<!--        <input type="checkbox" formControlName="payout" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details" >Αρχεία</span>-->
+<!--        <input type="checkbox" formControlName="filesCompleted" >-->
+<!--      </div>-->
+<!--      <div class="input-box">-->
+<!--        <span class="details" >Παράδοση</span>-->
+<!--        <input type="checkbox" formControlName="filesDelivered" >-->
+<!--      </div>-->
+
+
+<!--    </div>-->
+<!--    <div class="modal-buttons">-->
+<!--      <button type="button" (click)="showForm = false">Cancel</button>-->
+<!--      <button type="submit">Submit</button>-->
+<!--    </div>-->
+<!--  </form>-->
+<!--  </div>-->
+
+
+
+
+

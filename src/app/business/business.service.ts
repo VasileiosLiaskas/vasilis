@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Business} from './business.model';
+import {Observable} from 'rxjs';
+import {Page} from './page.model';
 
 @Injectable({providedIn: 'root'})
 export class BusinessService {
@@ -11,8 +13,12 @@ export class BusinessService {
   }
   private baseUrl = 'http://localhost:8080/business';
 
-  getBusinessList(){
-    return this.http.get<Business[]>(`${this.baseUrl}/list`);
+  getBusinessList(page: number = 0, size: number = 10): Observable<Page<Business>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Page<Business>>(`${this.baseUrl}/list`, { params });
   }
 
   initForm() {

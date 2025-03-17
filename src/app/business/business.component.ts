@@ -25,6 +25,10 @@ export class BusinessComponent implements OnInit{
   businessList: Business[] =[];
   showForm:boolean= false;
   businessForm!: FormGroup;
+  page: number = 0;
+  size: number = 10;
+  totalElements: number = 0;
+
   constructor(
     private businessService: BusinessService,
     private toasterService: ToasterService
@@ -32,15 +36,21 @@ export class BusinessComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.businessService.getBusinessList().subscribe( (responseData) => {
-      this.businessList= responseData;
-    })
+    this.loadBusinessList();
     this.businessForm=this.businessService.initForm();
 
   }
+  loadBusinessList() {
+    this.businessService.getBusinessList(this.page, this.size).subscribe(response => {
+      this.businessList = response.content;  // The actual data
+      this.totalElements = response.totalElements; // Total number of entries
+    });
+  }
 
-
-
+  onPageChange(newPage: number) {
+    this.page = newPage;
+    this.loadBusinessList();
+  }
 
 
 
@@ -70,4 +80,6 @@ export class BusinessComponent implements OnInit{
       }
     });
   }
+
+  protected readonly Math = Math;
 }

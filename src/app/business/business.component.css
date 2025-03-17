@@ -24,7 +24,14 @@
 }
 
 .table thead td, .table thead th{
-  padding: 15px;
+  padding: 10px;
+}
+
+.table td{
+  max-width: 100px;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .table tbody tr{

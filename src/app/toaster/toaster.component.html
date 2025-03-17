@@ -1,0 +1,5 @@
+<div class="toaster-container">
+  <div *ngFor="let message of toasterService.getMessages()" class="toaster" [ngClass]="message.type">
+    {{ message.text }}
+  </div>
+</div>

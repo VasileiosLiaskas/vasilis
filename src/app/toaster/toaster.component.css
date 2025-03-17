@@ -1,0 +1,21 @@
+.toaster-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toaster {
+  padding: 10px 20px;
+  margin: 5px 0;
+  color: #fff;
+  border-radius: 5px;
+  min-width: 200px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.success { background-color: green; }
+.error { background-color: red; }
+.warning { background-color: orange; }
+.info { background-color: blue; }

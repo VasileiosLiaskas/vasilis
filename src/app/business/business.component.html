@@ -7,6 +7,7 @@
     <th>Ποιος</th>
     <th>Περιοχή</th>
     <th>Λεπτομέρειες</th>
+    <th>Έξοδα</th>
     <th>Αμοιβή</th>
     <th>Προκαταβολή</th>
     <th>Υπόλοιπο</th>
@@ -14,19 +15,18 @@
     <th>Αρχεία</th>
     <th>Παράδοση</th>
     <th>Σχόλια</th>
-    <th>Ενέργειες</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let business of businessList; let i = index">
     <td>{{ i + 1 }}</td>
 
-    <!-- Editable Date Field -->
     <td>{{ business.date }}</td>
     <td>{{ business.type }}</td>
     <td>{{ business.who }}</td>
     <td>{{ business.area }}</td>
     <td>{{ business.details }}</td>
+    <td>{{ business.costs }}</td>
     <td>{{ business.fee }}</td>
     <td>{{ business.advancePayment }}</td>
     <td>{{ business.remainingMoney }}</td>
@@ -35,11 +35,6 @@
     <td>{{ business.filesDelivered }}</td>
     <td>{{ business.comments }}</td>
 
-    <!-- Action Buttons -->
-    <td>
-      <button >Save</button>
-      <button >Cancel</button>
-    </td>
   </tr>
   </tbody>
 </table>
@@ -49,7 +44,8 @@
     <i class="fas fa-plus"></i>
   </button>
 </div>
-<div  *ngIf="showForm" class="form-container">
+<div  *ngIf="showForm" class="modal-overlay">
+  <div class="modal">
   <form class="modal-container"  [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
     <div class="form-row">
       <div class="input-fields">
@@ -121,69 +117,9 @@
         <i class="fas fa-save"></i> Save
       </button>
     </div>
-
   </form>
+  </div>
 </div>
-
-
-<!--  <div class="modal-container">-->
-<!--  <form   [formGroup]="businessForm" (ngSubmit)="submitBusiness()">-->
-<!--    <div class="user-details">-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Τύπος</span>-->
-<!--        <input type="text" formControlName="type" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Ποιος</span>-->
-<!--        <input type="text" formControlName="who" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Περιοχή</span>-->
-<!--        <input type="text" formControlName="area" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Λεπτομέρειες</span>-->
-<!--        <input type="text"  formControlName="details">-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Αμοιβή</span>-->
-<!--        <input type="number" formControlName="fee" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Προκαταβολή</span>-->
-<!--        <input type="number" formControlName="advancePayment">-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details">Υπόλοιπο</span>-->
-<!--        <input type="number" formControlName="remainingMoney" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details" >Σχόλια</span>-->
-<!--        <input type="text" formControlName="comments" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details" >Αποπληρωμή</span>-->
-<!--        <input type="checkbox" formControlName="payout" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details" >Αρχεία</span>-->
-<!--        <input type="checkbox" formControlName="filesCompleted" >-->
-<!--      </div>-->
-<!--      <div class="input-box">-->
-<!--        <span class="details" >Παράδοση</span>-->
-<!--        <input type="checkbox" formControlName="filesDelivered" >-->
-<!--      </div>-->
-
-
-<!--    </div>-->
-<!--    <div class="modal-buttons">-->
-<!--      <button type="button" (click)="showForm = false">Cancel</button>-->
-<!--      <button type="submit">Submit</button>-->
-<!--    </div>-->
-<!--  </form>-->
-<!--  </div>-->
-
-
 
 
 

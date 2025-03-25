@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 
 import {TableModule} from 'primeng/table';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -6,6 +6,7 @@ import {Business} from './business.model';
 import {BusinessService} from './business.service';
 import {CommonModule, NgForOf} from '@angular/common';
 import {ToasterService} from '../toaster/toaster.service';
+import {query} from '@angular/animations';
 
 @Component({
   selector: 'app-business',
@@ -28,6 +29,14 @@ export class BusinessComponent implements OnInit{
   page: number = 0;
   size: number = 10;
   totalElements: number = 0;
+  protected readonly Math = Math;
+  searchQuery: string = '';
+  dateFrom: string = '';
+  dateTo: string = '';
+  totalIncome: number=0;
+  isOpen: boolean=false;
+  openRowId: number | null = null;
+
 
   constructor(
     private businessService: BusinessService,
@@ -36,20 +45,24 @@ export class BusinessComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.loadBusinessList();
+    this.loadBusinessList(this.searchQuery);
     this.businessForm=this.businessService.initForm();
 
   }
-  loadBusinessList() {
-    this.businessService.getBusinessList(this.page, this.size).subscribe(response => {
+  loadBusinessList(searchQuery: string | null) {
+    this.businessService.getBusinessList(this.page, this.size, this.searchQuery,this.dateFrom,this.dateTo).subscribe(response => {
       this.businessList = response.content;  // The actual data
       this.totalElements = response.totalElements; // Total number of entries
+      this.totalIncome = response.content.length > 0 ? response.content[0].totalIncome : 0;
     });
   }
 
   onPageChange(newPage: number) {
+    if (newPage < 0 || newPage >= Math.ceil(this.totalElements / this.size)) {
+      return;
+    }
     this.page = newPage;
-    this.loadBusinessList();
+    this.loadBusinessList(this.searchQuery);
   }
 
 
@@ -64,13 +77,14 @@ export class BusinessComponent implements OnInit{
 
   submitBusiness() {
     let business= this.businessForm.value;
+    business.date = this.convertToISODate(business.date);
     this.businessService.save(business).subscribe({
       next: (responseData) => {
         this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
 
         // Clear the form
         this.businessForm.reset();
-
+        this.loadBusinessList(null);
         // Hide the form (optional)
         this.showForm = false;
       },
@@ -80,6 +94,79 @@ export class BusinessComponent implements OnInit{
       }
     });
   }
+  openDatePicker(datePicker: HTMLInputElement) {
+    if (datePicker) {
+      datePicker.showPicker(); // Open the date picker
+    }
+  }
 
-  protected readonly Math = Math;
+  setDateFrom(event: any) {
+    this.dateFrom = event.target.value;
+    console.log(this.dateFrom);
+    const query = this.searchQuery.trim() === '' ? null : this.searchQuery;
+    this.loadBusinessList(query)// Updates the text input with the selected date
+  }
+  setDateTo(event: any) {
+    this.dateTo = event.target.value; // Updates the text input with the selected date
+    const query = this.searchQuery.trim() === '' ? null : this.searchQuery;
+    this.loadBusinessList(query)// Updates the text input with the selected date
+  }
+
+
+  onSearch() {
+    this.page = 0; // Reset to the first page when searching
+    const query = this.searchQuery.trim() === '' ? null : this.searchQuery;
+    this.loadBusinessList(query);
+  }
+
+  onCancel() {
+    this.businessForm.reset();
+    this.showForm=false;
+  }
+
+  convertBoolean(value: boolean): string {
+    return value ? 'Ναι' : 'Όχι';
+  }
+  @HostListener('document:click')
+  closeDropdown() {
+    this.openRowId = null;
+  }
+  toggleDropdown(event: MouseEvent, rowId: number) {
+    event.stopPropagation();
+    this.openRowId = this.openRowId === rowId ? null : rowId;
+  }
+
+  editRow(business: Business) {
+    this.showForm= !this.showForm;
+    // Convert "DD-MM-YYYY" to "YYYY-MM-DD"
+    const formattedDate = this.convertToISODate(business.date);
+
+    this.businessForm.patchValue({
+      ...business,
+      date: formattedDate, // Ensure correct format for date picker
+    });
+  }
+
+  deleteRow(row: any) {
+    console.log('Delete row:', row);
+  }
+
+  convertToISODate(dateInput: string | Date): string {
+    if (!dateInput) return ''; // Handle null/undefined case
+
+    if (dateInput instanceof Date) {
+      // Convert Date object to string in YYYY-MM-DD format
+      return dateInput.toISOString().split('T')[0];
+    }
+
+    // If input is a string like "18-03-2025", convert it
+    const parts = dateInput.split('-');
+    if (parts.length !== 3) return dateInput;
+
+    const [day, month, year] = parts;
+    return `${year}-${month}-${day}`; // Convert to "2025-03-18"
+  }
+
+
+
 }

@@ -1,128 +1,179 @@
-<table class="table">
-  <thead>
-  <tr>
-    <th>#</th>
-    <th>Ημερομηνία</th>
-    <th>Τύπος</th>
-    <th>Ποιος</th>
-    <th>Περιοχή</th>
-    <th>Λεπτομέρειες</th>
-    <th>Έξοδα</th>
-    <th>Αμοιβή</th>
-    <th>Προκαταβολή</th>
-    <th>Υπόλοιπο</th>
-    <th>Εξοφλήθηκε</th>
-    <th>Αρχεία</th>
-    <th>Παράδοση</th>
-    <th>Σχόλια</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let business of businessList; let i = index">
-    <td>{{ i + 1 }}</td>
+<div class="filter-container">
+  <div class="search-container">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" placeholder="Search keyword" [(ngModel)]="searchQuery" (change)="onSearch()">
+  </div>
+  <div class = "date-container search-container" (click)="openDatePicker(datePickerFrom)">
+    <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly>
+    <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker"  >
+  </div>
+  <div class = "date-container search-container" (click)="openDatePicker(datePickerTo)">
+    <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι"  readonly>
+    <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" >
+  </div>
 
-    <td>{{ business.date }}</td>
-    <td>{{ business.type }}</td>
-    <td>{{ business.who }}</td>
-    <td>{{ business.area }}</td>
-    <td>{{ business.details }}</td>
-    <td>{{ business.costs }}</td>
-    <td>{{ business.fee }}</td>
-    <td>{{ business.advancePayment }}</td>
-    <td>{{ business.remainingMoney }}</td>
-    <td>{{ business.payout }}</td>
-    <td>{{ business.filesCompleted }}</td>
-    <td>{{ business.filesDelivered }}</td>
-    <td>{{ business.comments }}</td>
+  <div class="income-box">
+    <div class="income-icon">
+      <i class="fa-solid fa-sack-dollar"></i>
+    </div>
+    <div class="income-details">
+      <p class="income-label">Έσοδα</p>
+      <h2 class="income-value">{{ totalIncome }}</h2>
+    </div>
+  </div>
+</div>
 
-  </tr>
-  </tbody>
-</table>
-<div class="pagination">
-  <button (click)="onPageChange(page - 1)" [disabled]="page === 0">Previous</button>
-  <span>Page {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>
-  <button (click)="onPageChange(page + 1)" [disabled]="(page + 1) * size >= totalElements">Next</button>
+
+<div class="table-container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Ημερομηνία</th>
+      <th>Τύπος</th>
+      <th>Ποιος</th>
+      <th>Περιοχή</th>
+      <th>Λεπτομέρειες</th>
+      <th>Έξοδα</th>
+      <th>Αμοιβή</th>
+      <th>Προκαταβολή</th>
+      <th>Υπόλοιπο</th>
+      <th>Εξοφλήθηκε</th>
+      <th>Αρχεία</th>
+      <th>Παράδοση</th>
+      <th>Σχόλια</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let business of businessList; let i = index">
+      <td>{{ (page * size) + i + 1 }}</td>
+
+      <td>{{ business.date }}</td>
+      <td>{{ business.type }}</td>
+      <td>{{ business.who }}</td>
+      <td>{{ business.area }}</td>
+      <td>{{ business.details }}</td>
+      <td>{{ business.costs }}</td>
+      <td>{{ business.fee }}</td>
+      <td>{{ business.advancePayment }}</td>
+      <td>{{ business.remainingMoney }}</td>
+      <td>{{ convertBoolean(business.payout) }}</td>
+      <td>{{ convertBoolean(business.filesCompleted) }}</td>
+      <td>{{ convertBoolean(business.filesDelivered) }}</td>
+      <td>{{ business.comments }}</td>
+      <td>
+        <div class="dropdown" (click)="toggleDropdown($event, business.id)">
+          <button class="menu-btn">⋮</button>
+          <ul class="dropdown-menu" *ngIf="openRowId === business.id">
+            <li><button class="edit-btn" (click)="editRow(business)"> Επεξεργασία</button></li>
+            <li><button class="delete-btn" (click)="deleteRow(business)">Διαγραφή</button></li>
+          </ul>
+        </div>
+      </td>
+
+
+    </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">
+      <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    <span> {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>
+    <button class="pagination-buttons" (click)="onPageChange(page + 1)" [disabled]="(page + 1) * size >= totalElements">
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
 </div>
 
 <div style="position: fixed; bottom: 20px; right: 20px;">
-  <button (click)="addBusiness()" style="border: none; background: #007bff; color: white; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer;">
+  <button (click)="addBusiness()"
+          style="border: none; background: rgba(144,122,204,0.76); color: white; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer;">
     <i class="fas fa-plus"></i>
   </button>
 </div>
-<div  *ngIf="showForm" class="modal-overlay">
+<div *ngIf="showForm" class="modal-overlay">
   <div class="modal">
-  <form class="modal-container"  [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
-    <div class="form-row">
-      <div class="input-fields">
-        <span class="details">Ημερομηνία</span>
-        <input type="date" formControlName="date" >
-      </div>
-      <div class="input-fields">
-        <span class="details">Τύπος</span>
-        <input type="text" formControlName="type" >
+    <i  class="fa-solid fa-xmark close-button" (click)="onCancel()"></i>
+    <form class="modal-container" [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
+      <div class="form-row">
+        <div class="input-fields">
+          <span class="details">Ημερομηνία</span>
+          <input type="date" formControlName="date" >
+        </div>
+        <div class="input-fields">
+          <span class="details">Τύπος</span>
+          <input type="text" formControlName="type">
+
+        </div>
+        <div class="input-fields">
+          <span class="details">Ποιος</span>
+          <input type="text" formControlName="who">
+        </div>
+
+
+        <div class="input-fields">
+          <span class="details">Περιοχή</span>
+          <input type="text" formControlName="area">
+        </div>
+        <div class="input-fields">
+          <span class="details">Λεπτομέρειες</span>
+          <input type="text" formControlName="details">
+        </div>
+
+        <div class="form-row">
+          <div class="input-fields">
+            <span class="details">Αμοιβή</span>
+            <input type="number" formControlName="fee">
+          </div>
+
+          <div class="input-fields">
+            <span class="details">Προκαταβολή</span>
+            <input type="number" formControlName="advancePayment">
+          </div>
+
+        </div>
+          <div class="form-row">
+          <div class="input-fields">
+            <span class="details">Υπόλοιπο</span>
+            <input  type="number" formControlName="remainingMoney">
+          </div>
+            <div class="input-fields">
+              <span class="details">Έξοδα</span>
+              <input type="number" formControlName="costs">
+            </div>
 
       </div>
-      <div class="input-fields">
-        <span class="details">Ποιος</span>
-        <input type="text" formControlName="who" >
+
+        <div class="input-fields">
+          <span class="details">Σχόλια</span>
+          <textarea rows="3" formControlName="comments"></textarea>
+        </div>
       </div>
 
+      <div style="margin: 10px; align-content: center " class="form-row">
+        <span class="details-checkbox">Αποπληρωμή</span>
+        <input type="checkbox" formControlName="payout">
 
-      <div class="input-fields">
-        <span class="details">Περιοχή</span>
-        <input type="text" formControlName="area" >
+
+        <span class="details-checkbox">Αρχεία</span>
+        <input type="checkbox" formControlName="filesCompleted">
+
+
+        <span class="details-checkbox">Παράδοση</span>
+        <input type="checkbox" formControlName="filesDelivered">
+
       </div>
-      <div class="input-fields">
-        <span class="details">Λεπτομέρειες</span>
-        <input type="text"  formControlName="details">
+      <div class="form-actions">
+        <button class="cancel-button" type="button" (click)="onCancel()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="save-button" type="submit">
+          <i class="fas fa-save"></i> Save
+        </button>
       </div>
-
-    <div class="form-row">
-      <div class="input-fields">
-        <span class="details">Αμοιβή</span>
-        <input type="number" formControlName="fee" >
-      </div>
-
-    <div class="input-fields">
-      <span class="details">Προκαταβολή</span>
-      <input type="number" formControlName="advancePayment">
-    </div>
-
-    <div class="input-fields">
-      <span class="details">Υπόλοιπο</span>
-      <input style="width: 100%" type="number" formControlName="remainingMoney" >
-    </div>
-    </div>
-
-
-    <div class="input-fields">
-      <span class="details" >Σχόλια</span>
-      <textarea  rows="3" formControlName="comments" ></textarea>
-    </div>
-    </div>
-
-    <div  style="margin: 10px; align-content: center " class="form-row">
-      <span class="details-checkbox" >Αποπληρωμή</span>
-      <input type="checkbox" formControlName="payout" >
-
-
-      <span class="details-checkbox" >Αρχεία</span>
-      <input type="checkbox" formControlName="filesCompleted" >
-
-
-      <span class="details-checkbox" >Παράδοση</span>
-      <input type="checkbox" formControlName="filesDelivered" >
-
-    </div>
-    <div class="form-actions">
-      <button class="cancel-button" type="button">
-        <i class="fas fa-times"></i> Cancel
-      </button>
-      <button class="save-button" type="submit">
-        <i class="fas fa-save"></i> Save
-      </button>
-    </div>
-  </form>
+    </form>
   </div>
 </div>
 

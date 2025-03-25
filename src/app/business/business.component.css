@@ -65,6 +65,7 @@
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  width: 100%; /* Ensures it spans full width */
 
 }
 
@@ -160,4 +161,146 @@
   max-width: 500px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   position: relative;
+}
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  color: rgba(51, 51, 51, 0.82); /* You can customize this color */
+}
+.close-button:hover{
+  transform: scale(1.1);
+}
+
+.pagination-buttons{
+  font-size: 20px;
+  border: none;
+  background-color: white;
+  margin:15px;
+
+}
+.pagination-buttons:hover{
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.76);
+}
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 250px; /* Adjust width as needed */
+  border: 1px solid rgba(144, 122, 204, 0.49);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.search-container i {
+  position: absolute;
+  left: 10px;
+  color: #888;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px 8px 8px 30px; /* Space for the icon */
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensures it spans the full width */
+}
+
+.filter-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  margin: 2px;
+}
+
+.hidden-datepicker {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.income-box{
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  margin-left: auto;
+}
+
+.income-icon {
+  font-size: 30px;
+  color: #4CAF50;
+  margin-right: 15px;
+}
+
+.income-details {
+  display: flex;
+  flex-direction: column;
+}
+.income-label {
+  font-size: 14px;
+  color: #777;
+  margin: 0;
+}
+
+.income-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu{
+  min-width: 100px;
+  background-color: rgba(0, 0, 0, 0.88);
+  list-style: none;
+  position: absolute;
+  margin: 0;
+  z-index: 100;
+  right: 100%;
+  top: 50%;
+  border-radius: 5px;
+}
+
+.dropdown-menu li button {
+  width: 100%;
+  color: white;
+  padding: 8px 5px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.dropdown-menu li button:hover{
+  background-color: rgb(113, 112, 112);
+}
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 5px;
+  color: #333; /* Ensures visibility */
 }

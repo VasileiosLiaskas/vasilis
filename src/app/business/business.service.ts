@@ -13,10 +13,21 @@ export class BusinessService {
   }
   private baseUrl = 'http://localhost:8080/business';
 
-  getBusinessList(page: number = 0, size: number = 10): Observable<Page<Business>> {
+  getBusinessList(page: number = 0, size: number = 10, searchQuery: string, dateFrom: string, dateTo: string): Observable<Page<Business>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
+
+    if (searchQuery) {
+      params = params.set('keyword', searchQuery);
+    }
+    if (dateFrom){
+      params=params.set('dateFrom', dateFrom);
+    }
+    if (dateFrom){
+      params=params.set('dateTo', dateTo);
+    }
+
 
     return this.http.get<Page<Business>>(`${this.baseUrl}/list`, { params });
   }

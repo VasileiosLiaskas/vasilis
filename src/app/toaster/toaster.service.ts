@@ -18,4 +18,8 @@ export class ToasterService {
   getMessages() {
     return this.messages;
   }
+
+  removeMessage(message: {text: string; type: string}) {
+
+  }
 }

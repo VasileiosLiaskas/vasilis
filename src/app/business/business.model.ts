@@ -13,6 +13,7 @@ export class Business {
   public filesCompleted!: boolean;
   public filesDelivered!: boolean;
   public comments!: string;
+  public totalIncome!: number;
 
 
 }

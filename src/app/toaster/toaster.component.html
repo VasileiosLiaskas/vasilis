@@ -1,6 +1,11 @@
 <div class="toaster-container">
   <div *ngFor="let message of toasterService.getMessages()" class="toaster" [ngClass]="message.type">
+    <span class="icon">
+      <i [ngClass]="getIconClass(message.type)"></i>
+    </span>
+    <div>
+      <div>{{ message.text }}</div>
+    </div>
     <span class="close-btn" (click)="toasterService.removeMessage(message)">×</span>
-    {{ message.text }}
   </div>
 </div>

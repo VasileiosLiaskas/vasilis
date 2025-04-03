@@ -50,40 +50,50 @@ ul li a {
   align-items: center;
 }
 
-.notification, .profile {
+.calendar, .profile {
   margin: 0 10px;
   cursor: pointer;
+  font-size: 15px;
+  background-color: rgba(0, 0, 0, 0.62); /* You can change this to any color */
+  padding: 10px; /* Adds space around the icon */
+  border-radius: 50%; /* Makes the background circular */
+  color: white; /* Makes the icon color white */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.menu-toggle {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5em;
+/* Styles for modal */
+.modal {
+  display: flex; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.64); /* Dark overlay */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: rgb(255, 255, 255);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  font-size: 40px;
   cursor: pointer;
-  display: none;
+  color: #333;
 }
 
-@media (max-width: 768px) {
-  nav {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background: #444;
-    width: 200px;
-    padding: 10px;
-  }
-
-  nav.open {
-    display: block;
-  }
-
-  ul {
-    flex-direction: column;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
+.close:hover {
+  color: #5a5a5a;
 }

@@ -62,4 +62,27 @@ export class BusinessService {
   save(business: any) {
     return this.http.post(`${this.baseUrl}/save`, business)
   }
+
+  exportExcel(): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/export`, {
+      responseType: 'blob', // Important to receive file as a binary blob
+    });
+  }
+
+  downloadExcel() {
+    this.exportExcel().subscribe((blob) => {
+      const file = new Blob([blob], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const fileURL = URL.createObjectURL(file);
+      const a = document.createElement('a');
+      a.href = fileURL;
+      a.download = 'Business_Report.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+
+  deleteRow(id:number) {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+  }
 }

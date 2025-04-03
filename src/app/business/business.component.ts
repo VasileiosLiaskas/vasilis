@@ -48,6 +48,7 @@ export class BusinessComponent implements OnInit{
     this.loadBusinessList(this.searchQuery);
     this.businessForm=this.businessService.initForm();
 
+
   }
   loadBusinessList(searchQuery: string | null) {
     this.businessService.getBusinessList(this.page, this.size, this.searchQuery,this.dateFrom,this.dateTo).subscribe(response => {
@@ -148,7 +149,16 @@ export class BusinessComponent implements OnInit{
   }
 
   deleteRow(row: any) {
-    console.log('Delete row:', row);
+    this.businessService.deleteRow(row.id).subscribe({
+      next: () => {
+        this.loadBusinessList(null); // Reload data
+        this.toasterService.showMessage("Διαγράφηκε Επιτυχώς", "success");
+      },
+      error: (err) => {
+        console.error("Error deleting row:", err);
+        this.toasterService.showMessage("Αποτυχία διαγραφής", "error");
+      }
+    });
   }
 
   convertToISODate(dateInput: string | Date): string {
@@ -168,5 +178,7 @@ export class BusinessComponent implements OnInit{
   }
 
 
-
+  exportToExcel() {
+    this.businessService.downloadExcel();
+  }
 }

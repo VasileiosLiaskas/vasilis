@@ -3,7 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+}
 .table{
   width: 100%;
   border-collapse: collapse;
@@ -11,8 +15,6 @@
   font-size: 0.9em;
   min-width: 400px;
   border-radius: 10px;
-  overflow: hidden;
-
 
 }
 
@@ -20,11 +22,11 @@
   background-color: #413F61C1;
   color: white;
   text-align: center;
-  height: 60px;
+  height: 50px;
 }
 
 .table thead td, .table thead th{
-  padding: 10px;
+  padding: 6px;
 }
 
 .table td{
@@ -36,7 +38,7 @@
 
 .table tbody tr{
   border-bottom: 1px solid rgba(186, 186, 186, 0.57);
-  height: 60px;
+  height: 40px;
   text-align: center;
 }
 
@@ -137,6 +139,11 @@
   .form-container{
     width: fit-content;
   }
+  .table-container {
+    overflow-x: auto;
+    white-space: nowrap; /* Prevents text wrapping */
+  }
+
 }
 
 
@@ -189,7 +196,17 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 250px; /* Adjust width as needed */
+
+  width: 150px; /* Adjust width as needed */
+  border: 1px solid rgba(144, 122, 204, 0.49);
+  border-radius: 6px;
+  padding: 2px;
+}
+.date-container{
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  width: 150px; /* Adjust width as needed */
   border: 1px solid rgba(144, 122, 204, 0.49);
   border-radius: 6px;
   padding: 2px;
@@ -199,6 +216,7 @@
   position: absolute;
   left: 10px;
   color: #888;
+
 }
 
 .search-container input {
@@ -206,22 +224,19 @@
   padding: 8px 8px 8px 30px; /* Space for the icon */
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
+  text-align: center; /* Center text */
 }
 
-.pagination{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%; /* Ensures it spans the full width */
+.date-container input{
+  padding: 8px; /* Space for the icon */
 }
 
 .filter-container{
   display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 2px;
-  margin: 2px;
+  align-items: flex-end;
 }
 
 .hidden-datepicker {
@@ -303,4 +318,63 @@
   cursor: pointer;
   padding: 5px;
   color: #333; /* Ensures visibility */
+}
+.export-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+
+}
+
+.export-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns to the right */
+  width: 100%;
+  margin-top: 10px;
+}
+
+.export-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.table-footer {
+  display: flex;
+  justify-content: space-between; /* Ensures pagination stays centered and button moves right */
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.pagination {
+  flex-grow: 1; /* Makes sure pagination stays centered */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.export-button {
+  background-color: #ffffff;
+  color: rgb(82, 135, 90);
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.export-button i {
+  margin-right: 5px;
 }

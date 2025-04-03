@@ -1,19 +1,18 @@
 
 <header>
   <div class="logo">Osoo</div>
-
-  <nav [class.open]="menuOpen">
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Services</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
-
   <div class="icons">
-    <span class="notification">🔔</span>
-    <span class="profile">👤</span>
-    <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+    <i (click)="openCalendar()" class="fa-solid fa-calendar-days calendar "></i>
+    <i class="fa-solid fa-user profile"></i>
   </div>
 </header>
+
+<div *ngIf="calendarView" id="calendarModal" class="modal">
+<!--  <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Meeting%20with%20Client&dates=20250410T120000Z/20250410T130000Z&details=Discuss%20project%20requirements&location=New%20York%20Office" target="_blank">-->
+<!--    Add Event to Google Calendar-->
+<!--  </a>-->
+<div class="modal-content">
+  <span class="close" (click)="closeCalendar()">&times;</span>
+<iframe  class="calendar-container" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FAthens&showPrint=0&src=Y29jb2JpbGxvY29AZ21haWwuY29t&src=MWFjM2VjZDc1YTY5NGEzMWRjNmVhMTI0MzY3NWU1OGE5ZDBmNzExZjliYzU1ZDBlZTI3N2MyOWUzYTI5OWVmZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZWwuZ3JlZWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4&color=%23ae1304&color=%23F6BF26" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</div>
+</div>

@@ -14,4 +14,14 @@ import {NgClass, NgForOf} from '@angular/common';
 })
 export class ToasterComponent {
   constructor(public toasterService: ToasterService) {}
+
+  getIconClass(type: string): string {
+    switch (type) {
+      case 'success': return 'fas fa-check-circle';
+      case 'error': return 'fas fa-times-circle';
+      case 'info': return 'fas fa-info-circle';
+      case 'warning': return 'fas fa-exclamation-circle';
+      default: return '';
+    }
+  }
 }

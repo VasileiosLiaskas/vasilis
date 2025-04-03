@@ -3,11 +3,11 @@
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" placeholder="Search keyword" [(ngModel)]="searchQuery" (change)="onSearch()">
   </div>
-  <div class = "date-container search-container" (click)="openDatePicker(datePickerFrom)">
+  <div class = "search-container date-container " (click)="openDatePicker(datePickerFrom)">
     <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly>
     <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker"  >
   </div>
-  <div class = "date-container search-container" (click)="openDatePicker(datePickerTo)">
+  <div class = "search-container date-container " (click)="openDatePicker(datePickerTo)">
     <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι"  readonly>
     <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" >
   </div>
@@ -42,7 +42,7 @@
       <th>Αρχεία</th>
       <th>Παράδοση</th>
       <th>Σχόλια</th>
-      <th>Actions</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
@@ -76,16 +76,22 @@
     </tr>
     </tbody>
   </table>
-  <div class="pagination">
-    <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">
-      <i class="fa-solid fa-arrow-left"></i>
+  <div class="table-footer">
+    <button class="export-button" (click)="exportToExcel()">
+      <i class="fa-solid fa-file-excel"> <p style="font-size: 9px; padding:5px">to excel</p></i>
     </button>
-    <span> {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>
-    <button class="pagination-buttons" (click)="onPageChange(page + 1)" [disabled]="(page + 1) * size >= totalElements">
-      <i class="fa-solid fa-arrow-right"></i>
-    </button>
+    <div class="pagination">
+      <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <span> {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>
+      <button class="pagination-buttons" (click)="onPageChange(page + 1)" [disabled]="(page + 1) * size >= totalElements">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+
+
   </div>
-</div>
 
 <div style="position: fixed; bottom: 20px; right: 20px;">
   <button (click)="addBusiness()"
@@ -177,5 +183,5 @@
   </div>
 </div>
 
-
+</div>
 

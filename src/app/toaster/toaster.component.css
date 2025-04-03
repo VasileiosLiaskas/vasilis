@@ -12,67 +12,60 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   padding: 15px 20px;
-  color: #fff;
-  border-radius: 8px;
-  min-width: 250px;
-  max-width: 300px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: #333;
+  border-radius: 10px;
+  min-width: 280px;
+  max-width: 350px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: white;
   font-family: Arial, sans-serif;
   font-size: 14px;
   font-weight: bold;
   transition: opacity 0.3s ease-in-out;
 }
 
+/* Left colored bar */
 .toaster::before {
   content: "";
   position: absolute;
   left: 0;
   top: 10%;
   bottom: 10%;
-  width: 5px;
+  width: 6px;
   border-radius: 3px;
 }
 
-.toaster.success {
-  background-color: #1c1c1c;  /* Dark background for contrast */
+/* Message types */
+.toaster.success { border-left: 6px solid #28a745; } /* Green */
+.toaster.error { border-left: 6px solid #dc3545; } /* Red */
+.toaster.info { border-left: 6px solid #17a2b8; } /* Blue */
+.toaster.warning { border-left: 6px solid #ffc107; } /* Yellow */
+
+/* Icons */
+.toaster .icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: white;
 }
 
-.toaster.success::before {
-  background-color: #28a745; /* Green vertical bar */
-}
-
-.toaster.error {
-  background-color: #1c1c1c;
-}
-
-.toaster.error::before {
-  background-color: #dc3545; /* Red vertical bar */
-}
-
-.toaster.warning {
-  background-color: #1c1c1c;
-}
-
-.toaster.warning::before {
-  background-color: #ffc107; /* Yellow vertical bar */
-}
-
-.toaster.info {
-  background-color: #1c1c1c;
-}
-
-.toaster.info::before {
-  background-color: #17a2b8; /* Blue vertical bar */
-}
+.success .icon { background: #28a745; }
+.error .icon { background: #dc3545; }
+.info .icon { background: #17a2b8; }
+.warning .icon { background: #ffc107; }
 
 /* Close button */
 .toaster .close-btn {
   position: absolute;
   top: 5px;
   right: 10px;
-  color: #fff;
+  color: #333;
   font-size: 16px;
   cursor: pointer;
 }

@@ -36,6 +36,9 @@ export class BusinessComponent implements OnInit{
   totalIncome: number=0;
   isOpen: boolean=false;
   openRowId: number | null = null;
+  filterPayout!: boolean ;
+  filterFilesCompleted!: boolean;
+  filterFilesDelivered!: boolean;
 
 
   constructor(
@@ -51,7 +54,16 @@ export class BusinessComponent implements OnInit{
 
   }
   loadBusinessList(searchQuery: string | null) {
-    this.businessService.getBusinessList(this.page, this.size, this.searchQuery,this.dateFrom,this.dateTo).subscribe(response => {
+
+    console.log(this.filterPayout,this.filterFilesCompleted, this.filterFilesDelivered)
+    this.businessService.getBusinessList(this.page,
+      this.size,
+      this.searchQuery,
+      this.dateFrom,
+      this.dateTo,
+      this.filterFilesDelivered,
+      this.filterFilesCompleted,
+      this.filterPayout).subscribe(response => {
       this.businessList = response.content;  // The actual data
       this.totalElements = response.totalElements; // Total number of entries
       this.totalIncome = response.content.length > 0 ? response.content[0].totalIncome : 0;

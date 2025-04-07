@@ -13,7 +13,10 @@ export class BusinessService {
   }
   private baseUrl = 'http://localhost:8080/business';
 
-  getBusinessList(page: number = 0, size: number = 10, searchQuery: string, dateFrom: string, dateTo: string): Observable<Page<Business>> {
+  getBusinessList(page: number = 0, size: number = 10, searchQuery: string,
+                  dateFrom: string, dateTo: string, filterFilesDelivered: boolean, filterFilesCompleted: boolean,
+                  filterPayout: boolean
+                  ): Observable<Page<Business>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -24,8 +27,17 @@ export class BusinessService {
     if (dateFrom){
       params=params.set('dateFrom', dateFrom);
     }
-    if (dateFrom){
+    if (dateTo){
       params=params.set('dateTo', dateTo);
+    }
+    if (filterFilesDelivered){
+      params = params.set('filterFilesDelivered', filterFilesDelivered);
+    }
+    if(filterFilesCompleted){
+      params = params.set('filterFilesCompleted', filterFilesCompleted);
+    }
+    if (filterPayout){
+      params = params.set('filterPayout', filterPayout);
     }
 
 

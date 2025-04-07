@@ -21,7 +21,26 @@
       <h2 class="income-value">{{ totalIncome }}</h2>
     </div>
   </div>
+
 </div>
+<div class="checkbox-filters">
+  <label class="custom-checkbox">
+    <input type="checkbox" [(ngModel)]="filterPayout" (change)="onSearch()">
+    <span class="checkmark"></span>
+    Εξοφλήθηκε
+  </label>
+  <label class="custom-checkbox">
+    <input type="checkbox" [(ngModel)]="filterFilesCompleted" (change)="onSearch()">
+    <span class="checkmark"></span>
+    Αρχεία
+  </label>
+  <label class="custom-checkbox">
+    <input type="checkbox" [(ngModel)]="filterFilesDelivered" (change)="onSearch()">
+    <span class="checkmark"></span>
+    Παράδοση
+  </label>
+</div>
+
 
 
 <div class="table-container">

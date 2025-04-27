@@ -8,7 +8,6 @@ import {ToasterComponent} from './toaster/toaster.component';
   selector: 'app-root',
   imports: [
     RouterOutlet,
-    BusinessComponent,
     HeaderComponent,
     ToasterComponent
   ],

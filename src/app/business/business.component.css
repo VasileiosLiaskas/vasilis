@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 .table-container {
   width: 100%;
   overflow-x: auto; /* Enables horizontal scrolling */
@@ -379,10 +380,12 @@
   margin-right: 5px;
 }
 .checkbox-filters {
-  display: block;
-  gap: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
   flex-wrap: wrap;
   padding:2px;
+  margin-top: 4px;
 }
 
 .custom-checkbox {

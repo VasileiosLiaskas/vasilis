@@ -3,13 +3,15 @@ import { RouterOutlet } from '@angular/router';
 import {BusinessComponent} from './business/business.component';
 import {HeaderComponent} from './header/header.component';
 import {ToasterComponent} from './toaster/toaster.component';
+import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet,
     HeaderComponent,
-    ToasterComponent
+    ToasterComponent,
+    NgIf
   ],
   templateUrl: './app.component.html',
   standalone: true,
@@ -20,5 +22,9 @@ export class AppComponent  implements OnInit{
 
   ngOnInit(): void {
 
+  }
+
+  get isLoggedIn(): boolean {
+    return !!localStorage.getItem('authToken');
   }
 }

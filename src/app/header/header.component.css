@@ -97,3 +97,9 @@ ul li a {
 .close:hover {
   color: #5a5a5a;
 }
+
+.logo-image {
+  width: 180px; /* You can adjust the size as needed */
+  height: auto;  /* Ensures the aspect ratio of the logo image is maintained */
+  display: block; /* Ensures no extra space around the image */
+}

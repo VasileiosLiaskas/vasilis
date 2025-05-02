@@ -6,6 +6,7 @@ h1{
   display: flex;
   justify-content: center;
   justify-items: center;
+  padding-top: 5%;
 
 
 }
@@ -15,15 +16,16 @@ h1{
 
   width: 400px;
   height: 400px;
-  background-image: url('/photo.jpg');
-  background-position: center bottom; /* Puts image at bottom-right */
+  background-image: url('/header.jpg');
+  background-position: center 260px; /* Puts image at bottom-right */
   background-repeat: no-repeat;
-
-
-  background-size: 80% auto;
+  background-size: 100% auto;
   justify-content: center;
   justify-items: center;
   border-radius: 10px;
+  border-style: solid;
+  border-color: #88D0C8D6;
+  border-width: 1px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 
 }

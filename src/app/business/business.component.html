@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="filter-container">
+  <div  class="filter-container">
   <div class="search-container">
     <i class="fa-solid fa-magnifying-glass"></i>
     <input type="text" placeholder="Search keyword" [(ngModel)]="searchQuery" (change)="onSearch()">
@@ -13,34 +13,36 @@
     <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" >
   </div>
 
-  <div class="income-box">
-    <div class="income-icon">
-      <i class="fa-solid fa-sack-dollar"></i>
-    </div>
-    <div class="income-details">
-      <p class="income-label">Έσοδα</p>
-      <h2 class="income-value">{{ totalIncome }}</h2>
-    </div>
-  </div>
 
+    <div class="checkbox-filters">
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="filterPayout" (change)="onSearch()">
+        <span class="checkmark"></span>
+        Εξοφλήθηκε
+      </label>
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="filterFilesCompleted" (change)="onSearch()">
+        <span class="checkmark"></span>
+        Αρχεία
+      </label>
+      <label class="custom-checkbox">
+        <input type="checkbox" [(ngModel)]="filterFilesDelivered" (change)="onSearch()">
+        <span class="checkmark"></span>
+        Παράδοση
+      </label>
+    </div>
+
+    <div class="income-box">
+      <div class="income-icon">
+        <i class="fa-solid fa-sack-dollar"></i>
+      </div>
+      <div class="income-details">
+        <p class="income-label">Έσοδα</p>
+        <h2 class="income-value">{{ totalIncome }}</h2>
+      </div>
+    </div>
 </div>
-<div class="checkbox-filters">
-  <label class="custom-checkbox">
-    <input type="checkbox" [(ngModel)]="filterPayout" (change)="onSearch()">
-    <span class="checkmark"></span>
-    Εξοφλήθηκε
-  </label>
-  <label class="custom-checkbox">
-    <input type="checkbox" [(ngModel)]="filterFilesCompleted" (change)="onSearch()">
-    <span class="checkmark"></span>
-    Αρχεία
-  </label>
-  <label class="custom-checkbox">
-    <input type="checkbox" [(ngModel)]="filterFilesDelivered" (change)="onSearch()">
-    <span class="checkmark"></span>
-    Παράδοση
-  </label>
-</div>
+
 
 
 

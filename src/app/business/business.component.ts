@@ -55,7 +55,6 @@ export class BusinessComponent implements OnInit{
   }
   loadBusinessList(searchQuery: string | null) {
 
-    console.log(this.filterPayout,this.filterFilesCompleted, this.filterFilesDelivered)
     this.businessService.getBusinessList(this.page,
       this.size,
       this.searchQuery,

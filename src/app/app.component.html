@@ -1,5 +1,33 @@
-<!--<app-header *ngIf="isLoggedIn"></app-header>-->
-<app-header></app-header>
-<app-toaster></app-toaster>
-<router-outlet></router-outlet>
+<div class="main-layout">
+  <app-header></app-header>
+  <app-toaster></app-toaster>
 
+  <!-- This is your intentional empty space -->
+  <div class="spacer"></div>
+
+  <!-- This is where your page content (e.g. table) appears -->
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<style>
+  .main-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* This div creates the empty space */
+  .spacer {
+    height: 8%; /* adjust this to your desired blank space */
+    flex-shrink: 0; /* prevents it from collapsing */
+  }
+
+  /* Content below the spacer */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* or flex-end if you still want it near bottom */
+  }
+</style>

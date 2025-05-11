@@ -222,7 +222,7 @@
 
 .search-container input {
   width: 100%;
-  padding: 8px 8px 8px 30px; /* Space for the icon */
+  padding: 5px 5px 5px 20px; /* Space for the icon */
   border: none;
   outline: none;
   font-size: 13px;
@@ -230,7 +230,7 @@
 }
 
 .date-container input{
-  padding: 8px; /* Space for the icon */
+  padding: 5px; /* Space for the icon */
 }
 
 .filter-container{

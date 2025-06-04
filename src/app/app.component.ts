@@ -11,7 +11,6 @@ import {NgIf} from '@angular/common';
     RouterOutlet,
     HeaderComponent,
     ToasterComponent,
-    NgIf
   ],
   templateUrl: './app.component.html',
   standalone: true,

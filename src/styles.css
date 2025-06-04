@@ -1,14 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Geologica:wght@100..900&family=Play:wght@400;700&display=swap');
-@layer tailwind-base, primeng, tailwind-utilities;
 
-@layer tailwind-base {
-  @tailwind base;
-}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-@layer tailwind-utilities {
-  @tailwind components;
-  @tailwind utilities;
-}
+
 /* Apply font globally */
 body {
   font-family:  sans-serif;
@@ -21,4 +14,9 @@ html, body {
   padding: 2px; /* Remove default padding */
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+input {
+  font-family: 'Noto Sans', sans-serif;
+  color: #3a3a3a;
 }

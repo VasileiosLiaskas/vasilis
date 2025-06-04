@@ -6,8 +6,8 @@ import {Business} from './business.model';
 import {BusinessService} from './business.service';
 import {CommonModule, NgForOf} from '@angular/common';
 import {ToasterService} from '../toaster/toaster.service';
-import {query} from '@angular/animations';
 
+import {BooleanColorDirective} from '../boolean-color.directive';
 @Component({
   selector: 'app-business',
   imports: [
@@ -15,7 +15,8 @@ import {query} from '@angular/animations';
     TableModule,
     NgForOf,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BooleanColorDirective
   ],
   templateUrl: './business.component.html',
   standalone: true,

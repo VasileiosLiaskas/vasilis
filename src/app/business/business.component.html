@@ -1,47 +1,67 @@
-<div class="container">
-  <div  class="filter-container">
-  <div class="search-container">
+<div class="filter-table-container">
+
+  <div class="search-filter">
     <i class="fa-solid fa-magnifying-glass"></i>
-    <input type="text" placeholder="Search keyword" [(ngModel)]="searchQuery" (change)="onSearch()">
+    <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="onSearch()">
   </div>
-  <div class = "search-container date-container " (click)="openDatePicker(datePickerFrom)">
-    <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly>
+
+  <div class="search-filter date-from" >
+    <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly (click)="openDatePicker(datePickerFrom)">
     <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker"  >
   </div>
-  <div class = "search-container date-container " (click)="openDatePicker(datePickerTo)">
-    <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι"  readonly>
+  <div class="search-filter date-to" >
+    <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι"  readonly (click)="openDatePicker(datePickerTo)">
     <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" >
   </div>
-
-
-    <div class="checkbox-filters">
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="filterPayout" (change)="onSearch()">
-        <span class="checkmark"></span>
-        Εξοφλήθηκε
-      </label>
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="filterFilesCompleted" (change)="onSearch()">
-        <span class="checkmark"></span>
-        Αρχεία
-      </label>
-      <label class="custom-checkbox">
-        <input type="checkbox" [(ngModel)]="filterFilesDelivered" (change)="onSearch()">
-        <span class="checkmark"></span>
-        Παράδοση
-      </label>
-    </div>
-
-    <div class="income-box">
-      <div class="income-icon">
-        <i class="fa-solid fa-sack-dollar"></i>
-      </div>
-      <div class="income-details">
-        <p class="income-label">Έσοδα</p>
-        <h2 class="income-value">{{ totalIncome }}</h2>
-      </div>
-    </div>
 </div>
+
+
+
+
+<div class="container">
+<!--  <div  class="filter-container">-->
+<!--  <div class="search-container">-->
+<!--    <i class="fa-solid fa-magnifying-glass"></i>-->
+<!--    <input type="text" placeholder="Search keyword" [(ngModel)]="searchQuery" (change)="onSearch()">-->
+<!--  </div>-->
+<!--  <div class = "search-container date-container " (click)="openDatePicker(datePickerFrom)">-->
+<!--    <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly>-->
+<!--    <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker"  >-->
+<!--  </div>-->
+<!--  <div class = "search-container date-container " (click)="openDatePicker(datePickerTo)">-->
+<!--    <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι"  readonly>-->
+<!--    <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" >-->
+<!--  </div>-->
+
+
+<!--    <div class="checkbox-filters">-->
+<!--      <label class="custom-checkbox">-->
+<!--        <input type="checkbox" [(ngModel)]="filterPayout" (change)="onSearch()">-->
+<!--        <span class="checkmark"></span>-->
+<!--        Εξοφλήθηκε-->
+<!--      </label>-->
+<!--      <label class="custom-checkbox">-->
+<!--        <input type="checkbox" [(ngModel)]="filterFilesCompleted" (change)="onSearch()">-->
+<!--        <span class="checkmark"></span>-->
+<!--        Αρχεία-->
+<!--      </label>-->
+<!--      <label class="custom-checkbox">-->
+<!--        <input type="checkbox" [(ngModel)]="filterFilesDelivered" (change)="onSearch()">-->
+<!--        <span class="checkmark"></span>-->
+<!--        Παράδοση-->
+<!--      </label>-->
+<!--    </div>-->
+
+<!--    <div class="income-box">-->
+<!--      <div class="income-icon">-->
+<!--        <i class="fa-solid fa-sack-dollar"></i>-->
+<!--      </div>-->
+<!--      <div class="income-details">-->
+<!--        <p class="income-label">Έσοδα</p>-->
+<!--        <h2 class="income-value">{{ totalIncome }}</h2>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 
 

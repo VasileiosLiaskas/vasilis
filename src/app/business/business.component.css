@@ -450,3 +450,38 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
+/*#############################################################*/
+.filter-table-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.search-filter{
+  position: relative;
+  width:12em;
+  padding-left: 0.5em;
+}
+
+.search-filter input{
+  background-color: rgb(237, 237, 237);
+  height: 2em;
+  border: none;
+  border-bottom: 2px solid rgb(110, 109, 134);
+  color: #000000; /* Input text color */
+  padding:0.5em;
+  width: 100%;
+}
+.search-filter input::placeholder {
+  color: #3a3636; /* Placeholder text color */
+  opacity: 1; /* Optional: makes placeholder fully opaque */
+}
+
+.search-filter i{
+  position: absolute;
+  right: 0.5em;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3a3636; /* optional: match placeholder color */
+  pointer-events: none; /* allows clicking through the icon */
+}
+

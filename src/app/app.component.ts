@@ -10,8 +10,7 @@ import {NgIf} from '@angular/common';
   imports: [
     RouterOutlet,
     HeaderComponent,
-    ToasterComponent,
-    NgIf
+    ToasterComponent
   ],
   templateUrl: './app.component.html',
   standalone: true,

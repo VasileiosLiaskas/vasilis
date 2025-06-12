@@ -30,14 +30,16 @@ export class BusinessService {
     if (dateTo){
       params=params.set('dateTo', dateTo);
     }
-    if (filterFilesDelivered){
-      params = params.set('filterFilesDelivered', filterFilesDelivered);
+    if (filterFilesDelivered !== null && filterFilesDelivered !== undefined) {
+      params = params.set('filterFilesDelivered', String(filterFilesDelivered));
     }
-    if(filterFilesCompleted){
-      params = params.set('filterFilesCompleted', filterFilesCompleted);
+
+    if (filterFilesCompleted !== null && filterFilesCompleted !== undefined) {
+      params = params.set('filterFilesCompleted', String(filterFilesCompleted));
     }
-    if (filterPayout){
-      params = params.set('filterPayout', filterPayout);
+
+    if (filterPayout !== null && filterPayout !== undefined) {
+      params = params.set('filterPayout', String(filterPayout));
     }
 
 

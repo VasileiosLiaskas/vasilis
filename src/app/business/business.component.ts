@@ -39,6 +39,7 @@ export class BusinessComponent implements OnInit{
   filterPayout!: boolean ;
   filterFilesCompleted!: boolean;
   filterFilesDelivered!: boolean;
+  showFilters = false;
 
 
   constructor(
@@ -191,5 +192,15 @@ export class BusinessComponent implements OnInit{
 
   exportToExcel() {
     this.businessService.downloadExcel();
+  }
+
+  resetToggle(field: 'filterPayout' | 'filterFilesCompleted' | 'filterFilesDelivered') {
+    this[field] = null as any; // Clear the toggle
+    this.onSearch(); // Refresh list with updated filters
+  }
+
+  toggleFilters() {
+
+    this.showFilters = !this.showFilters;
   }
 }

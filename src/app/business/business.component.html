@@ -103,9 +103,9 @@
           <td>{{ business.fee }}</td>
           <td>{{ business.advancePayment }}</td>
           <td>{{ business.remainingMoney }}</td>
-          <td>{{ convertBoolean(business.payout) }}</td>
-          <td>{{ convertBoolean(business.filesCompleted) }}</td>
-          <td>{{ convertBoolean(business.filesDelivered) }}</td>
+          <td [appBooleanColor]="business.payout" >{{ convertBoolean(business.payout) }}</td>
+          <td [appBooleanColor]="business.filesCompleted">{{ convertBoolean(business.filesCompleted) }}</td>
+          <td [appBooleanColor]="business.filesDelivered">{{ convertBoolean(business.filesDelivered) }}</td>
           <td>{{ business.comments }}</td>
           <td>
             <div class="dropdown" (click)="toggleDropdown($event, business.id)">
@@ -135,6 +135,9 @@
                   [disabled]="(page + 1) * size >= totalElements">
             <i class="fa-solid fa-arrow-right"></i>
           </button>
+        </div>
+        <div style=" font-size:12px; font-weight: 400">
+          Εγγραφές: {{ totalElements }}
         </div>
 
       </div>

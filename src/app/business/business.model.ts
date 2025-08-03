@@ -14,6 +14,7 @@ export class Business {
   public filesDelivered!: boolean;
   public comments!: string;
   public totalIncome!: number;
+  public totalRecords!: number;
 
 
 }

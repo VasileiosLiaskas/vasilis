@@ -7,6 +7,7 @@ import {BusinessService} from './business.service';
 import {CommonModule, NgForOf} from '@angular/common';
 import {ToasterService} from '../toaster/toaster.service';
 import {query} from '@angular/animations';
+import {BooleanColorDirective} from '../../boolean.color.directive';
 
 @Component({
   selector: 'app-business',
@@ -15,7 +16,8 @@ import {query} from '@angular/animations';
     TableModule,
     NgForOf,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BooleanColorDirective
   ],
   templateUrl: './business.component.html',
   standalone: true,
@@ -40,6 +42,7 @@ export class BusinessComponent implements OnInit{
   filterFilesCompleted!: boolean;
   filterFilesDelivered!: boolean;
   showFilters = false;
+  private totalRecords!: number;
 
 
   constructor(
@@ -66,7 +69,9 @@ export class BusinessComponent implements OnInit{
       this.filterPayout).subscribe(response => {
       this.businessList = response.content;  // The actual data
       this.totalElements = response.totalElements; // Total number of entries
+      this.totalRecords= response.content.length > 0 ? response.content[0].totalRecords : 0;
       this.totalIncome = response.content.length > 0 ? response.content[0].totalIncome : 0;
+
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ElementRef, HostListener} from '@angular/core';
 import {NgIf} from '@angular/common';
 
 @Component({
@@ -11,6 +11,9 @@ import {NgIf} from '@angular/common';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+
+  constructor(private elementRef: ElementRef) {}
+
   calendarView: boolean = false;
   showLogoMenu: boolean = false;
 
@@ -28,5 +31,13 @@ export class HeaderComponent {
 
   menuAction(option1: string) {
 
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.showLogoMenu = false; // Close dropdown
+    }
   }
 }

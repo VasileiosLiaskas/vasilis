@@ -9,7 +9,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.76);
   color: #000000;
   padding: 15px;
   margin: 0;
@@ -33,7 +33,6 @@ ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
 }
 
 ul li {
@@ -48,6 +47,7 @@ ul li a {
 .icons {
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .calendar, .profile {
@@ -102,4 +102,44 @@ ul li a {
   width: 180px; /* You can adjust the size as needed */
   height: auto;  /* Ensures the aspect ratio of the logo image is maintained */
   display: block; /* Ensures no extra space around the image */
+}
+.profile {
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.2rem;
+  background-color: #43454a;
+  color:white;
+  border: 1px solid #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  z-index: 1000;
+  min-width: 180px;
+  padding: 0.5rem 0;
+  font-size: 14px;
+}
+
+.profile-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown li {
+  padding: 0.8rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: auto;
+  text-align: right;;
+}
+
+.profile-dropdown li:hover {
+  background-color: rgb(48, 48, 48);
+  border-radius: 8px;
 }

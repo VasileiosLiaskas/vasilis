@@ -12,6 +12,7 @@ import {NgIf} from '@angular/common';
 })
 export class HeaderComponent {
   calendarView: boolean = false;
+  showLogoMenu: boolean = false;
 
   openCalendar() {
     this.calendarView = !this.calendarView
@@ -19,5 +20,13 @@ export class HeaderComponent {
 
   closeCalendar() {
     this.calendarView = !this.calendarView
+  }
+
+  toggleLogoMenu() {
+    this.showLogoMenu =!this.showLogoMenu;
+  }
+
+  menuAction(option1: string) {
+
   }
 }

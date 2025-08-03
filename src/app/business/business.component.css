@@ -21,7 +21,7 @@
 }
 
 .table thead tr{
-  background-color: #413F61C1;
+  background-color: #43454a;
   color: white;
   text-align: center;
   height: 50px;
@@ -49,7 +49,7 @@
 }
 
 .table tbody tr:last-of-type{
-  border-bottom: 2px solid #413F61C1
+  border-bottom: 2px solid rgba(183, 180, 220, 0.76)
 }
 
 .form-container {
@@ -113,7 +113,7 @@
 }
 
 .save-button {
-  background-color: rgba(105, 103, 174, 0.76);
+  background-color: rgba(138, 137, 172, 0.76);
   color: white;
 }
 .save-button:hover {
@@ -456,11 +456,18 @@
 .filter-table-container{
   display: flex;
   flex-direction: column;
+
 }
 
 .filter-row{
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+.filter-left{
+  display: flex;
+  flex-direction: row;
+
 }
 
 .search-filter{
@@ -565,3 +572,4 @@
 .button-bar button:hover {
   background-color: #dee2e6;
 }
+

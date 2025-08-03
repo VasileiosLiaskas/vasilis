@@ -1,11 +1,18 @@
 
 <header>
-  <div class="logo">
-    <img src="logo.png" alt="Logo" class="logo-image">
-  </div>
+    <div class="logo" >
+      <img src="logo.png" alt="Logo" class="logo-image">
+    </div>
+
   <div class="icons">
     <i (click)="openCalendar()" class="fa-solid fa-calendar-days calendar "></i>
-    <i class="fa-solid fa-user profile"></i>
+    <i class="fa-solid fa-user profile" (click)="toggleLogoMenu()"></i>
+    <div class="profile-dropdown" *ngIf="showLogoMenu">
+      <ul>
+        <li (click)="menuAction('myProfile')">Το προφίλ μου</li>
+        <li (click)="menuAction('settings')">Ρυθμίσεις</li>
+      </ul>
+    </div>
   </div>
 </header>
 

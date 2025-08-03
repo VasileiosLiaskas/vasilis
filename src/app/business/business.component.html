@@ -1,5 +1,6 @@
 <div class="filter-table-container">
   <div class="filter-row">
+    <div class="filter-left">
     <div class="search-filter">
       <i class="fa-solid fa-magnifying-glass"></i>
       <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="onSearch()">
@@ -18,7 +19,15 @@
     <div class="open-filter" (click)="toggleFilters()">
       <i class="fa-solid" [ngClass]="showFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
     </div>
-
+    </div>
+    <div class="filter-right">
+    <div class="button-bar">
+      <button class="btn-create" (click)="addBusiness()">➕ Δημιουργία</button>
+      <button class="btn-export" (click)="exportToExcel()">
+        <i style="color: green" class="fa-solid fa-file-excel"></i>
+      </button>
+    </div>
+    </div>
   </div>
 
 
@@ -57,23 +66,11 @@
   </div>
 
 
+
   <div class="container">
     <div class="table-container">
       <table class="table">
         <thead>
-        <!-- 🔵 Button Row (directly in table structure) -->
-        <tr class="button-row">
-          <td colspan="15">
-            <div class="button-bar">
-              <button class="btn-create" (click)="addBusiness()">➕ Δημιουργία</button>
-              <button class="btn-export" (click)="exportToExcel()">
-                <i style="color: green" class="fa-solid fa-file-excel"></i></button>
-<!--              <button class="export-button" (click)="exportToExcel()">-->
-
-<!--              </button>-->
-            </div>
-          </td>
-        </tr>
         <tr>
           <th>#</th>
           <th>Ημερομηνία</th>

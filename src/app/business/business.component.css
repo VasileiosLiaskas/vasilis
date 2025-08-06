@@ -13,7 +13,7 @@
 .table{
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 10px 0;
   font-size: 0.9em;
   min-width: 400px;
   border-radius: 10px;
@@ -322,16 +322,7 @@
   padding: 5px;
   color: #333; /* Ensures visibility */
 }
-.export-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
 
-}
 
 .export-container {
   display: flex;
@@ -340,46 +331,37 @@
   margin-top: 10px;
 }
 
-.export-button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
+.btn-export{
+  color: green;
+  border-radius: 4px;
+  border: 1px solid rgb(124, 127, 135) !important;
+  background-color: white!important;
   cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 32px;  /* to make it square */
+  height: 32px;
+
 }
+.btn-export i{
+  font-size: 15px;
+}
+
+
 .table-footer {
   display: flex;
   justify-content: space-between; /* Ensures pagination stays centered and button moves right */
   align-items: center;
   width: 100%;
-  margin-top: 10px;
 }
+
 
 .pagination {
   flex-grow: 1; /* Makes sure pagination stays centered */
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.export-button {
-  background-color: #ffffff;
-  color: rgb(82, 135, 90);
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.export-button i {
-  margin-right: 5px;
 }
 .checkbox-filters {
   display: flex;
@@ -456,6 +438,7 @@
 .filter-table-container{
   display: flex;
   flex-direction: column;
+  padding: 0;
 
 }
 
@@ -463,6 +446,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding:0 3px 0 3px
 }
 .filter-left{
   display: flex;
@@ -558,6 +542,7 @@
   gap: 10px;
   justify-content: flex-end;
 
+
 }
 
 .button-bar button {
@@ -574,7 +559,8 @@
   color: #514f4f;
   font-size: 18px; /* adjust size */
 
-}.btn-create {
+}
+.create {
    display: inline-flex;
    align-items: center;   /* vertical center */
    justify-content: center; /* optional, for horizontal center */
@@ -582,6 +568,8 @@
    padding: 8px 12px;
    font-size: 16px;
    cursor: pointer;
+  background-color: white!important;
+   border: 1px solid rgb(130, 131, 133) !important;
  }
 
 .button-bar button:hover {

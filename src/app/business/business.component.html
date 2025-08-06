@@ -22,9 +22,9 @@
     </div>
     <div class="filter-right">
     <div class="button-bar">
-      <button class="btn-create" (click)="addBusiness()"><span class="plus-icon">+</span> Δημιουργία</button>
+      <button class="create" (click)="addBusiness()"><i class="fa-solid fa-plus"></i>Δημιουργία</button>
       <button class="btn-export" (click)="exportToExcel()">
-        <i style="color: green" class="fa-solid fa-file-excel"></i>
+        <i class="fa-solid fa-file-excel"></i>
       </button>
     </div>
     </div>
@@ -146,7 +146,7 @@
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
-        <div style=" font-size:12px; font-weight: 400">
+        <div style=" font-size:12px; font-weight: 400; padding-right:5px">
           Εγγραφές: {{ totalElements }}
         </div>
 

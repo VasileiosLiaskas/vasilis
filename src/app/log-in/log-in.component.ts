@@ -18,7 +18,7 @@ export class LogInComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
   onLogin() {
-    this.http.post<any>('http://localhost:8080/api/auth/login', {
+    this.http.post<any>('http://localhost:8080/login', {
       username: this.username,
       password: this.password
     }).subscribe({

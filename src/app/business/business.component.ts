@@ -58,7 +58,6 @@ export class BusinessComponent implements OnInit{
 
   }
   loadBusinessList(searchQuery: string | null) {
-
     this.businessService.getBusinessList(this.page,
       this.size,
       this.searchQuery,

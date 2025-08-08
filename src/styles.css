@@ -21,4 +21,5 @@ html, body {
   padding:0;
   overflow-x: hidden;
   overflow-y: auto;
+  background-color: #f1f1f1;
 }

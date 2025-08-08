@@ -22,6 +22,7 @@
     </div>
     <div class="filter-right">
     <div class="button-bar">
+
       <button class="create" (click)="addBusiness()"><i class="fa-solid fa-plus"></i>Δημιουργία</button>
       <button class="btn-export" (click)="exportToExcel()">
         <i class="fa-solid fa-file-excel"></i>
@@ -73,6 +74,7 @@
         <thead>
         <tr>
           <th>#</th>
+          <th>Τιμολόγια</th>
           <th>Ημερομηνία</th>
           <th>Τύπος</th>
           <th>Ποιος</th>
@@ -93,7 +95,7 @@
         <tbody>
         <tr *ngFor="let business of businessList; let i = index">
           <td>{{ (page * size) + i + 1 }}</td>
-
+          <td style="width: 20px;"> <i (click)="openInvoicesDialog(business)" style="cursor:pointer" class="fa-solid fa-folder"></i></td>
           <td>{{ business.date }}</td>
           <td>{{ business.type }}</td>
           <td>{{ business.who }}</td>
@@ -134,6 +136,7 @@
           <td colspan="7"></td>
         </tr>
         </tfoot>
+
       </table>
       <div class="table-footer">
         <div class="pagination">
@@ -146,7 +149,7 @@
             <i class="fa-solid fa-arrow-right"></i>
           </button>
         </div>
-        <div style=" font-size:12px; font-weight: 400; padding-right:5px">
+        <div class="total-records" style=" font-size:12px; font-weight: 400; padding-right:5px">
           Εγγραφές: {{ totalElements }}
         </div>
 
@@ -239,4 +242,13 @@
     </div>
 
   </div>
+
+
 </div>
+
+<ng-container *ngIf="selectedBusiness">
+  <app-invoice-dialog
+    [business]="selectedBusiness"
+    (close)="selectedBusiness = null">
+  </app-invoice-dialog>
+</ng-container>

@@ -8,6 +8,7 @@ import {CommonModule, NgForOf} from '@angular/common';
 import {ToasterService} from '../toaster/toaster.service';
 import {query} from '@angular/animations';
 import {BooleanColorDirective} from '../../boolean.color.directive';
+import {InvoiceDialogComponent} from '../invoice-dialog/invoice-dialog.component';
 
 @Component({
   selector: 'app-business',
@@ -17,7 +18,8 @@ import {BooleanColorDirective} from '../../boolean.color.directive';
     NgForOf,
     CommonModule,
     ReactiveFormsModule,
-    BooleanColorDirective
+    BooleanColorDirective,
+    InvoiceDialogComponent
   ],
   templateUrl: './business.component.html',
   standalone: true,
@@ -43,6 +45,7 @@ export class BusinessComponent implements OnInit{
   filterFilesDelivered!: boolean;
   showFilters = false;
   private totalRecords!: number;
+  selectedBusiness: Business | null = null;
 
 
   constructor(
@@ -206,5 +209,10 @@ export class BusinessComponent implements OnInit{
   toggleFilters() {
 
     this.showFilters = !this.showFilters;
+  }
+
+
+  openInvoicesDialog(business: Business): void {
+    this.selectedBusiness = business;
   }
 }

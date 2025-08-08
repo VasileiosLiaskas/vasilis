@@ -1,0 +1,94 @@
+.dialog-overlay {
+  position: fixed; /* Make it float above everything */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* High enough to cover table */
+}
+
+.dialog-container {
+  background: #fff;
+  padding: 1rem;
+  width: 50rem;
+  height: 30rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 10000; /* Still above everything else */
+}
+
+.dialog-header{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid rgb(143, 143, 143);
+}
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 16px;
+  font-size: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #000;
+}
+
+.dialog-file-container{
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  gap:1rem;
+}
+.upload-files{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:1rem;
+  margin-bottom: 2rem;
+}
+
+.file-form{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 300px;
+  height: auto;
+}
+.file-form input{
+  height: 20px;
+}
+.file-form textarea{
+  height: 50px;
+}
+
+.btn{
+  all: unset;
+  background-color: rgba(0, 0, 0, 0.66);
+  color:white;
+
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+
+.hidden-datepicker {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}

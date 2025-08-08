@@ -1,0 +1,48 @@
+<div class="dialog-overlay">
+  <div class="dialog-container">
+    <div class="dialog-header">
+      <h3 style="color:#474646">Τιμολόγια</h3>
+      <button class="close-btn" (click)="closeDialog()">&times;</button>
+    </div>
+    <div class="dialog-content">
+      <table class="dialog-table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Ημερομηνία</th>
+          <th>Αριθμός Τιμολογίου</th>
+          <th>Όνομα Αρχείου</th>
+          <th>Περιγραφή</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let invoice of invoiceList; let i = index">
+          <td>{{i + 1 }}</td>
+          <td>{{ invoice.date }}</td>
+          <td>{{invoice.invoiceNumber}}</td>
+          <td>{{ invoice.fileName}}</td>
+          <td>{{ invoice.description}}</td>
+        </tbody>
+      </table>
+    </div>
+    <div class="dialog-file-container">
+      <div class="upload-files">
+        <button class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>
+        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+      </div>
+
+      <div class="file-form">
+        <input type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text">
+        <textarea [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>
+        <input type="text" [ngModel]="invoiceDate" placeholder="Η" readonly
+               (click)="openDatePicker(datePickerTo)">
+        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
+      </div>
+
+      <div class="save-files">
+        <button class="btn" (click)="uploadInvoice()">Ανέβασμα</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -5,7 +5,7 @@
       <button class="close-btn" (click)="closeDialog()">&times;</button>
     </div>
     <div class="dialog-content">
-      <table class="dialog-table">
+      <table *ngIf="invoiceList.length>0" class="dialog-table">
         <thead>
         <tr>
           <th>#</th>
@@ -13,6 +13,7 @@
           <th>Αριθμός Τιμολογίου</th>
           <th>Όνομα Αρχείου</th>
           <th>Περιγραφή</th>
+          <th>Αρχείο</th>
         </tr>
         </thead>
         <tbody>
@@ -22,6 +23,8 @@
           <td>{{invoice.invoiceNumber}}</td>
           <td>{{ invoice.fileName}}</td>
           <td>{{ invoice.description}}</td>
+          <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>
+        </tr>
         </tbody>
       </table>
     </div>

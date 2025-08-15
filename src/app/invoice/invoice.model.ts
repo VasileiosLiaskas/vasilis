@@ -4,6 +4,7 @@ export class Invoice {
   public date!: Date;
   public description!: string;
   public invoiceNumber!: string;
+  public invoiceDate!: Date;
   public invoiceType!: string;
   public businessId!: number;
 }

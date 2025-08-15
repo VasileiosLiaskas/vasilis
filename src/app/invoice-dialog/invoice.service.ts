@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {FormBuilder} from '@angular/forms';
 import {Invoice} from '../invoice/invoice.model';
 import {Observable} from 'rxjs';
@@ -24,5 +24,25 @@ export class InvoiceService{
 
     console.log("formDATA", formData);
     return this.http.post(`${this.baseUrl}/save`, formData);
+  }
+
+  loadInvoices(filters?: {
+    invoiceNumber?: string;
+    businessId?: number;
+    invoiceDate?: string;
+    dateCreated?: string;
+  }): Observable<Invoice[]> {
+    let params = new HttpParams();
+
+    if (filters) {
+      Object.keys(filters).forEach(key => {
+        const value = filters[key as keyof typeof filters];
+        if (value !== null && value !== undefined && value !== '') {
+          params = params.set(key, value);
+        }
+      });
+    }
+
+    return this.http.get<Invoice[]>(`${this.baseUrl}/find`, { params });
   }
 }

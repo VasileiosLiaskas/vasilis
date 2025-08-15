@@ -39,6 +39,11 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   loadInvoices(): void {
+
+    this.invoiceService.loadInvoices({ businessId: this.business.id }).subscribe( invoices => {
+     this.invoiceList = invoices;
+     console.log(this.invoiceList);
+    })
   }
 
   onFileSelected(event: Event): void {
@@ -74,5 +79,9 @@ export class InvoiceDialogComponent implements OnInit{
 
   setDateTo(event:any) {
     this.invoiceDate = event.target.value;
+  }
+
+  downloadInvoice(invoice: any) {
+    console.log(invoice);
   }
 }

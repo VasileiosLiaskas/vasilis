@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {environment} from '../../enviroments/enviroment';
 
 @Component({
   selector: 'app-log-in',
@@ -16,9 +17,11 @@ export class LogInComponent {
   username: string ='';
   password: string ='';
 
+  private baseUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private router: Router) {}
   onLogin() {
-    this.http.post<any>('http://localhost:8080/login', {
+    this.http.post<any>(this.baseUrl + 'login', {
       username: this.username,
       password: this.password
     }).subscribe({

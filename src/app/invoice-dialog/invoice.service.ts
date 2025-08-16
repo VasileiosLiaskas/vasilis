@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {FormBuilder} from '@angular/forms';
 import {Invoice} from '../invoice/invoice.model';
 import {Observable} from 'rxjs';
+import {environment} from '../../enviroments/enviroment';
 
 @Injectable({providedIn: 'root'})
 export class InvoiceService{
@@ -10,7 +11,7 @@ export class InvoiceService{
               private formBuilder: FormBuilder) {}
 
 
-  private baseUrl = 'http://localhost:8080/invoice';
+  private baseUrl = environment.apiUrl+'invoice';
 
 
   uploadInvoice(

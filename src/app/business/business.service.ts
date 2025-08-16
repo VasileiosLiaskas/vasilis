@@ -4,6 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Business} from './business.model';
 import {Observable} from 'rxjs';
 import {Page} from './page.model';
+import {environment} from '../../enviroments/enviroment';
 
 @Injectable({providedIn: 'root'})
 export class BusinessService {
@@ -11,7 +12,7 @@ export class BusinessService {
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder) {
   }
-  private baseUrl = 'http://localhost:8080/business';
+  private baseUrl = environment.apiUrl + 'business';
 
   getBusinessList(page: number = 0, size: number = 10, searchQuery: string,
                   dateFrom: string, dateTo: string, filterFilesDelivered: boolean, filterFilesCompleted: boolean,

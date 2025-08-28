@@ -1,18 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Geologica:wght@100..900&family=Play:wght@400;700&display=swap');
-@layer tailwind-base, primeng, tailwind-utilities;
 
-@layer tailwind-base {
-  @tailwind base;
+:root {
+  --font-heading: "Dela Gothic One", sans-serif;
+  --font-input: "Geologica", sans-serif;
+  --font-alt: "Play", sans-serif;
 }
 
-@layer tailwind-utilities {
-  @tailwind components;
-  @tailwind utilities;
-}
 /* Apply font globally */
 body {
   font-family:  sans-serif;
 }
+
 
 
 html, body {

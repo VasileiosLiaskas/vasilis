@@ -38,7 +38,7 @@
       <div class="file-form">
         <input type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text">
         <textarea [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>
-        <input type="text" [ngModel]="invoiceDate" placeholder="Η" readonly
+        <input type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly
                (click)="openDatePicker(datePickerTo)">
         <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
       </div>

@@ -6,16 +6,17 @@ import {Observable} from 'rxjs';
 import {environment} from '../../enviroments/enviroment';
 
 @Injectable({providedIn: 'root'})
-export class InvoiceService{
+export class InvoiceService {
   constructor(private http: HttpClient,
-              private formBuilder: FormBuilder) {}
+              private formBuilder: FormBuilder) {
+  }
 
 
-  private baseUrl = environment.apiUrl+'invoice';
+  private baseUrl = environment.apiUrl + 'invoice';
 
 
   uploadInvoice(
-    file: File,invoiceNumber: string,description: string, businessId: number, invoiceDate:string): Observable<any> {
+    file: File, invoiceNumber: string, description: string, businessId: number, invoiceDate: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('invoiceNumber', invoiceNumber);
@@ -44,6 +45,12 @@ export class InvoiceService{
       });
     }
 
-    return this.http.get<Invoice[]>(`${this.baseUrl}/find`, { params });
+    return this.http.get<Invoice[]>(`${this.baseUrl}/find`, {params});
+  }
+
+  downloadInvoice(id: number): Observable<Blob> {
+    return this.http.get(`${this.baseUrl}/download/${id}`, {
+      responseType: 'blob'
+    });
   }
 }

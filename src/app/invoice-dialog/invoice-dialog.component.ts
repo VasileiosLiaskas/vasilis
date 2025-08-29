@@ -82,6 +82,15 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   downloadInvoice(invoice: any) {
-    console.log(invoice);
+    this.invoiceService.downloadInvoice(invoice.id).subscribe(responseData => {
+      const blob = new Blob([responseData], {type: responseData.type || 'application/octet-stream'});
+
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `invoice_${invoice.invoiceNumber}.pdf`; // 👈 or pass real fileName from backend metadata
+      link.click();
+
+      window.URL.revokeObjectURL(link.href);
+    });
   }
 }

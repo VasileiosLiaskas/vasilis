@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 
 
 
@@ -23,7 +23,7 @@ export class LogInComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
   onLogin() {
-    this.http.post<any>(this.baseUrl + 'login', {
+    this.http.post<any>(`${this.baseUrl}/login`, {
       username: this.username,
       password: this.password
     }).subscribe({

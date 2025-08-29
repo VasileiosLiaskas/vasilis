@@ -10,7 +10,6 @@ const distDir = path.join(__dirname, 'dist/vasilis');
 console.log('Current working directory:', process.cwd());
 console.log('__dirname:', __dirname);
 
-const distDir = path.join(__dirname, 'dist/vasilis');
 console.log('Looking for dist at:', distDir);
 
 // Check if the directory exists

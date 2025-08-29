@@ -19,7 +19,7 @@ export class LogInComponent {
   username: string ='';
   password: string ='';
 
-  private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl+'user';
 
   constructor(private http: HttpClient, private router: Router) {}
   onLogin() {

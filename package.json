@@ -2,7 +2,7 @@
   "name": "vasilis",
   "version": "0.0.0",
   "scripts": {
-    "start": "node server.js",
+    "start": "serve -s dist/browser/vasilis",
     "build": "ng build --configuration production",
     "postinstall": "npm run build"
   },

@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Business} from './business.model';
 import {Observable} from 'rxjs';
 import {Page} from './page.model';
-import {environment} from '../../enviroments/enviroment';
+import {environment} from '../../enviroments/environment';
 
 @Injectable({providedIn: 'root'})
 export class BusinessService {

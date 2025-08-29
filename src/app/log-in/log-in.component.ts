@@ -23,7 +23,7 @@ export class LogInComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
   onLogin() {
-    this.http.post<any>(`${this.baseUrl}login`, {
+    this.http.post<any>(`${this.baseUrl}/login`, {
       username: this.username,
       password: this.password
     }).subscribe({

@@ -85,14 +85,23 @@
   margin-bottom: 5px;
 }
 
-.input-fields input {
+.input-fields input  {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
-
 }
+
+.input-fields textarea  {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
 .details-checkbox{
-  text-align: center;
+  display: flex;
+  align-items: center; /* vertically center checkbox with label */
+  gap: 5px; /* space between checkbox and text */
 }
 
 .form-actions {
@@ -167,8 +176,10 @@
   padding: 20px;
   border-radius: 10px;
   max-width: 600px;
+  max-height:80%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   position: relative;
+  overflow-y: auto;
 }
 
 .modal span{

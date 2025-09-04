@@ -14,12 +14,15 @@
 .dialog-container {
   background: #fff;
   padding: 1rem;
-  width: 50rem;
+  max-width: 90vw;  /* instead of fixed 50rem */
+  width: 100%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   position: relative;
   z-index: 10000; /* Still above everything else */
+  overflow-y: auto; /* allow scroll if content is tall */
+  max-height: 90vh;
 }
 
 .dialog-header{
@@ -85,8 +88,11 @@
   cursor: pointer;
 }
 .dialog-content {
-  display: flex;
-  justify-content: start; /* centers the table horizontally */
+  /*display: flex;*/
+  /*justify-content: start; !* centers the table horizontally *!*/
+  /*margin-top: 20px;*/
+  display: block;
+  overflow-x: auto; /* horizontal scroll if table too wide */
   margin-top: 20px;
 }
 

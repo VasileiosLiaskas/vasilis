@@ -28,8 +28,12 @@ export class LogInComponent {
       password: this.password
     }).subscribe({
       next: (res) => {
-        localStorage.setItem('authToken', res.token);
-        this.router.navigate(['/business']);
+        if (res && res.token) {
+          localStorage.setItem('authToken', res.token);
+          this.router.navigate(['/business']);
+        } else {
+          alert('Login failed. Check your credentials.');
+        }
       },
       error: (err) => {
         alert('Login failed. Check your credentials.');

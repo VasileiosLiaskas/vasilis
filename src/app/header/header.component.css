@@ -79,17 +79,23 @@ ul li a {
 
 .modal-content {
   background-color: rgb(255, 255, 255);
-  padding: 30px;
+  padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
+  width: 95%;
+  height: 80%;
 }
 
+.calendar-container{
+  width: 100%;
+  height: 100%;
+}
 .close {
   position: absolute;
-  top: 2px;
-  right: 5px;
-  font-size: 40px;
+  top: -2px;
+  right: 3px;
+  font-size: 2rem;
   cursor: pointer;
   color: #333;
 }

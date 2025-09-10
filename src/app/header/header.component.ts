@@ -1,5 +1,6 @@
 import {Component, ElementRef, HostListener} from '@angular/core';
 import {NgIf} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,8 @@ import {NgIf} from '@angular/common';
 })
 export class HeaderComponent {
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef,
+              private router: Router) {}
 
   calendarView: boolean = false;
   showLogoMenu: boolean = false;
@@ -39,5 +41,13 @@ export class HeaderComponent {
     if (!clickedInside) {
       this.showLogoMenu = false; // Close dropdown
     }
+  }
+
+  openInvoices() {
+    this.router.navigate(['/invoices']);
+  }
+
+  openBusiness() {
+    this.router.navigate(['/business']);
   }
 }

@@ -1,1 +1,114 @@
-<p>invoice works!</p>
+<div class="filter-table-container">
+  <div class="filter-row">
+    <div class="filter-left">
+      <div class="search-filter">
+
+        <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="onSearch()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <div class="search-filter date-from">
+        <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly
+               (click)="openDatePicker(datePickerFrom)">
+        <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker">
+      </div>
+      <div class="search-filter date-to">
+        <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι" readonly
+               (click)="openDatePicker(datePickerTo)">
+        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
+      </div>
+      <div class="open-filter" (click)="toggleFilters()">
+        <i class="fa-solid" [ngClass]="showFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+      </div>
+    </div>
+    <div class="filter-right">
+      <div class="button-bar">
+
+        <button class="create" (click)="addInvoice()"><i class="fa-solid fa-plus"></i>Δημιουργία</button>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="toggle-filter" *ngIf="showFilters">
+    <div class="toggle-row">
+      <label class="field-label">Εξοφλήθηκε</label>
+      <div class="toggle-buttons">
+
+      </div>
+    </div>
+    <div class="toggle-row">
+      <label class="field-label">Αρχεία</label>
+      <div class="toggle-buttons">
+
+
+      </div>
+    </div>
+    <div class="toggle-row">
+      <label class="field-label">Παράδοση</label>
+      <div class="toggle-buttons">
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-container">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Αριθμός Τιμολογίου</th>
+      <th>Ημερομηνία</th>
+      <th>Όνομα Αρχείου</th>
+      <th>Περιγραφή</th>
+      <th>Ποιος</th>
+      <th>Αρχείο</th>
+
+      <th></th>
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr *ngFor="let invoice of invoiceList; let i = index">
+      <td>{{ (page * size) + i + 1 }}</td>
+
+
+      <td>
+        <div class="dropdown" (click)="toggleDropdown($event, invoice.id)">
+          <button class="menu-btn">⋮</button>
+          <ul class="dropdown-menu" *ngIf="openRowId === invoice.id">
+            <li>
+              <button class="edit-btn" (click)="editRow(invoice)"> Επεξεργασία</button>
+            </li>
+            <li>
+              <button class="delete-btn" (click)="deleteRow(invoice)">Διαγραφή</button>
+            </li>
+          </ul>
+        </div>
+      </td>
+
+
+    </tr>
+
+    </tbody>
+
+
+  </table>
+  <div class="table-footer">
+    <div class="pagination">
+      <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <span> {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>
+      <button class="pagination-buttons" (click)="onPageChange(page + 1)"
+              [disabled]="(page + 1) * size >= totalElements">
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+    <div class="total-records" style=" font-size:12px; font-weight: 400; padding-right:5px">
+      Εγγραφές: {{ totalElements }}
+    </div>
+
+  </div>
+</div>

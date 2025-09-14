@@ -32,7 +32,8 @@
 }
 
 .table td{
-  max-width: 100px;
+  max-width: 120px;
+
   word-wrap: break-word;
   word-break: break-word;
   white-space: normal;

@@ -52,11 +52,11 @@
       </div>
     </div>
   </div>
-</div>
+
 <div class="table-container">
   <table class="table">
     <thead>
-    <tr>
+    <tr >
       <th>#</th>
       <th>Αριθμός Τιμολογίου</th>
       <th>Ημερομηνία</th>
@@ -72,7 +72,12 @@
     <tbody>
     <tr *ngFor="let invoice of invoiceList; let i = index">
       <td>{{ (page * size) + i + 1 }}</td>
-
+      <td>{{invoice.invoiceNumber}}</td>
+      <td>{{ invoice.date }}</td>
+      <td>{{ invoice.fileName}}</td>
+      <td>{{ invoice.description}}</td>
+      <td></td>
+      <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>
 
       <td>
         <div class="dropdown" (click)="toggleDropdown($event, invoice.id)">
@@ -111,4 +116,5 @@
     </div>
 
   </div>
+</div>
 </div>

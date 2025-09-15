@@ -4,6 +4,7 @@ import {NgForOf, NgIf} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {InvoiceService} from './invoice.service';
+import {ToasterService} from '../toaster/toaster.service';
 
 @Component({
   selector: 'app-invoice-dialog',
@@ -28,7 +29,8 @@ export class InvoiceDialogComponent implements OnInit{
 
 
   constructor(private http: HttpClient,
-              private invoiceService: InvoiceService) {}
+              private invoiceService: InvoiceService,
+              private toasterService: ToasterService) {}
 
   ngOnInit(): void {
     this.loadInvoices();
@@ -62,7 +64,7 @@ export class InvoiceDialogComponent implements OnInit{
     this.invoiceService.uploadInvoice( this.selectedFile, this.invoiceNumber,
       this.description, this.business.id, this.invoiceDate).subscribe({
       next: () => {
-        alert('Ανέβηκε με επιτυχία!');
+        this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
         this.selectedFile = null;
         this.invoiceNumber = '';
         this.description = '';

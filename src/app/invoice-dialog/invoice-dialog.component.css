@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* High enough to cover table */
+  z-index: 800; /* High enough to cover table */
 }
 
 .dialog-container {
@@ -20,7 +20,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   position: relative;
-  z-index: 10000; /* Still above everything else */
+  z-index: 800; /* Still above everything else */
   overflow-y: auto; /* allow scroll if content is tall */
   max-height: 90vh;
 }
@@ -120,4 +120,47 @@
 
 .dialog-table th {
   background-color: #f2f2f2;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+}
+
+.dropdown-menu{
+  width: auto;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.88);
+  list-style: none;
+  margin: 0;
+  z-index: 99999;
+  right: 100%;
+  top: 50%;
+  border-radius: 5px;
+  padding: 0;
+}
+
+.dropdown-menu li button {
+  width: 100%;
+  color: white;
+  padding: 8px 5px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.dropdown-menu li button:hover{
+  background-color: rgb(113, 112, 112);
+}
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #333; /* Ensures visibility */
 }

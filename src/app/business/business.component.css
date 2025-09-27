@@ -169,7 +169,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 800;
 }
 
 .modal {
@@ -208,7 +208,7 @@
 .pagination-buttons{
   font-size: 20px;
   border: none;
-  background-color: white;
+  background: transparent;
   margin:15px;
 
 }
@@ -371,23 +371,27 @@
 
 .table-footer {
   display: flex;
-  justify-content: space-between; /* Ensures pagination stays centered and button moves right */
+  justify-content: center; /* Ensures pagination stays centered and button moves right */
   align-items: center;
   width: 100%;
+  position: fixed;
+  bottom: 0;                /* Stick to bottom of the page */
+  left: 0;
+  right: 0;
+
 }
 
 
 .pagination {
-  flex-grow: 1; /* Makes sure pagination stays centered */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
 }
 
 .total-records {
+  position: absolute;        /* Take it out of normal flow */
+  right: 10px;               /* Stick to the right */
   font-size: 12px;
   font-weight: 400;
-  padding-right: 10px;
+  padding-right: 5px;
 }
 
 

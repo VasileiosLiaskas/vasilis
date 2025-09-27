@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {Business} from '../business/business.model';
 import {NgForOf, NgIf} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
@@ -26,6 +26,7 @@ export class InvoiceDialogComponent implements OnInit{
   description: any;
   selectedFile: any;
   invoiceDate!: string;
+  openRowId: any;
 
 
   constructor(private http: HttpClient,
@@ -48,6 +49,11 @@ export class InvoiceDialogComponent implements OnInit{
     })
   }
 
+  @HostListener('document:click')
+  closeDropdown() {
+    this.openRowId = null;
+  }
+
   onFileSelected(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (file) {
@@ -61,10 +67,13 @@ export class InvoiceDialogComponent implements OnInit{
       return;
     }
 
+    const date = new Date(this.invoiceDate);
+
     this.invoiceService.uploadInvoice( this.selectedFile, this.invoiceNumber,
-      this.description, this.business.id, this.invoiceDate).subscribe({
+      this.description, this.business.id, date.toISOString()).subscribe({
       next: () => {
-        this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
+
+        this.toasterService.showMessage('Το τιμολόγιο ανέβηκε επιτυχώς', 'success');
         this.selectedFile = null;
         this.invoiceNumber = '';
         this.description = '';
@@ -89,10 +98,40 @@ export class InvoiceDialogComponent implements OnInit{
 
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = `invoice_${invoice.invoiceNumber}.pdf`; // 👈 or pass real fileName from backend metadata
+      link.download = `invoice_${invoice.invoiceNumber}.pdf`;
       link.click();
 
       window.URL.revokeObjectURL(link.href);
     });
+  }
+
+
+  deleteRow(invoice: any) {
+    this.invoiceService.deleteInvoice(invoice).subscribe({
+      next:(success) =>{
+        if (success){
+          this.loadInvoices();
+          this.toasterService.showMessage("Διαγράφηκε Επιτυχώς", "success")
+
+        }
+      },error: (err) =>{
+        this.toasterService.showMessage("Προέκυψε σφάλμα κατά την διαγραφή","error")
+    }
+    })
+  }
+
+  editRow(invoice: any) {
+
+  }
+
+  toggleDropdown(event: MouseEvent, rowId: number) {
+    event.stopPropagation();
+    const button = event.currentTarget as HTMLElement;
+    const rect = button.getBoundingClientRect();
+    this.openRowId = this.openRowId === rowId ? null : rowId;
+    if (this.openRowId) {
+      document.documentElement.style.setProperty('--x', `${rect.left}px`);
+      document.documentElement.style.setProperty('--y', `${rect.bottom}px`);
+    }
   }
 }

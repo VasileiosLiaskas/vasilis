@@ -22,10 +22,12 @@ export class InvoiceService {
     formData.append('invoiceNumber', invoiceNumber);
     formData.append('description', description);
     formData.append('businessId', businessId.toString());
-    formData.append('date', invoiceDate);
+    formData.append('invoiceDate', invoiceDate);
 
-    console.log("formDATA", formData);
-    return this.http.post(`${this.baseUrl}/save`, formData);
+
+
+
+    return this.http.post(`${this.baseUrl}/save`, formData,{ responseType: 'text'} );
   }
 
   loadInvoices(filters?: {
@@ -52,5 +54,9 @@ export class InvoiceService {
     return this.http.get(`${this.baseUrl}/download/${id}`, {
       responseType: 'blob'
     });
+  }
+
+  deleteInvoice(invoice: any) {
+    return this.http.delete<boolean>(`${this.baseUrl}/delete/${invoice.id}`);
   }
 }

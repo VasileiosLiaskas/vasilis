@@ -130,7 +130,7 @@
         </tbody>
         <tfoot>
         <tr style="padding-top: 2px" *ngIf="totalIncome>0">
-          <td colspan="7" style="text-align: right; padding-top: 2px">Σύνολο:</td>
+          <td colspan="8" style="text-align: right; padding-top: 2px">Σύνολο:</td>
           <td  style="text-align: center; background-color: rgba(184,184,184,0.16); padding-top: 2px">
             {{ totalIncome  }}
           </td>
@@ -140,6 +140,7 @@
 
       </table>
       <div class="table-footer">
+
         <div class="pagination">
           <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">
             <i class="fa-solid fa-arrow-left"></i>
@@ -153,6 +154,7 @@
         <div class="total-records" style=" font-size:12px; font-weight: 400; padding-right:5px">
           Εγγραφές: {{ totalElements }}
         </div>
+
 
       </div>
 

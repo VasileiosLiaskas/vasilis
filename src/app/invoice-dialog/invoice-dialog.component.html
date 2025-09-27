@@ -14,6 +14,7 @@
           <th>Όνομα Αρχείου</th>
           <th>Περιγραφή</th>
           <th>Αρχείο</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -24,6 +25,19 @@
           <td>{{ invoice.fileName}}</td>
           <td>{{ invoice.description}}</td>
           <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>
+          <td>
+            <div class="dropdown" (click)="toggleDropdown($event, invoice.id)">
+              <button class="menu-btn">⋮</button>
+              <ul class="dropdown-menu" *ngIf="openRowId === invoice.id">
+                <li>
+                  <button class="edit-btn" (click)="editRow(invoice)"> Επεξεργασία</button>
+                </li>
+                <li>
+                  <button class="delete-btn" (click)="deleteRow(invoice)">Διαγραφή</button>
+                </li>
+              </ul>
+            </div>
+          </td>
         </tr>
         </tbody>
       </table>

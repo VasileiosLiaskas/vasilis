@@ -15,7 +15,7 @@ import { environment } from '../../environments/environment';
   standalone: true,
   styleUrl: './log-in.component.css'
 })
-export class LogInComponent {
+export class LogInComponent{
   username: string ='';
   password: string ='';
 

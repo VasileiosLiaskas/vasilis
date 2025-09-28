@@ -20,13 +20,25 @@
         <tbody>
         <tr *ngFor="let invoice of invoiceList; let i = index">
           <td>{{i + 1 }}</td>
-          <td>{{ invoice.date }}</td>
-          <td>{{invoice.invoiceNumber}}</td>
-          <td>{{ invoice.fileName}}</td>
-          <td>{{ invoice.description}}</td>
+          <td *ngIf="!invoice.editable">{{ invoice.date }}</td>
+          <td *ngIf="invoice.editable">
+            <input type="date" [(ngModel)]="invoice.date"/>
+          </td>
+          <td *ngIf="!invoice.editable">{{invoice.invoiceNumber}}</td>
+          <td *ngIf="invoice.editable">
+            <input type="text" [(ngModel)]="invoice.invoiceNumber"/>
+          </td>
+          <td *ngIf="!invoice.editable">{{ invoice.fileName}}</td>
+          <td *ngIf="invoice.editable">
+            <input type="text" [(ngModel)]="invoice.fileName"/>
+          </td>
+          <td *ngIf="!invoice.editable">{{ invoice.description}}</td>
+          <td *ngIf="invoice.editable">
+            <input type="text" [(ngModel)]="invoice.description"/>
+          </td>
           <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>
           <td>
-            <div class="dropdown" (click)="toggleDropdown($event, invoice.id)">
+            <div *ngIf="!invoice.editable" class="dropdown" (click)="toggleDropdown($event, invoice.id)">
               <button class="menu-btn">⋮</button>
               <ul class="dropdown-menu" *ngIf="openRowId === invoice.id">
                 <li>
@@ -36,6 +48,14 @@
                   <button class="delete-btn" (click)="deleteRow(invoice)">Διαγραφή</button>
                 </li>
               </ul>
+            </div>
+            <div *ngIf="invoice.editable" class="actions-buttons">
+              <button class="save-btn" (click)="saveRow(invoice)">
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <button class="cancel-btn" (click)="cancelEdit(invoice)">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
             </div>
           </td>
         </tr>

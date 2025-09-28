@@ -7,4 +7,5 @@ export class Invoice {
   public invoiceDate!: Date;
   public invoiceType!: string;
   public businessId!: number;
+  public editable:boolean= false;
 }

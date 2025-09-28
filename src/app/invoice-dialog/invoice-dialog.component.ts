@@ -27,6 +27,7 @@ export class InvoiceDialogComponent implements OnInit{
   selectedFile: any;
   invoiceDate!: string;
   openRowId: any;
+  editable: boolean=false;
 
 
   constructor(private http: HttpClient,
@@ -121,6 +122,8 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   editRow(invoice: any) {
+    invoice.editable=true;
+
 
   }
 
@@ -133,5 +136,13 @@ export class InvoiceDialogComponent implements OnInit{
       document.documentElement.style.setProperty('--x', `${rect.left}px`);
       document.documentElement.style.setProperty('--y', `${rect.bottom}px`);
     }
+  }
+
+  saveRow(invoice: any) {
+
+  }
+
+  cancelEdit(invoice: any) {
+
   }
 }

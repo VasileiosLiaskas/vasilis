@@ -164,3 +164,18 @@
   cursor: pointer;
   color: #333; /* Ensures visibility */
 }
+
+.actions-buttons{
+  display: flex;
+  gap:4px;
+  justify-content: center;
+  align-items: center
+
+}
+.save-btn {
+  color: green;
+}
+
+.cancel-btn {
+  color: red;
+}

@@ -15,8 +15,8 @@ export class InvoiceService {
   private baseUrl = environment.apiUrl + 'invoice';
 
 
-  uploadInvoice(
-    file: File, invoiceNumber: string, description: string, businessId: number, invoiceDate: string): Observable<any> {
+  uploadInvoice(file: File, invoiceNumber: string, description: string, businessId: number, invoiceDate: string): Observable<any>
+  {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('invoiceNumber', invoiceNumber);
@@ -58,5 +58,18 @@ export class InvoiceService {
 
   deleteInvoice(invoice: any) {
     return this.http.delete<boolean>(`${this.baseUrl}/delete/${invoice.id}`);
+  }
+
+  saveInvoice(invoice: any) {
+    const params = {
+      fileName: invoice.fileName,
+      invoiceNumber: invoice.invoiceNumber,
+      description: invoice.description,
+      invoiceDate: invoice.invoiceDate
+    };
+
+    return this.http.put(
+      `${this.baseUrl}/edit/${invoice.id}`,{}, { params, responseType: 'text' }
+    );
   }
 }

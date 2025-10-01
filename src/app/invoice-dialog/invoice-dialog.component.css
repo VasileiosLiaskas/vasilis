@@ -15,13 +15,12 @@
   background: #fff;
   padding: 1rem;
   max-width: 90vw;  /* instead of fixed 50rem */
-  width: 100%;
+  width: 60%;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   position: relative;
   z-index: 800; /* Still above everything else */
-  overflow-y: auto; /* allow scroll if content is tall */
   max-height: 90vh;
 }
 
@@ -50,6 +49,8 @@
 .dialog-file-container{
   display: flex;
   flex-direction: column;
+  align-items: start;
+  justify-content: start;
   padding: 2rem;
   margin-top: 2rem;
   background-color: #f4f4f4;
@@ -68,7 +69,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 300px;
+  max-width: 300px;
   height: auto;
 }
 .file-form input{
@@ -87,14 +88,8 @@
   font-size: 0.8rem;
   cursor: pointer;
 }
-.dialog-content {
-  /*display: flex;*/
-  /*justify-content: start; !* centers the table horizontally *!*/
-  /*margin-top: 20px;*/
-  display: block;
-  overflow-x: auto; /* horizontal scroll if table too wide */
-  margin-top: 20px;
-}
+
+
 
 .hidden-datepicker {
   position: absolute;
@@ -104,16 +99,31 @@
   visibility: hidden;
 }
 
-.dialog-table{
-  border-collapse: collapse;
-  width: 100%; /* adjust as needed */
-  text-align: center;
-  font-size: 14px;
-
+.dialog-content {
+  width: 100%;
+  margin-top: 20px;
+  overflow: visible; /* allow wrapper scroll */
 }
 
+.table-wrapper {
+  overflow-x: auto; /* horizontal scroll */
+  -webkit-overflow-scrolling: touch;
+  display: block;
+}
+.table-wrapper::-webkit-scrollbar {
+  display: none;                   /* Chrome, Safari, Edge */
+}
+
+.dialog-table {
+  min-width: 700px; /* allow horizontal scroll on mobile */
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 14px;
+  width:100%;
+}
 .dialog-table th,
-.dialog-table td {
+.dialog-table td,
+.dialog-table input{
   border: 1px solid #333; /* table borders */
   padding: 8px;
 }
@@ -178,4 +188,14 @@
 
 .cancel-btn {
   color: red;
+}
+
+
+@media (max-width: 768px) {
+
+  .table-wrapper {
+
+    white-space: nowrap; /* Prevents text wrapping */
+  }
+
 }

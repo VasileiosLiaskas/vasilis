@@ -19,18 +19,18 @@ body {
   overflow: visible;    /* make sure the immediate parent doesn't clip */
 }
 
-.dialog-overlay * {
-  overflow: visible !important;
-  transform: none !important;
-}
-.dialog-overlay,
-.dialog-container,
-.dialog-content,
-.dialog-file-container {
-  overflow: visible !important;     /* allow dropdown to escape scrollable area */
-  transform: none !important;      /* remove any transform that creates a containing block */
-  will-change: auto !important;
-}
+/*.dialog-overlay * {*/
+/*  overflow: visible !important;*/
+/*  transform: none !important;*/
+/*}*/
+/*.dialog-overlay,*/
+/*.dialog-container,*/
+/*.dialog-content,*/
+/*.dialog-file-container {*/
+/*  overflow: visible !important;     !* allow dropdown to escape scrollable area *!*/
+/*  transform: none !important;      !* remove any transform that creates a containing block *!*/
+/*  will-change: auto !important;*/
+/*}*/
 
 html, body {
   height: 100%;

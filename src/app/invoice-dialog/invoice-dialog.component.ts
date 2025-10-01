@@ -124,7 +124,6 @@ export class InvoiceDialogComponent implements OnInit{
   editRow(invoice: any) {
     invoice.editable=true;
 
-
   }
 
   toggleDropdown(event: MouseEvent, rowId: number) {
@@ -139,7 +138,17 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   saveRow(invoice: any) {
-
+    this.invoiceService.saveInvoice(invoice).subscribe({
+      next: (responseData) => {
+        invoice.editable = false;
+        this.toasterService.showMessage("Η επεξεργασία ήταν επιτυχής", "success");
+        this.loadInvoices();
+      },
+      error: (err) => {
+        console.error("Error updating invoice:", err);
+        this.toasterService.showMessage("Αποτυχία επεξεργασίας τιμολογίου", "error");
+      }
+    });
   }
 
   cancelEdit(invoice: any) {

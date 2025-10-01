@@ -5,7 +5,8 @@
       <button class="close-btn" (click)="closeDialog()">&times;</button>
     </div>
     <div class="dialog-content">
-      <table *ngIf="invoiceList.length>0" class="dialog-table">
+      <div class="table-wrapper">
+      <table *ngIf="invoiceList?.length>0" class="dialog-table">
         <thead>
         <tr>
           <th>#</th>
@@ -61,7 +62,11 @@
         </tr>
         </tbody>
       </table>
+      </div>
     </div>
+
+
+
     <div class="dialog-file-container">
       <div class="upload-files">
         <button class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>

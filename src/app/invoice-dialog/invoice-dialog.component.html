@@ -21,9 +21,9 @@
         <tbody>
         <tr *ngFor="let invoice of invoiceList; let i = index">
           <td>{{i + 1 }}</td>
-          <td *ngIf="!invoice.editable">{{ invoice.date }}</td>
+          <td *ngIf="!invoice.editable">{{ invoice.invoiceDate }}</td>
           <td *ngIf="invoice.editable">
-            <input type="date" [(ngModel)]="invoice.date"/>
+            <input type="date" [(ngModel)]="invoice.invoiceDate"/>
           </td>
           <td *ngIf="!invoice.editable">{{invoice.invoiceNumber}}</td>
           <td *ngIf="invoice.editable">

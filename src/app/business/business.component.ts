@@ -73,7 +73,6 @@ export class BusinessComponent implements OnInit{
       this.totalElements = response.totalElements; // Total number of entries
       this.totalRecords= response.content.length > 0 ? response.content[0].totalRecords : 0;
       this.totalIncome = response.content.length > 0 ? response.content[0].totalIncome : 0;
-      console.log(this.businessList);
     });
   }
 

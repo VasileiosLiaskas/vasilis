@@ -3,12 +3,12 @@
     <div class="filter-left">
       <div class="search-filter">
 
-        <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="onSearch()">
+        <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="loadInvoiceList()">
         <i class="fa-solid fa-magnifying-glass"></i>
       </div>
 
       <div class="search-filter date-from">
-        <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly
+        <input type="text" [ngModel]="dateFrom" [value]="dateFrom" (change)="loadInvoiceList()" placeholder="Ημερομηνία Από" readonly
                (click)="openDatePicker(datePickerFrom)">
         <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker">
       </div>

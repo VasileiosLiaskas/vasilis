@@ -4,6 +4,8 @@ import {FormBuilder} from '@angular/forms';
 import {Invoice} from '../invoice/invoice.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {Page} from '../business/page.model';
+import {Business} from '../business/business.model';
 
 @Injectable({providedIn: 'root'})
 export class InvoiceService {
@@ -30,25 +32,41 @@ export class InvoiceService {
     return this.http.post(`${this.baseUrl}/save`, formData,{ responseType: 'text'} );
   }
 
-  loadInvoices(filters?: {
-    invoiceNumber?: string;
-    businessId?: number;
-    invoiceDate?: string;
-    dateCreated?: string;
-  }): Observable<Invoice[]> {
-    let params = new HttpParams();
-
-    if (filters) {
-      Object.keys(filters).forEach(key => {
-        const value = filters[key as keyof typeof filters];
-        if (value !== null && value !== undefined && value !== '') {
-          params = params.set(key, value);
-        }
-      });
+  loadInvoices(page: number = 0, size: number = 10, searchQuery: string,
+               dateFrom: string, dateTo: string):Observable<Page<Invoice>>{
+    let params=new HttpParams().set('page', page.toString()).set('size', size.toString());
+    if (searchQuery) {
+      params = params.set('keyword', searchQuery);
+    }
+    if (dateFrom){
+      params=params.set('dateFrom', dateFrom);
+    }
+    if (dateTo){
+      params=params.set('dateTo', dateTo);
     }
 
-    return this.http.get<Invoice[]>(`${this.baseUrl}/find`, {params});
+    return this.http.get<Page<Invoice>>(`${this.baseUrl}/list`, { params });
   }
+
+  // loadInvoices(filters?: {
+  //   invoiceNumber?: string;
+  //   businessId?: number;
+  //   invoiceDate?: string;
+  //   dateCreated?: string;
+  // }): Observable<Invoice[]> {
+  //   let params = new HttpParams();
+  //
+  //   if (filters) {
+  //     Object.keys(filters).forEach(key => {
+  //       const value = filters[key as keyof typeof filters];
+  //       if (value !== null && value !== undefined && value !== '') {
+  //         params = params.set(key, value);
+  //       }
+  //     });
+  //   }
+  //
+  //   return this.http.get<Invoice[]>(`${this.baseUrl}/find`, {params});
+  // }
 
   downloadInvoice(id: number): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/download/${id}`, {
@@ -68,6 +86,7 @@ export class InvoiceService {
       invoiceDate: invoice.invoiceDate
     };
 
+    console.log(params.invoiceDate);
     return this.http.put(
       `${this.baseUrl}/edit/${invoice.id}`,{}, { params, responseType: 'text' }
     );

@@ -6,6 +6,7 @@ import {Event} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {InvoiceService} from '../invoice-dialog/invoice.service';
 import {ToasterService} from '../toaster/toaster.service';
+import {response} from 'express';
 
 @Component({
   selector: 'app-invoice',
@@ -30,35 +31,51 @@ export class InvoiceComponent implements OnInit{
   showFilters: any;
   invoiceList: Invoice[] | undefined;
   protected readonly Math = Math;
-  page: any;
-  size: any;
+  page: number = 0;
+  size: number = 10;
+
   openRowId: number | null = null;
   totalElements: number = 0;
+  private totalRecords: any;
 
   constructor(private http: HttpClient,
               private invoiceService: InvoiceService,
               private toasterService: ToasterService) {}
 
   ngOnInit(): void {
-    this.invoiceService.loadInvoices({}).subscribe( invoices => {
-      this.invoiceList = invoices;
-  })
+    this.loadInvoiceList();
   }
 
-  onSearch() {
 
+  loadInvoiceList(){
+    this.invoiceService.loadInvoices(this.page,
+      this.size,
+      this.searchQuery,
+      this.dateFrom,
+      this.dateTo
+      ).subscribe( responseData => {
+        console.log(this.totalElements)
+        this.invoiceList=responseData.content;
+        this.totalElements = responseData.totalElements
+      console.log( this.size)
+    })
   }
 
-  openDatePicker(datePickerFrom: HTMLInputElement) {
-
+  openDatePicker(datePicker: HTMLInputElement) {
+    if (datePicker) {
+      datePicker.showPicker(); // Open the date picker
+    }
   }
 
   setDateFrom(event:any) {
     this.dateFrom = event.target.value;
+    this.loadInvoiceList();
   }
 
   setDateTo(event: any) {
     this.dateTo = event.target.value;
+
+    this.loadInvoiceList();
   }
 
   toggleFilters() {

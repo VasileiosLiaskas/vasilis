@@ -371,24 +371,21 @@
 
 .table-footer {
   display: flex;
-  justify-content: center; /* Ensures pagination stays centered and button moves right */
+  justify-content: space-between; /* spread pagination & total-records */
   align-items: center;
   width: 100%;
-  position: fixed;
-  bottom: 0;                /* Stick to bottom of the page */
-  left: 0;
-  right: 0;
+  padding: 10px 0;
 
 }
 
 
 .pagination {
+  margin: 0 auto; /* keeps pagination centered even with space-between */
   text-align: center;
 }
 
 .total-records {
-  position: absolute;        /* Take it out of normal flow */
-  right: 10px;               /* Stick to the right */
+
   font-size: 12px;
   font-weight: 400;
   padding-right: 5px;
@@ -645,3 +642,31 @@
   }
 
 }
+
+@media (max-width: 768px) {
+  .table-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    padding: 8px 15px;
+    background-color: white;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .table-container {
+    padding-bottom: 60px; /* prevents content from hiding under footer */
+  }
+
+  .pagination {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .total-records {
+    text-align: right;
+    font-size: 11px;
+  }
+}
+

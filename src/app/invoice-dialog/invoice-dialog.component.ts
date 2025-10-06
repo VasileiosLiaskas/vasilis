@@ -43,11 +43,11 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   loadInvoices(): void {
-
-    this.invoiceService.loadInvoices({ businessId: this.business.id }).subscribe( invoices => {
-     this.invoiceList = invoices;
-     console.log(this.invoiceList);
-    })
+    //
+    // this.invoiceService.loadInvoices().subscribe( invoices => {
+    //  this.invoiceList = invoices;
+    //  console.log(this.invoiceList);
+    // })
   }
 
   @HostListener('document:click')

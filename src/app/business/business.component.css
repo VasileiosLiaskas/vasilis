@@ -197,7 +197,7 @@
   position: absolute;
   top: 5px;
   right: 10px;
-  font-size: 30px;
+  font-size: 20px;
   cursor: pointer;
   color: rgba(51, 51, 51, 0.82); /* You can customize this color */
 }
@@ -437,8 +437,8 @@
 
 /* When checked */
 .custom-checkbox input:checked ~ .checkmark {
-  background-color: #7a65d6;
-  border-color: #7a65d6;
+  background-color: #060212;
+  border-color: #ffffff;
 }
 
 /* Checkmark symbol */

@@ -35,6 +35,7 @@ export class InvoiceDialogComponent implements OnInit{
               private toasterService: ToasterService) {}
 
   ngOnInit(): void {
+    this.businessId = this.business.id;
     this.loadInvoices();
   }
 
@@ -43,11 +44,11 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   loadInvoices(): void {
-    //
-    // this.invoiceService.loadInvoices().subscribe( invoices => {
-    //  this.invoiceList = invoices;
-    //  console.log(this.invoiceList);
-    // })
+
+    this.invoiceService.loadInvoices({businessId:this.businessId}).subscribe( invoices => {
+     this.invoiceList = invoices.content;
+     console.log(this.invoiceList);
+    })
   }
 
   @HostListener('document:click')

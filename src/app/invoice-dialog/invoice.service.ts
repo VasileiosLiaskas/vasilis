@@ -32,18 +32,23 @@ export class InvoiceService {
     return this.http.post(`${this.baseUrl}/save`, formData,{ responseType: 'text'} );
   }
 
-  loadInvoices(page: number = 0, size: number = 10, searchQuery: string,
-               dateFrom: string, dateTo: string):Observable<Page<Invoice>>{
-    let params=new HttpParams().set('page', page.toString()).set('size', size.toString());
-    if (searchQuery) {
-      params = params.set('keyword', searchQuery);
-    }
-    if (dateFrom){
-      params=params.set('dateFrom', dateFrom);
-    }
-    if (dateTo){
-      params=params.set('dateTo', dateTo);
-    }
+  loadInvoices(options: {
+    page?: number;
+    size?: number;
+    searchQuery?: string;
+    dateFrom?: string;
+    dateTo?: string;
+    businessId?: number;
+  } = {}): Observable<Page<Invoice>> {
+
+    let params = new HttpParams()
+      .set('page', (options.page ?? 0).toString())
+      .set('size', (options.size ?? 10).toString());
+
+    if (options.searchQuery) params = params.set('keyword', options.searchQuery);
+    if (options.dateFrom) params = params.set('dateFrom', options.dateFrom);
+    if (options.dateTo) params = params.set('dateTo', options.dateTo);
+    if (options.businessId) params = params.set('businessId', options.businessId.toString());
 
     return this.http.get<Page<Invoice>>(`${this.baseUrl}/list`, { params });
   }

@@ -62,7 +62,7 @@
       <th>Ημερομηνία</th>
       <th>Όνομα Αρχείου</th>
       <th>Περιγραφή</th>
-      <th>Ποιος</th>
+      <th>Τύπος Τιμολογίου</th>
       <th>Αρχείο</th>
 
       <th></th>
@@ -73,10 +73,10 @@
     <tr *ngFor="let invoice of invoiceList; let i = index">
       <td>{{ (page * size) + i + 1 }}</td>
       <td>{{invoice.invoiceNumber}}</td>
-      <td>{{ invoice.date }}</td>
+      <td>{{ invoice.invoiceDate }}</td>
       <td>{{ invoice.fileName}}</td>
       <td>{{ invoice.description}}</td>
-      <td></td>
+      <td>{{invoice.invoiceType | invoiceTypeTranslate}}</td>
       <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>
 
       <td>

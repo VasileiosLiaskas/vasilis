@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {InvoiceService} from '../invoice-dialog/invoice.service';
 import {ToasterService} from '../toaster/toaster.service';
 import {response} from 'express';
+import {InvoiceTypePipe} from '../invoice-type.pipe';
 
 @Component({
   selector: 'app-invoice',
@@ -15,7 +16,8 @@ import {response} from 'express';
     FormsModule,
     NgClass,
     NgIf,
-    NgForOf
+    NgForOf,
+    InvoiceTypePipe
   ],
   templateUrl: './invoice.component.html',
   standalone: true,
@@ -48,16 +50,18 @@ export class InvoiceComponent implements OnInit{
 
 
   loadInvoiceList(){
-    this.invoiceService.loadInvoices(this.page,
-      this.size,
-      this.searchQuery,
-      this.dateFrom,
-      this.dateTo
-      ).subscribe( responseData => {
+    let params= {
+      page:this.page,
+      size:this.size,
+      searchQuery:this.searchQuery,
+      dateFrom:this.dateFrom,
+      dateTo:this.dateTo
+    }
+    this.invoiceService.loadInvoices(params).subscribe( responseData => {
         console.log(this.totalElements)
         this.invoiceList=responseData.content;
         this.totalElements = responseData.totalElements
-      console.log( this.size)
+      console.log("invocieNBumber", this.invoiceList)
     })
   }
 
@@ -74,7 +78,6 @@ export class InvoiceComponent implements OnInit{
 
   setDateTo(event: any) {
     this.dateTo = event.target.value;
-
     this.loadInvoiceList();
   }
 

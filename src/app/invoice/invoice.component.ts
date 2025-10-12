@@ -8,6 +8,7 @@ import {InvoiceService} from '../invoice-dialog/invoice.service';
 import {ToasterService} from '../toaster/toaster.service';
 import {response} from 'express';
 import {InvoiceTypePipe} from '../invoice-type.pipe';
+import {InvoiceDialogComponent} from '../invoice-dialog/invoice-dialog.component';
 
 @Component({
   selector: 'app-invoice',
@@ -17,7 +18,8 @@ import {InvoiceTypePipe} from '../invoice-type.pipe';
     NgClass,
     NgIf,
     NgForOf,
-    InvoiceTypePipe
+    InvoiceTypePipe,
+    InvoiceDialogComponent
   ],
   templateUrl: './invoice.component.html',
   standalone: true,
@@ -39,6 +41,7 @@ export class InvoiceComponent implements OnInit{
   openRowId: number | null = null;
   totalElements: number = 0;
   private totalRecords: any;
+  createNewInvoice: boolean= false;
 
   constructor(private http: HttpClient,
               private invoiceService: InvoiceService,
@@ -86,13 +89,17 @@ export class InvoiceComponent implements OnInit{
   }
 
   addInvoice() {
-
+    this.createNewInvoice=true;
   }
 
 
 
   deleteRow(invoice: any) {
-
+    this.invoiceService.deleteInvoice(invoice).subscribe( responseData=>{
+      console.log(responseData);
+      this.toasterService.showMessage("Το τιμολόγιο διαγράφηκε επιτυχώς", 'success');
+      this.loadInvoiceList();
+    })
   }
 
   editRow(invoice: any) {
@@ -127,5 +134,9 @@ export class InvoiceComponent implements OnInit{
 
       window.URL.revokeObjectURL(link.href);
     });
+  }
+
+  closeDialog() {
+    this.createNewInvoice=false;
   }
 }

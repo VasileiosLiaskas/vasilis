@@ -118,3 +118,10 @@
   </div>
 </div>
 </div>
+
+<ng-container *ngIf="createNewInvoice">
+  <app-invoice-dialog
+
+    (close)="closeDialog()">
+  </app-invoice-dialog>
+</ng-container>

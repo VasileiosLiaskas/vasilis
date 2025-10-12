@@ -74,6 +74,7 @@
 }
 .file-form input{
   height: 20px;
+
 }
 .file-form textarea{
   height: 50px;
@@ -189,6 +190,15 @@
 .cancel-btn {
   color: red;
 }
+
+.invoice-type{
+  display: flex;
+  flex-direction: row;
+  gap:4px;
+  font-size:14px
+
+}
+
 
 
 @media (max-width: 768px) {

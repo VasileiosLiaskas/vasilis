@@ -5,6 +5,7 @@ import {HttpClient} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {InvoiceService} from './invoice.service';
 import {ToasterService} from '../toaster/toaster.service';
+import {Invoice} from '../invoice/invoice.model';
 
 @Component({
   selector: 'app-invoice-dialog',
@@ -28,6 +29,8 @@ export class InvoiceDialogComponent implements OnInit{
   invoiceDate!: string;
   openRowId: any;
   editable: boolean=false;
+  beforeEdit!: Invoice;
+  invoiceType!: string;
 
 
   constructor(private http: HttpClient,
@@ -35,7 +38,10 @@ export class InvoiceDialogComponent implements OnInit{
               private toasterService: ToasterService) {}
 
   ngOnInit(): void {
-    this.businessId = this.business.id;
+    this.businessId = this.business?.id ?? null;
+    if(this.businessId) {
+      this.invoiceType='FEE_INVOICE'
+    }
     this.loadInvoices();
   }
 
@@ -71,14 +77,23 @@ export class InvoiceDialogComponent implements OnInit{
 
     const date = new Date(this.invoiceDate);
 
-    this.invoiceService.uploadInvoice( this.selectedFile, this.invoiceNumber,
-      this.description, this.business.id, date.toISOString()).subscribe({
+    this.invoiceService.uploadInvoice( {
+      file: this.selectedFile,
+      invoiceNumber: this.invoiceNumber,
+      description: this.description,
+      businessId: this.business?.id,
+      invoiceDate: date.toISOString(),
+      invoiceType:this.invoiceType
+    }).subscribe({
       next: () => {
 
         this.toasterService.showMessage('Το τιμολόγιο ανέβηκε επιτυχώς', 'success');
         this.selectedFile = null;
         this.invoiceNumber = '';
         this.description = '';
+        if(!this.businessId){
+          this.closeDialog()
+        }
         this.loadInvoices(); // Reload the table
       }
     });
@@ -124,7 +139,7 @@ export class InvoiceDialogComponent implements OnInit{
 
   editRow(invoice: any) {
     invoice.editable=true;
-
+    this.beforeEdit = JSON.parse(JSON.stringify(invoice));
   }
 
   toggleDropdown(event: MouseEvent, rowId: number) {
@@ -154,5 +169,10 @@ export class InvoiceDialogComponent implements OnInit{
 
   cancelEdit(invoice: any) {
 
+    invoice.invoiceDate= this.beforeEdit.invoiceDate
+    invoice.invoiceNumber= this.beforeEdit.invoiceNumber;
+    invoice.fileName=this.beforeEdit.fileName;
+    invoice.description=this.beforeEdit.description;
+    invoice.editable=false;
   }
 }

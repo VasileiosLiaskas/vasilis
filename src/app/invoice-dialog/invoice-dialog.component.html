@@ -4,7 +4,7 @@
       <h3 style="color:#474646">Τιμολόγια</h3>
       <button class="close-btn" (click)="closeDialog()">&times;</button>
     </div>
-    <div class="dialog-content">
+    <div *ngIf="businessId" class="dialog-content">
       <div class="table-wrapper">
       <table *ngIf="invoiceList?.length>0" class="dialog-table">
         <thead>
@@ -74,12 +74,26 @@
         <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
       </div>
 
+
+
       <div class="file-form">
         <input type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text">
         <textarea [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>
         <input type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly
                (click)="openDatePicker(datePickerTo)">
         <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
+      </div>
+
+      <div  class="invoice-type" >
+        <label>
+          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE">
+          Τιμολόγιο Αμοιβής
+        </label>
+        <label>
+          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE">
+          Τιμολόγιο Αγοράς
+        </label>
+
       </div>
 
       <div class="save-files">

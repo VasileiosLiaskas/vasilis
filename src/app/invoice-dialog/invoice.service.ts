@@ -17,16 +17,27 @@ export class InvoiceService {
   private baseUrl = environment.apiUrl + 'invoice';
 
 
-  uploadInvoice(file: File, invoiceNumber: string, description: string, businessId: number, invoiceDate: string): Observable<any>
+  uploadInvoice({file, invoiceNumber, description, businessId, invoiceDate, invoiceType}: {
+    file: File,
+    invoiceNumber: string,
+    description: string,
+    businessId?: number,
+    invoiceDate: string,
+    invoiceType?: string
+  }): Observable<any>
   {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('invoiceNumber', invoiceNumber);
     formData.append('description', description);
-    formData.append('businessId', businessId.toString());
     formData.append('invoiceDate', invoiceDate);
+    if (businessId !== undefined && businessId !== null) {
+      formData.append('businessId', businessId.toString());
+    }
 
-
+    if (invoiceType) {
+      formData.append('invoiceType', invoiceType);
+    }
 
 
     return this.http.post(`${this.baseUrl}/save`, formData,{ responseType: 'text'} );

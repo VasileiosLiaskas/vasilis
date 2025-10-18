@@ -1,6 +1,7 @@
 export class Business {
   public id!: number;
   public date!: Date;
+  public dateTo!:Date;
   public type!: string;
   public who!: string;
   public area!: string;

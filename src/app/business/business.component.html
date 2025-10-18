@@ -76,7 +76,8 @@
         <tr>
           <th>#</th>
           <th>Τιμολόγια</th>
-          <th>Ημερομηνία</th>
+          <th>Ημερομηνία Από</th>
+          <th>Ημερομηνία Εως</th>
           <th>Τύπος</th>
           <th style="min-width: 80px">Ποιος</th>
           <th style="min-width: 100px">Περιοχή</th>
@@ -98,6 +99,7 @@
           <td>{{ (page * size) + i + 1 }}</td>
           <td style="width: 20px;"> <i (click)="openInvoicesDialog(business)" style="cursor:pointer" class="fa-solid fa-folder"></i></td>
           <td>{{ business.date }}</td>
+          <td>{{ business.dateTo }}</td>
           <td>{{ business.type }}</td>
           <td>{{ business.who }}</td>
           <td>{{ business.area }}</td>
@@ -166,6 +168,10 @@
               <div class="input-fields">
                 <span class="details">Ημερομηνία</span>
                 <input type="date" formControlName="date">
+              </div>
+              <div class="input-fields">
+                <span class="details">Ημερομηνία Έως</span>
+                <input type="date" formControlName="dateTo">
               </div>
               <div class="input-fields">
                 <span class="details">Τύπος</span>

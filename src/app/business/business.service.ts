@@ -51,7 +51,8 @@ export class BusinessService {
     const business = new Business();
     return this.formBuilder.group({
       id: [business.id],
-      date: [this.formatDate(new Date())], // Set date to current timestamp
+      date: [this.formatDate(new Date())],
+      dateTo: [this.formatDate(new Date())],// Set date to current timestamp
       type: [business.type],
       who: [business.who],
       area: [business.area],

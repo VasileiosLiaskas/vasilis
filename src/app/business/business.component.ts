@@ -9,6 +9,7 @@ import {ToasterService} from '../toaster/toaster.service';
 import {query} from '@angular/animations';
 import {BooleanColorDirective} from '../../boolean.color.directive';
 import {InvoiceDialogComponent} from '../invoice-dialog/invoice-dialog.component';
+import {GoogleCalendarService} from '../google-calendar.service';
 
 @Component({
   selector: 'app-business',
@@ -50,7 +51,8 @@ export class BusinessComponent implements OnInit{
 
   constructor(
     private businessService: BusinessService,
-    private toasterService: ToasterService
+    private toasterService: ToasterService,
+    private calendarService: GoogleCalendarService
   ) { }
 
 
@@ -94,23 +96,46 @@ export class BusinessComponent implements OnInit{
     }
   }
 
-  submitBusiness() {
-    let business= this.businessForm.value;
+  //
+  async submitBusiness() {
+    const business = this.businessForm.value;
     business.date = this.convertToISODate(business.date);
+    business.dateTo = this.convertToISODate(business.dateTo);
+
     this.businessService.save(business).subscribe({
-      next: (responseData) => {
+      next: async () => {
         this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
 
-        // Clear the form
+        try {
+
+          // Make sure the "end" date is +1 day so the event lasts through dateTo
+          const startDate = new Date(this.convertToISODateGoogle(business.date));
+          const endDate = new Date(this.convertToISODateGoogle(business.dateTo));
+
+          endDate.setDate(endDate.getDate() + 1);
+
+          const event = {
+            summary: business.type,
+            description: business.description,
+            start: { date: startDate.toISOString().split('T')[0] },
+            end: { date: endDate.toISOString().split('T')[0] },
+          };
+
+          const createdEvent = await this.calendarService.createEvent(event);
+          console.log('Google Calendar event created:', createdEvent);
+        } catch (err) {
+          console.error('Error creating Google Calendar event:', err);
+        }
+
+        // Reset form and reload list
         this.businessForm.reset();
         this.loadBusinessList(null);
-        // Hide the form (optional)
         this.showForm = false;
       },
       error: (error) => {
         console.error(error);
         this.toasterService.showMessage('There was an error saving the business.', 'error');
-      }
+      },
     });
   }
   openDatePicker(datePicker: HTMLInputElement) {
@@ -213,5 +238,20 @@ export class BusinessComponent implements OnInit{
 
   openInvoicesDialog(business: Business): void {
     this.selectedBusiness = business;
+  }
+
+
+  convertToISODateGoogle(dateInput: string | Date): string {
+    if (!dateInput) return ''; // handle null
+
+    if (dateInput instanceof Date) {
+      return dateInput.toISOString().split('T')[0]; // YYYY-MM-DD
+    }
+
+    const parts = dateInput.split('-'); // "19-10-2025"
+    if (parts.length !== 3) return ''; // invalid format
+
+    const [day, month, year] = parts;
+    return `${year}-${month}-${day}`; // "2025-10-19" ✅ ISO-compatible
   }
 }

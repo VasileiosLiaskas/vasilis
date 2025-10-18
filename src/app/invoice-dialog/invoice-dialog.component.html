@@ -35,7 +35,7 @@
           </td>
           <td *ngIf="!invoice.editable">{{ invoice.description}}</td>
           <td *ngIf="invoice.editable">
-            <input type="text" [(ngModel)]="invoice.description"/>
+            <input type="text"  [(ngModel)]="invoice.description"/>
           </td>
           <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>
           <td>
@@ -69,18 +69,29 @@
 
     <div class="dialog-file-container">
       <div class="upload-files">
-        <button class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>
-        <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+        <button *ngIf="!fileName" class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>
+        <input  type="file" #fileInput style="display: none; width: 100%" (change)="onFileSelected($event)">
         <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+
+        <div *ngIf="!selectedFile && fileName" class="existing-file">
+          <label for="fileNameInput">Όνομα Αρχείου: </label>
+          <input id="fileNameInput"
+                 type="text"
+                 [(ngModel)]="fileName"
+                 class="input-text editable-file-name"
+                 placeholder="Όνομα αρχείου">
+        </div>
       </div>
 
 
 
-      <div class="file-form">
-        <input type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text">
-        <textarea [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>
-        <input type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly
-               (click)="openDatePicker(datePickerTo)">
+      <div class="file-form existing-file">
+        <label  for="invoiceNumber">Αριθμός Τιμολογίου: </label>
+        <input  id="invoiceNumber" type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text editable-file-name">
+        <label  for="description">Περιγραφή: </label>
+        <textarea id=description class="input-text editable-file-name"  [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>
+        <input class="input-text editable-file-name" type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly
+               (click)="openDatePicker($event, datePickerTo)">
         <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
       </div>
 
@@ -97,7 +108,7 @@
       </div>
 
       <div class="save-files">
-        <button class="btn" (click)="uploadInvoice()">Ανέβασμα</button>
+        <button  class="btn" (click)="uploadInvoice()">Ανέβασμα</button>
       </div>
     </div>
   </div>

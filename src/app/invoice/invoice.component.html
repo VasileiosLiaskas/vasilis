@@ -119,9 +119,10 @@
 </div>
 </div>
 
-<ng-container *ngIf="createNewInvoice">
+<ng-container *ngIf="openDialog">
   <app-invoice-dialog
-
-    (close)="closeDialog()">
+    [invoice]="selectedInvoice"
+    (close)="closeDialog()"
+    (saved)="onInvoiceSaved()">
   </app-invoice-dialog>
 </ng-container>

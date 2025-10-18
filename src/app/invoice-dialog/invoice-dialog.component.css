@@ -49,8 +49,8 @@
 .dialog-file-container{
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: start;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
   margin-top: 2rem;
   background-color: #f4f4f4;
@@ -68,6 +68,7 @@
 .file-form{
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
   width:30%;
   height: auto;
@@ -95,11 +96,13 @@
 
 
 .hidden-datepicker {
-  position: absolute;
+  position: fixed;
   opacity: 0;
-  width: 0;
-  height: 0;
   visibility: hidden;
+  z-index: 9999;
+  background: transparent;
+  border: none;
+  pointer-events: none;
 }
 
 .dialog-content {
@@ -215,4 +218,25 @@
 .file-form{
   width: 95%;
 }
+}
+.existing-file {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.existing-file label {
+  font-size: 13px;
+  color: #555;
+}
+
+.editable-file-name {
+  border: 1px solid #ccc;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  width: 200px;
 }

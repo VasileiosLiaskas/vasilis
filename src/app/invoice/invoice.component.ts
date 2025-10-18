@@ -41,7 +41,8 @@ export class InvoiceComponent implements OnInit{
   openRowId: number | null = null;
   totalElements: number = 0;
   private totalRecords: any;
-  createNewInvoice: boolean= false;
+  openDialog: boolean= false;
+  selectedInvoice: Invoice | null = null;
 
   constructor(private http: HttpClient,
               private invoiceService: InvoiceService,
@@ -89,7 +90,9 @@ export class InvoiceComponent implements OnInit{
   }
 
   addInvoice() {
-    this.createNewInvoice=true;
+    this.openDialog =true;
+    this.selectedInvoice = null;
+
   }
 
 
@@ -103,7 +106,8 @@ export class InvoiceComponent implements OnInit{
   }
 
   editRow(invoice: any) {
-
+    this.selectedInvoice = { ...invoice };  // clone the selected invoice
+    this.openDialog = true;
   }
 
   @HostListener('document:click')
@@ -120,6 +124,7 @@ export class InvoiceComponent implements OnInit{
       return;
     }
     this.page = newPage;
+    this.loadInvoiceList();
   }
 
 
@@ -129,7 +134,7 @@ export class InvoiceComponent implements OnInit{
 
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = `invoice_${invoice.invoiceNumber}.pdf`;
+      link.download = `invoice_${invoice.fileName}.pdf`;
       link.click();
 
       window.URL.revokeObjectURL(link.href);
@@ -137,6 +142,11 @@ export class InvoiceComponent implements OnInit{
   }
 
   closeDialog() {
-    this.createNewInvoice=false;
+    this.openDialog =false;
+  }
+
+  onInvoiceSaved() {
+    this.loadInvoiceList(); // your existing method to refresh the list
+
   }
 }

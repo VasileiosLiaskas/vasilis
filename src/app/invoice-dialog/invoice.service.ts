@@ -99,7 +99,8 @@ export class InvoiceService {
       fileName: invoice.fileName,
       invoiceNumber: invoice.invoiceNumber,
       description: invoice.description,
-      invoiceDate: invoice.invoiceDate
+      invoiceDate: invoice.invoiceDate,
+      invoiceType: invoice.invoiceType
     };
 
     console.log(params.invoiceDate);

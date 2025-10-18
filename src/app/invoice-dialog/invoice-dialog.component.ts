@@ -21,6 +21,7 @@ import {Invoice} from '../invoice/invoice.model';
 export class InvoiceDialogComponent implements OnInit{
   @Input() business!: Business;
   @Output() close = new EventEmitter<void>();
+  @Output() saved = new EventEmitter<void>()
   invoiceList: any;
   businessId!: number;
   invoiceNumber: any;
@@ -31,6 +32,8 @@ export class InvoiceDialogComponent implements OnInit{
   editable: boolean=false;
   beforeEdit!: Invoice;
   invoiceType!: string;
+  @Input() invoice?: Invoice | null;
+  fileName: string | null = null;
 
 
   constructor(private http: HttpClient,
@@ -41,6 +44,14 @@ export class InvoiceDialogComponent implements OnInit{
     this.businessId = this.business?.id ?? null;
     if(this.businessId) {
       this.invoiceType='FEE_INVOICE'
+    }
+    if (this.invoice) {
+      this.invoiceNumber = this.invoice.invoiceNumber;
+      this.description = this.invoice.description;
+      this.invoiceDate = this.invoice.invoiceDate;
+      this.invoiceType = this.invoice.invoiceType;
+      this.fileName = this.invoice.fileName;
+      this.editable = true;
     }
     this.loadInvoices();
   }
@@ -70,38 +81,123 @@ export class InvoiceDialogComponent implements OnInit{
   }
 
   uploadInvoice(): void {
-    if (!this.selectedFile || !this.invoiceNumber) {
-      alert('Συμπληρώστε τον αριθμό τιμολογίου και επιλέξτε αρχείο.');
+  //   if (!this.invoice && !this.selectedFile || !this.invoiceNumber) {
+  //     alert('Συμπληρώστε τον αριθμό τιμολογίου και επιλέξτε αρχείο.');
+  //     return;
+  //   }
+  //
+  //   const date = new Date(this.invoiceDate);
+  //
+  //   this.invoiceService.uploadInvoice( {
+  //     file: this.selectedFile,
+  //     invoiceNumber: this.invoiceNumber,
+  //     description: this.description,
+  //     businessId: this.business?.id,
+  //     invoiceDate: date.toISOString(),
+  //     invoiceType:this.invoiceType
+  //   }).subscribe({
+  //     next: () => {
+  //
+  //       this.toasterService.showMessage('Το τιμολόγιο ανέβηκε επιτυχώς', 'success');
+  //       this.selectedFile = null;
+  //       this.invoiceNumber = '';
+  //       this.description = '';
+  //       if(!this.businessId){
+  //         this.closeDialog()
+  //       }
+  //       this.loadInvoices(); // Reload the table
+  //     }
+  //   });
+  // }
+    const date = new Date(this.invoiceDate);
+
+    // --- 1️⃣ Validation ---
+    if (!this.invoiceNumber) {
+      alert('Συμπληρώστε τον αριθμό τιμολογίου.');
       return;
     }
 
-    const date = new Date(this.invoiceDate);
+    // --- 2️⃣ Editing existing invoice ---
+    if (this.invoice && this.invoice.id) {
+      const updatedInvoice: any = {
+        ...this.invoice,
+        invoiceNumber: this.invoiceNumber,
+        description: this.description,
+        invoiceDate: date.toISOString(),
+        invoiceType: this.invoiceType,
+      };
 
-    this.invoiceService.uploadInvoice( {
+      // If user selected a new file, include it
+      if (this.selectedFile) {
+        updatedInvoice.file = this.selectedFile;
+      }
+
+      this.invoiceService.saveInvoice(updatedInvoice).subscribe({
+        next: () => {
+          this.toasterService.showMessage('Η επεξεργασία ήταν επιτυχής', 'success');
+          this.saved.emit();
+          this.closeDialog();
+        },
+        error: (err) => {
+          console.error('Error updating invoice:', err);
+          this.toasterService.showMessage('Αποτυχία επεξεργασίας τιμολογίου', 'error');
+        }
+      });
+
+      return; // stop here for edit case
+    }
+
+    // --- 3️⃣ Creating new invoice ---
+    if (!this.selectedFile) {
+      alert('Επιλέξτε αρχείο για το νέο τιμολόγιο.');
+      return;
+    }
+
+    this.invoiceService.uploadInvoice({
       file: this.selectedFile,
       invoiceNumber: this.invoiceNumber,
       description: this.description,
       businessId: this.business?.id,
       invoiceDate: date.toISOString(),
-      invoiceType:this.invoiceType
+      invoiceType: this.invoiceType
     }).subscribe({
       next: () => {
-
         this.toasterService.showMessage('Το τιμολόγιο ανέβηκε επιτυχώς', 'success');
+        this.saved.emit();
         this.selectedFile = null;
         this.invoiceNumber = '';
         this.description = '';
-        if(!this.businessId){
-          this.closeDialog()
+        if (!this.businessId) {
+          this.closeDialog();
         }
-        this.loadInvoices(); // Reload the table
+
+        this.loadInvoices();
+      },
+      error: (err) => {
+        console.error('Error uploading invoice:', err);
+        this.toasterService.showMessage('Αποτυχία ανεβάσματος τιμολογίου', 'error');
       }
     });
   }
 
-  openDatePicker(datePicker: HTMLInputElement) {
+  openDatePicker(event: MouseEvent, datePicker: HTMLInputElement) {
     if (datePicker) {
-      datePicker.showPicker(); // Open the date picker
+      const input = event.target as HTMLElement;
+      const rect = input.getBoundingClientRect();
+
+      // Position the hidden date input near the clicked text field
+      datePicker.style.position = 'fixed';
+      datePicker.style.left = `${rect.left}px`;
+      datePicker.style.top = `${rect.bottom + 2}px`; // a few pixels below
+      datePicker.style.opacity = '0';
+      datePicker.style.visibility = 'visible';
+      datePicker.style.width = `${rect.width}px`;
+      datePicker.style.height = `1px`; // tiny but clickable anchor
+
+      void datePicker.offsetHeight;
+
+      // Show the native date picker
+      datePicker.showPicker();// Open the date picker
     }
   }
 
@@ -129,6 +225,7 @@ export class InvoiceDialogComponent implements OnInit{
         if (success){
           this.loadInvoices();
           this.toasterService.showMessage("Διαγράφηκε Επιτυχώς", "success")
+          this.saved.emit();
 
         }
       },error: (err) =>{
@@ -158,7 +255,8 @@ export class InvoiceDialogComponent implements OnInit{
       next: (responseData) => {
         invoice.editable = false;
         this.toasterService.showMessage("Η επεξεργασία ήταν επιτυχής", "success");
-        this.loadInvoices();
+
+        this.saved.emit();
       },
       error: (err) => {
         console.error("Error updating invoice:", err);

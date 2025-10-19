@@ -54,3 +54,29 @@
   background-color: #007bff;
   transition: all 0.3s ease;
 }
+@media (max-width: 768px) {
+  .tabs-menu {
+    justify-content: flex-start;   /* Align left on mobile */
+    overflow-x: auto;              /* Allow horizontal scrolling */
+    white-space: nowrap;           /* Keep tabs on one line */
+    scrollbar-width: none;         /* Hide scrollbar (Firefox) */
+    -ms-overflow-style: none;      /* Hide scrollbar (IE/Edge) */
+    gap: 0.5rem;
+  }
+
+  /* Hide scrollbar for Chrome/Safari */
+  .tabs-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    flex: 0 0 auto;                /* Prevent shrinking */
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .underline {
+    height: 2px;
+    width: 33.33%;
+  }
+}

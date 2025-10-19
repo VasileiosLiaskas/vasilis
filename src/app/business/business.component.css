@@ -472,6 +472,7 @@
   padding: 10px;
   width: 100%;
 
+
 }
 
 .filter-row{
@@ -658,6 +659,7 @@
 
   .table-container {
     padding-bottom: 60px; /* prevents content from hiding under footer */
+
   }
 
   .pagination {

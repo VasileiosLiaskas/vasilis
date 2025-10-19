@@ -50,14 +50,14 @@ ul li a {
   position: relative;
 }
 
-.calendar, .profile, .papers {
+ .profile,.calendar{
   margin: 0 10px;
   cursor: pointer;
-  font-size: 15px;
-  background-color: rgba(0, 0, 0, 0.62); /* You can change this to any color */
+  font-size: 18px;
+  background-color: rgba(205, 205, 205, 0.62); /* You can change this to any color */
   padding: 10px; /* Adds space around the icon */
-  border-radius: 50%; /* Makes the background circular */
-  color: white; /* Makes the icon color white */
+  border-radius: 20%; /* Makes the background circular */
+  color:var(--color-black); /* Makes the icon color white */
   display: flex;
   justify-content: center;
   align-items: center;

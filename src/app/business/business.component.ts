@@ -103,9 +103,9 @@ export class BusinessComponent implements OnInit{
     business.dateTo = this.convertToISODate(business.dateTo);
 
     this.businessService.save(business).subscribe({
-      next: async () => {
+      next: async (savedBusiness:Business) => {
         this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
-
+        console.log("to saved", savedBusiness);
         try {
 
           // Make sure the "end" date is +1 day so the event lasts through dateTo
@@ -121,8 +121,18 @@ export class BusinessComponent implements OnInit{
             end: { date: endDate.toISOString().split('T')[0] },
           };
 
-          const createdEvent = await this.calendarService.createEvent(event);
-          console.log('Google Calendar event created:', createdEvent);
+          if (business.googleCalendarId) {
+            const updatedEvent = await this.calendarService.updateEvent(business.googleCalendarId, event);
+            console.log('Google Calendar event updated:', updatedEvent);
+          } else {
+            // ✅ Otherwise, create a new event
+            const createdEvent = await this.calendarService.createEvent(event);
+            console.log('Google Calendar event created:', createdEvent);
+
+            // Save the event ID to your backend
+            business.googleCalendarId = createdEvent.id;
+            this.businessService.updateGoogleCalendarId(savedBusiness.id, createdEvent.id).subscribe();
+          }
         } catch (err) {
           console.error('Error creating Google Calendar event:', err);
         }

@@ -32,7 +32,7 @@ export class GoogleCalendarService {
     this.tokenClient = google.accounts.oauth2.initTokenClient({
       client_id: this.CLIENT_ID,
       scope: this.SCOPES,
-      callback: '', // will be set later
+      callback: '',
     });
     this.gisInited = true;
   }
@@ -60,6 +60,18 @@ export class GoogleCalendarService {
       calendarId: 'primary',
       resource: event,
     });
+    return response.result;
+  }
+
+  async updateEvent(eventId: string, updatedEvent: any) {
+    await this.ensureAuth();
+
+    const response = await gapi.client.calendar.events.update({
+      calendarId: 'primary',
+      eventId: eventId,
+      resource: updatedEvent,
+    });
+
     return response.result;
   }
 }

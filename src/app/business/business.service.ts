@@ -75,8 +75,8 @@ export class BusinessService {
     return `${year}-${month}-${day}`; // Returns 'YYYY-MM-DD'
   }
 
-  save(business: any) {
-    return this.http.post(`${this.baseUrl}/save`, business)
+  save(business: Business):Observable<Business> {
+    return this.http.post<Business>(`${this.baseUrl}/save`, business)
   }
 
   exportExcel(): Observable<Blob> {
@@ -100,5 +100,13 @@ export class BusinessService {
 
   deleteRow(id:number) {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+  }
+
+  updateGoogleCalendarId(businessId: number, googleCalendarId: string) {
+    return this.http.patch(
+      `${this.baseUrl}/${businessId}/google-calendar`,
+      {}, // empty body
+      { params: { googleCalendarId } }
+    );
   }
 }

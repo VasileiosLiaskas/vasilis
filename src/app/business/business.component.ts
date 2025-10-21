@@ -238,6 +238,7 @@ export class BusinessComponent implements OnInit{
   resetToggle(field: 'filterPayout' | 'filterFilesCompleted' | 'filterFilesDelivered') {
     this[field] = null as any; // Clear the toggle
     this.onSearch(); // Refresh list with updated filters
+    console.log("reset filter")
   }
 
   toggleFilters() {

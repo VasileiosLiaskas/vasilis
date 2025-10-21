@@ -382,6 +382,12 @@
   font-size: 15px;
 }
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+}
+
 
 .table-footer {
   display: flex;

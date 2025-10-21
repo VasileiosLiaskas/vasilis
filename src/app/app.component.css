@@ -5,7 +5,7 @@
   justify-content: center;
   background: #fff;
   border-radius: 12px;
-  padding: 10px 20px;
+  padding: 10px 15px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   gap: 1rem;
@@ -61,7 +61,8 @@
     white-space: nowrap;           /* Keep tabs on one line */
     scrollbar-width: none;         /* Hide scrollbar (Firefox) */
     -ms-overflow-style: none;      /* Hide scrollbar (IE/Edge) */
-    gap: 0.5rem;
+    gap: 5px;
+    padding: 8px 10px;
   }
 
   /* Hide scrollbar for Chrome/Safari */
@@ -70,10 +71,13 @@
   }
 
   .tab {
-    justify-content: space-between;  /* Spread tabs evenly */
-    overflow-x: hidden;              /* Disable scrolling */
-    white-space: normal;             /* Allow wrapping if needed */
-    gap: 0;
+    flex: 0 0 auto;              /* Prevent tabs from shrinking unevenly */
+    padding: 8px 12px;           /* Reduced padding for mobile */
+    font-size: 13px;             /* Slightly smaller font */
+    white-space: nowrap;         /* Prevent word breaking */
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
   .underline {

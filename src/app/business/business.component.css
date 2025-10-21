@@ -123,20 +123,22 @@
 }
 
 .save-button {
-  background-color: rgba(138, 137, 172, 0.76);
-  color: white;
+  background-color: rgba(204, 200, 200, 0.76);
+  color: #393838;
 }
 .save-button:hover {
-  background-color: rgb(105, 103, 174);
+  background-color: rgb(80, 122, 94);
+  color: white;
 }
 
 
 .cancel-button {
-  background-color: #413F61C1;
-  color: white;
+  background-color: rgba(197, 188, 188, 0.76);
+  color: #3c3a3a;
 }
 .cancel-button:hover{
-  background-color: rgba(106, 103, 143, 0.76);
+  background-color: rgba(136, 66, 66, 0.76);
+  color:white;
 }
 
 .form-actions button i {
@@ -173,7 +175,7 @@
 }
 
 .modal {
-  background-color: white;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
   max-width: 600px;
@@ -190,6 +192,9 @@
 
 .modal input{
   font-size: 17px;
+  border: none;
+  border-bottom: 2px solid #5e5b5b;
+  background: #f6f3f3;
 }
 
 
@@ -242,7 +247,16 @@
   color: #888;
 
 }
+.modal input[type=number]::-webkit-inner-spin-button,
+.modal input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+/* Remove arrows from number inputs (Firefox) */
+.modal input[type=number] {
+  -moz-appearance: textfield;
+}
 .search-container input {
   width: 100%;
   padding: 5px 5px 5px 20px; /* Space for the icon */
@@ -500,7 +514,7 @@
   border: none;
   border-bottom: 2px solid rgb(110, 109, 134);
   color: #000000; /* Input text color */
-
+  border-radius: 8px;
 
   width: 100%;
   box-sizing: border-box;
@@ -584,7 +598,7 @@
 .button-bar button {
   background-color: rgba(0, 0, 0, 0.66);
   border: 1px solid #ccc;
-  border-radius: 2px;
+  border-radius: 8px;
   padding: 6px 10px;
   font-size: 0.8rem;
   cursor: pointer;
@@ -606,8 +620,12 @@
    font-size: 16px;
    cursor: pointer;
   color: white;
-  border-radius: 20px;
+    /* now works */
+  border: none;
+  transition: background 0.2s ease;
+
  }
+
 
 
 

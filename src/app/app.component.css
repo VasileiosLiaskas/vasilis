@@ -70,9 +70,10 @@
   }
 
   .tab {
-    flex: 0 0 auto;                /* Prevent shrinking */
-    padding: 10px 16px;
-    font-size: 14px;
+    justify-content: space-between;  /* Spread tabs evenly */
+    overflow-x: hidden;              /* Disable scrolling */
+    white-space: normal;             /* Allow wrapping if needed */
+    gap: 0;
   }
 
   .underline {

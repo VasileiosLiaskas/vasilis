@@ -122,6 +122,10 @@
                 <li>
                   <button class="delete-btn" (click)="deleteRow(business)">Διαγραφή</button>
                 </li>
+
+                <li *ngIf="business.googleCalendarId">
+                  <button class="delete-btn" (click)="deleteGoogleEvent(business)">Διαγραφή Google Event</button>
+                </li>
               </ul>
             </div>
           </td>

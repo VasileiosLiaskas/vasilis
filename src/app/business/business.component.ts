@@ -125,7 +125,7 @@ export class BusinessComponent implements OnInit{
           };
 
           if (business.googleCalendarId) {
-
+            console.log("yparxei to google calendar")
             try {
               console.log('Checking event before update:', business.googleCalendarId);
               const existing = await gapi.client.calendar.events.get({
@@ -140,9 +140,10 @@ export class BusinessComponent implements OnInit{
             // Use PATCH instead of UPDATE
             const updatedEvent = await this.calendarService.patchEvent(business.googleCalendarId, event);
             console.log('Google Calendar event updated:', updatedEvent);
-          } else {
+          }
+          else {
             const createdEvent = await this.calendarService.createEvent(event);
-            console.log('Google Calendar event created:', createdEvent);
+            console.log('Google Calendar new event created:', createdEvent);
 
             business.googleCalendarId = createdEvent.id;
             this.businessService.updateGoogleCalendarId(savedBusiness.id, createdEvent.id).subscribe();
@@ -208,10 +209,13 @@ export class BusinessComponent implements OnInit{
     this.showForm= !this.showForm;
     // Convert "DD-MM-YYYY" to "YYYY-MM-DD"
     const formattedDate = this.convertToISODate(business.date);
+    const formattedDateTo = this.convertToISODate(business.dateTo);
 
     this.businessForm.patchValue({
       ...business,
-      date: formattedDate, // Ensure correct format for date picker
+      date: formattedDate,
+      dateTo: formattedDateTo,
+      googleCalendarId:business.googleCalendarId
     });
   }
 
@@ -278,5 +282,23 @@ export class BusinessComponent implements OnInit{
 
     const [day, month, year] = parts;
     return `${year}-${month}-${day}`; // "2025-10-19" ✅ ISO-compatible
+  }
+
+  async deleteGoogleEvent(business: Business) {
+    if (!business.googleCalendarId) {
+      this.toasterService.showMessage('Δεν βρέθηκε αντίστοιχο event στο calendar', 'info');
+      return;
+    }
+
+    try {
+      await this.calendarService.deleteEvent(business.googleCalendarId);
+      this.toasterService.showMessage('To Google Calendar event διαγράφηκε επιτυχώς', 'success');
+
+      business.googleCalendarId = '';
+      this.businessForm.patchValue({ googleCalendarId: '' });
+    } catch (error) {
+      console.error('Error deleting Google Calendar event:', error);
+      this.toasterService.showMessage('Το Google Calendar event δεν μπόρεσε να διαγραφεί', 'error');
+    }
   }
 }

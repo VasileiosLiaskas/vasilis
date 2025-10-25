@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+
 declare const gapi: any;
 declare const google: any;
 
@@ -105,5 +106,18 @@ export class GoogleCalendarService {
       resource: updatedEvent,
     });
     return response.result;
+  }
+
+  async deleteEvent(eventId: string) {
+    await this.ensureAuth(); // Make sure user is authenticated
+    try {
+      return await gapi.client.calendar.events.delete({
+        calendarId: 'primary',
+        eventId
+      }); // The API returns an empty response on success
+    } catch (err) {
+      console.error('Error deleting Google Calendar event:', err);
+      throw err;
+    }
   }
 }

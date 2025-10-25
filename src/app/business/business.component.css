@@ -745,3 +745,20 @@ textarea {
   width: 16px;
   height: 16px;
 }
+
+
+.badge{
+  position: absolute;
+  top:5px;
+  right:20px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 10px; /* makes it oval */
+  padding: 0 5px; /* horizontal padding creates the oval shape */
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 14px;
+  min-width: 14px;
+  text-align: center;
+  display: inline-block;
+}

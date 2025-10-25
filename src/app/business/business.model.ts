@@ -17,6 +17,7 @@ export class Business {
   public totalIncome!: number;
   public totalRecords!: number;
   public googleCalendarId!: string;
+  public invoicesId!: number[];
 
 
 }

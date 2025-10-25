@@ -97,7 +97,13 @@
         <tbody>
         <tr *ngFor="let business of businessList; let i = index">
           <td>{{ (page * size) + i + 1 }}</td>
-          <td style="width: 20px;"> <i (click)="openInvoicesDialog(business)" style="cursor:pointer" class="fa-solid fa-folder"></i></td>
+          <td style="position:relative; width: 20px;"> <i (click)="openInvoicesDialog(business)" style="cursor:pointer" class="fa-solid fa-folder"></i>
+            <span
+            *ngIf="business.invoicesId?.length"
+            class="badge"
+          >
+    {{ business.invoicesId.length }}
+  </span></td>
           <td>{{ business.date }}</td>
           <td>{{ business.dateTo }}</td>
           <td>{{ business.type }}</td>

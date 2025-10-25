@@ -64,7 +64,8 @@ export class BusinessService {
       payout: [false], // Ensure it starts as false
       filesCompleted: [false], // Ensure it starts as false
       filesDelivered: [false], // Ensure it starts as false
-      comments: [business.comments]
+      comments: [business.comments],
+      googleCalendarId: [business.googleCalendarId],
     });
   }
 

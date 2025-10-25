@@ -18,6 +18,7 @@ export class GoogleCalendarService {
     this.loadGoogleScripts().then(() => {
       this.initGapi();
       this.initGis();
+
     });
   }
 
@@ -89,6 +90,16 @@ export class GoogleCalendarService {
   async updateEvent(eventId: string, updatedEvent: any) {
     await this.ensureAuth();
     const response = await gapi.client.calendar.events.update({
+      calendarId: 'primary',
+      eventId,
+      resource: updatedEvent,
+    });
+    return response.result;
+  }
+
+  async patchEvent(eventId: string, updatedEvent: any) {
+    await this.ensureAuth();
+    const response = await gapi.client.calendar.events.patch({
       calendarId: 'primary',
       eventId,
       resource: updatedEvent,

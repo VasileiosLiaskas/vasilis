@@ -164,66 +164,70 @@
         <div class="modal">
           <i class="fa-solid fa-xmark close-button" (click)="onCancel()"></i>
           <form class="modal-container" [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
-            <div class="form-row">
+
+            <!-- MAIN 2-COLUMN GRID -->
+            <div class="form-grid">
+
               <div class="input-fields">
                 <span class="details">Ημερομηνία</span>
                 <input type="date" formControlName="date">
               </div>
+
               <div class="input-fields">
                 <span class="details">Ημερομηνία Έως</span>
                 <input type="date" formControlName="dateTo">
               </div>
+
               <div class="input-fields">
                 <span class="details">Τύπος</span>
                 <input type="text" formControlName="type">
-
               </div>
+
               <div class="input-fields">
                 <span class="details">Ποιος</span>
                 <input type="text" formControlName="who">
               </div>
 
-
               <div class="input-fields">
                 <span class="details">Περιοχή</span>
                 <input type="text" formControlName="area">
               </div>
+
               <div class="input-fields">
                 <span class="details">Λεπτομέρειες</span>
                 <input type="text" formControlName="details">
               </div>
 
-              <div class="form-row">
-                <div class="input-fields">
-                  <span class="details">Αμοιβή</span>
-                  <input type="number" formControlName="fee">
-                </div>
-
-                <div class="input-fields">
-                  <span class="details">Προκαταβολή</span>
-                  <input type="number" formControlName="advancePayment">
-                </div>
-
-              </div>
-              <div class="form-row">
-                <div class="input-fields">
-                  <span class="details">Υπόλοιπο</span>
-                  <input type="number" formControlName="remainingMoney">
-                </div>
-                <div class="input-fields">
-                  <span class="details">Έξοδα</span>
-                  <input type="number" formControlName="costs">
-                </div>
-
+              <div class="input-fields">
+                <span class="details">Αμοιβή</span>
+                <input type="number" formControlName="fee">
               </div>
 
               <div class="input-fields">
+                <span class="details">Προκαταβολή</span>
+                <input type="number" formControlName="advancePayment">
+              </div>
+
+              <div class="input-fields">
+                <span class="details">Υπόλοιπο</span>
+                <input type="number" formControlName="remainingMoney">
+              </div>
+
+              <div class="input-fields">
+                <span class="details">Έξοδα</span>
+                <input type="number" formControlName="costs">
+              </div>
+
+              <!-- COMMENTS FULL WIDTH -->
+              <div class="input-fields full-row">
                 <span class="details">Σχόλια</span>
                 <textarea rows="3" formControlName="comments"></textarea>
               </div>
+
             </div>
 
-            <div style="margin: 10px;" class="form-row">
+            <!-- CHECKBOXES SINGLE ROW -->
+            <div class="checkbox-row">
               <label class="details-checkbox">
                 <input type="checkbox" formControlName="payout">
                 Αποπληρωμή
@@ -239,6 +243,8 @@
                 Παράδοση
               </label>
             </div>
+
+            <!-- ACTION BUTTONS -->
             <div class="form-actions">
               <button class="cancel-button" type="button" (click)="onCancel()">
                 <i class="fas fa-times"></i> Cancel
@@ -247,7 +253,9 @@
                 <i class="fas fa-save"></i> Save
               </button>
             </div>
+
           </form>
+
         </div>
       </div>
 

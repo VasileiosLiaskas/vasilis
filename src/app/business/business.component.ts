@@ -10,6 +10,7 @@ import {query} from '@angular/animations';
 import {BooleanColorDirective} from '../../boolean.color.directive';
 import {InvoiceDialogComponent} from '../invoice-dialog/invoice-dialog.component';
 import {GoogleCalendarService} from '../google-calendar.service';
+import {gapi} from 'gapi-script';
 
 @Component({
   selector: 'app-business',
@@ -72,10 +73,12 @@ export class BusinessComponent implements OnInit{
       this.filterFilesCompleted,
       this.filterPayout).subscribe(response => {
       this.businessList = response.content;  // The actual data
+      console.log(this.businessList,"η λίστα")
       this.totalElements = response.totalElements; // Total number of entries
       this.totalRecords= response.content.length > 0 ? response.content[0].totalRecords : 0;
       this.totalIncome = response.content.length > 0 ? response.content[0].totalIncome : 0;
     });
+
   }
 
   onPageChange(newPage: number) {
@@ -116,20 +119,31 @@ export class BusinessComponent implements OnInit{
 
           const event = {
             summary: business.type,
-            description: business.description,
+            description: business.details + ' '+ business.who,
             start: { date: startDate.toISOString().split('T')[0] },
             end: { date: endDate.toISOString().split('T')[0] },
           };
 
           if (business.googleCalendarId) {
-            const updatedEvent = await this.calendarService.updateEvent(business.googleCalendarId, event);
+
+            try {
+              console.log('Checking event before update:', business.googleCalendarId);
+              const existing = await gapi.client.calendar.events.get({
+                calendarId: 'primary',
+                eventId: business.googleCalendarId,
+              });
+              console.log('Existing event found:', existing.result);
+            } catch (err) {
+              console.error('Event not found with this ID!', business.googleCalendarId, err);
+            }
+
+            // Use PATCH instead of UPDATE
+            const updatedEvent = await this.calendarService.patchEvent(business.googleCalendarId, event);
             console.log('Google Calendar event updated:', updatedEvent);
           } else {
-            // ✅ Otherwise, create a new event
             const createdEvent = await this.calendarService.createEvent(event);
             console.log('Google Calendar event created:', createdEvent);
 
-            // Save the event ID to your backend
             business.googleCalendarId = createdEvent.id;
             this.businessService.updateGoogleCalendarId(savedBusiness.id, createdEvent.id).subscribe();
           }

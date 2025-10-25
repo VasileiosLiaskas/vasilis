@@ -100,6 +100,7 @@
 
 
 .details-checkbox{
+  font-size:14px;
   display: flex;
   align-items: center; /* vertically center checkbox with label */
   gap: 5px; /* space between checkbox and text */
@@ -123,17 +124,17 @@
 }
 
 .save-button {
-  background-color: rgba(204, 200, 200, 0.76);
+  background-color: rgba(220, 220, 220, 0.76);
   color: #393838;
 }
 .save-button:hover {
-  background-color: rgb(80, 122, 94);
-  color: white;
+  background-color: rgba(19, 96, 49, 0.77);
+  color: #ffffff;
 }
 
 
 .cancel-button {
-  background-color: rgba(197, 188, 188, 0.76);
+  background-color: rgba(220, 220, 220, 0.76);
   color: #3c3a3a;
 }
 .cancel-button:hover{
@@ -285,39 +286,6 @@
   visibility: hidden;
 }
 
-.income-box{
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  min-width: 200px;
-  margin-left: auto;
-}
-
-.income-icon {
-  font-size: 30px;
-  color: #4CAF50;
-  margin-right: 15px;
-}
-
-.income-details {
-  display: flex;
-  flex-direction: column;
-}
-.income-label {
-  font-size: 14px;
-  color: #777;
-  margin: 0;
-}
-
-.income-value {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
-  color: #333;
-}
 .dropdown {
   position: relative;
   display: inline-block;
@@ -697,3 +665,83 @@
   }
 }
 
+.modal-container {
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  font-family: sans-serif;
+}
+
+/* MAIN GRID (2 columns) */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px 25px;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.details {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+input,
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* COMMENTS FULL WIDTH */
+.full-row {
+  grid-column: 1 / 3;
+}
+
+/* CHECKBOXES ROW */
+.checkbox-row {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+/* BUTTONS */
+.form-actions {
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
+
+/* Mobile */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-row {
+    grid-column: 1;
+  }
+
+  .checkbox-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.details-checkbox input[type="checkbox"] {
+  accent-color: black;
+  background-color: white;
+  border: 1px solid black;
+  width: 16px;
+  height: 16px;
+}

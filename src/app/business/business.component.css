@@ -654,6 +654,10 @@
 
   }
 
+  .modal{
+    padding:0;
+  }
+
   .pagination {
     flex: 1;
     justify-content: center;

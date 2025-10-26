@@ -67,114 +67,115 @@
 
 
 
-<!--    <div class="dialog-file-container">-->
-<!--      <div class="upload-files">-->
-<!--        <button *ngIf="!fileName" class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>-->
-<!--        <input  type="file" #fileInput style="display: none; width: 100%" (change)="onFileSelected($event)">-->
-<!--        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>-->
-
-<!--        <div *ngIf="!selectedFile && fileName" class="existing-file">-->
-<!--          <label for="fileNameInput">Όνομα Αρχείου: </label>-->
-<!--          <input id="fileNameInput"-->
-<!--                 type="text"-->
-<!--                 [(ngModel)]="fileName"-->
-<!--                 class="input-text editable-file-name"-->
-<!--                 placeholder="Όνομα αρχείου">-->
-<!--        </div>-->
-<!--      </div>-->
-
-
-
-<!--      <div class="file-form existing-file">-->
-<!--        <label  for="invoiceNumber">Αριθμός Τιμολογίου: </label>-->
-<!--        <input  id="invoiceNumber" type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text editable-file-name">-->
-<!--        <label  for="description">Περιγραφή: </label>-->
-<!--        <textarea id=description class="input-text editable-file-name"  [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>-->
-<!--        <input class="input-text editable-file-name" type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly-->
-<!--               (click)="openDatePicker($event, datePickerTo)">-->
-<!--        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">-->
-<!--      </div>-->
-
-<!--      <div  class="invoice-type" >-->
-<!--        <label>-->
-<!--          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE">-->
-<!--          Τιμολόγιο Αμοιβής-->
-<!--        </label>-->
-<!--        <label>-->
-<!--          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE">-->
-<!--          Τιμολόγιο Αγοράς-->
-<!--        </label>-->
-
-<!--      </div>-->
-
-<!--      <div class="save-files">-->
-<!--        <button  class="btn" (click)="uploadInvoice()">Ανέβασμα</button>-->
-<!--      </div>-->
-<!--    </div>-->
     <div class="dialog-file-container">
       <div class="upload-files">
         <button *ngIf="!fileName" class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>
-        <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
+        <input  type="file" #fileInput style="display: none; width: 100%" (change)="onFileSelected($event)">
         <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
 
         <div *ngIf="!selectedFile && fileName" class="existing-file">
-          <label for="fileNameInput">Όνομα Αρχείου:</label>
-          <input
-            id="fileNameInput"
-            type="text"
-            [(ngModel)]="fileName"
-            class="input-text editable-file-name"
-            placeholder="Όνομα αρχείου"
-          />
+          <label for="fileNameInput">Όνομα Αρχείου: </label>
+          <input id="fileNameInput"
+                 type="text"
+                 [(ngModel)]="fileName"
+                 class="input-text editable-file-name"
+                 placeholder="Όνομα αρχείου">
         </div>
       </div>
 
-      <div class="file-form">
-        <label for="invoiceNumber">Αριθμός Τιμολογίου:</label>
-        <input
-          id="invoiceNumber"
-          type="text"
-          [(ngModel)]="invoiceNumber"
-          placeholder="Αριθμός Τιμολογίου"
-          class="input-text"
-        />
 
-        <label for="description">Περιγραφή:</label>
-        <textarea
-          id="description"
-          [(ngModel)]="description"
-          placeholder="Περιγραφή"
-          class="input-text"
-        ></textarea>
 
-        <label for="invoiceDate">Ημερομηνία:</label>
-        <input
-          id="invoiceDate"
-          class="input-text"
-          type="text"
-          [ngModel]="invoiceDate"
-          placeholder="Ημερομηνία"
-          readonly
-          (click)="openDatePicker($event, datePickerTo)"
-        />
-        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" />
+      <div class="file-form existing-file">
+        <label  for="invoiceNumber">Αριθμός Τιμολογίου: </label>
+        <input  id="invoiceNumber" type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text editable-file-name">
+        <label  for="description">Περιγραφή: </label>
+        <textarea id=description class="input-text editable-file-name"  [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>
+        <label  for="invoiceDate">Ημερομηνία: </label>
+        <input id="invoiceDate" class="input-text editable-file-name" type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly
+               (click)="openDatePicker($event, datePickerTo)">
+        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
       </div>
 
-      <div class="invoice-type">
+      <div  class="invoice-type" >
         <label>
-          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE" />
+          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE">
           Τιμολόγιο Αμοιβής
         </label>
         <label>
-          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE" />
+          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE">
           Τιμολόγιο Αγοράς
         </label>
+
       </div>
 
       <div class="save-files">
-        <button class="btn primary" (click)="uploadInvoice()">Ανέβασμα</button>
+        <button  class="btn" (click)="uploadInvoice()">Ανέβασμα</button>
       </div>
     </div>
+<!--    <div class="dialog-file-container">-->
+<!--      <div class="upload-files">-->
+<!--        <button *ngIf="!fileName" class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>-->
+<!--        <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">-->
+<!--        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>-->
 
-  </div>
-</div>
+<!--        <div *ngIf="!selectedFile && fileName" class="existing-file">-->
+<!--          <label for="fileNameInput">Όνομα Αρχείου:</label>-->
+<!--          <input-->
+<!--            id="fileNameInput"-->
+<!--            type="text"-->
+<!--            [(ngModel)]="fileName"-->
+<!--            class="input-text editable-file-name"-->
+<!--            placeholder="Όνομα αρχείου"-->
+<!--          />-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="file-form">-->
+<!--        <label for="invoiceNumber">Αριθμός Τιμολογίου:</label>-->
+<!--        <input-->
+<!--          id="invoiceNumber"-->
+<!--          type="text"-->
+<!--          [(ngModel)]="invoiceNumber"-->
+<!--          placeholder="Αριθμός Τιμολογίου"-->
+<!--          class="input-text"-->
+<!--        />-->
+
+<!--        <label for="description">Περιγραφή:</label>-->
+<!--        <textarea-->
+<!--          id="description"-->
+<!--          [(ngModel)]="description"-->
+<!--          placeholder="Περιγραφή"-->
+<!--          class="input-text"-->
+<!--        ></textarea>-->
+
+<!--        <label for="invoiceDate">Ημερομηνία:</label>-->
+<!--        <input-->
+<!--          id="invoiceDate"-->
+<!--          class="input-text"-->
+<!--          type="text"-->
+<!--          [ngModel]="invoiceDate"-->
+<!--          placeholder="Ημερομηνία"-->
+<!--          readonly-->
+<!--          (click)="openDatePicker($event, datePickerTo)"-->
+<!--        />-->
+<!--        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" />-->
+<!--      </div>-->
+
+<!--      <div class="invoice-type">-->
+<!--        <label>-->
+<!--          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE" />-->
+<!--          Τιμολόγιο Αμοιβής-->
+<!--        </label>-->
+<!--        <label>-->
+<!--          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE" />-->
+<!--          Τιμολόγιο Αγοράς-->
+<!--        </label>-->
+<!--      </div>-->
+
+<!--      <div class="save-files">-->
+<!--        <button class="btn primary" (click)="uploadInvoice()">Ανέβασμα</button>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--  </div>-->
+<!--</div>-->

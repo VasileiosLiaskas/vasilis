@@ -56,43 +56,86 @@
   background-color: #f4f4f4;
   border-radius: 5px;
   gap:1rem;
+
 }
 .upload-files{
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
-  gap:1rem;
-  margin-bottom: 2rem;
+  justify-content: center;
+  gap: 1rem;
+
+
 }
 
 .file-form{
+  /*display: flex;*/
+  /*flex-direction: column;*/
+  /*align-items: center;*/
+  /*gap: 1rem;*/
+  /*width:30%;*/
+  /*height: auto;*/
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
-  width:30%;
-  height: auto;
+  width: 40%;
+  background: #fff;
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+
 }
+
 .file-form input{
   height: 20px;
   width: 100%;
 
 }
+
 .file-form textarea{
   height: 50px;
   width: 100%;
 }
-
-.btn{
-  all: unset;
-  background-color: rgba(0, 0, 0, 0.66);
-  color:white;
-
-  padding: 6px 10px;
-  font-size: 0.8rem;
-  cursor: pointer;
+textarea.input-text {
+  min-height: 80px;
+  resize: vertical;
+}
+.invoice-type {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+.invoice-type input[type="radio"] {
+  accent-color: black;
 }
 
+
+.btn {
+  all: unset;
+  display: inline-block;
+  background-color: #444;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.1s ease;
+  text-align: center;
+}
+.btn:hover {
+  background-color: #1976d2;
+  transform: translateY(-1px);
+}
+
+.btn.primary {
+  background-color: #202020;
+}
+
+.btn.primary:hover {
+  background-color: #145ea8;
+}
 
 
 .hidden-datepicker {
@@ -196,13 +239,6 @@
   color: red;
 }
 
-.invoice-type{
-  display: flex;
-  flex-direction: row;
-  gap:4px;
-  font-size:14px
-
-}
 
 
 
@@ -218,6 +254,16 @@
 .file-form{
   width: 95%;
 }
+
+  .file-form {
+    padding: 1rem;
+  }
+
+  .invoice-type {
+    flex-direction: column;
+    align-items: center;
+  }
+
 }
 .existing-file {
   display: flex;

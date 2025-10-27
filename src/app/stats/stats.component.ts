@@ -89,4 +89,9 @@ export class StatsComponent implements OnInit {
   //     ]
   //   };
   // }
+  async clearData() {
+    this.fromDate ='';
+    this.toDate ='';
+    await this.loadData();
+  }
 }

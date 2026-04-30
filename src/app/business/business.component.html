@@ -1,280 +1,179 @@
-<div class="filter-table-container">
-  <div class="filter-row">
-    <div class="filter-left">
-    <div class="search-filter">
-
-      <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="onSearch()">
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </div>
-
-    <div class="search-filter date-from">
-      <input type="text" [ngModel]="dateFrom" [value]="dateFrom" placeholder="Ημερομηνία Από" readonly
-             (click)="openDatePicker(datePickerFrom)">
-      <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker">
-    </div>
-    <div class="search-filter date-to">
-      <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι" readonly
-             (click)="openDatePicker(datePickerTo)">
-      <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">
-    </div>
-    <div class="open-filter" (click)="toggleFilters()">
-      <i class="fa-solid" [ngClass]="showFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-    </div>
-    </div>
-    <div class="filter-right">
-    <div class="button-bar">
-
-      <button class="create" (click)="addBusiness()"><i class="fa-solid fa-plus"></i>Δημιουργία</button>
-      <button class="btn-export" (click)="exportToExcel()">
-        <i class="fa-solid fa-file-excel"></i>
-      </button>
-    </div>
-    </div>
-  </div>
-
-
-  <div class="toggle-filter" *ngIf="showFilters">
-    <div class="toggle-row">
-      <label class="field-label">Εξοφλήθηκε</label>
-      <div class="toggle-buttons">
-        <label><input type="radio" name="paid" [(ngModel)]="filterPayout" [value]="true" (change)="onSearch()"/>
-          Ναι</label>
-        <label><input type="radio" name="paid" [(ngModel)]="filterPayout" [value]="false" (change)="onSearch()"/>
-          Όχι</label>
-        <span class="reset-icon" (click)="resetToggle('filterPayout')">×</span>
+<div class="business">
+<p-table #dt [value]="businessList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
+         [rowsPerPageOptions]="[10,25,50]"
+         [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+         [globalFilterFields]="['date','dateTo','type','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
+  <ng-template pTemplate="caption">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <p-button label="Δημιουργία" icon="pi pi-plus" (onClick)="addBusiness()" />
+        <p-iconfield iconPosition="left">
+          <p-inputicon styleClass="pi pi-search" />
+          <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dt.filterGlobal(searchValue, 'contains')" />
+        </p-iconfield>
       </div>
     </div>
-    <div class="toggle-row">
-      <label class="field-label">Αρχεία</label>
-      <div class="toggle-buttons">
-        <label><input type="radio" name="files" [(ngModel)]="filterFilesCompleted" [value]="true"
-                      (change)="onSearch()"/> Ναι</label>
-        <label><input type="radio" name="files" [(ngModel)]="filterFilesCompleted" [value]="false"
-                      (change)="onSearch()"/> Όχι</label>
-        <span class="reset-icon" (click)="resetToggle('filterFilesCompleted')">×</span>
-
-      </div>
-    </div>
-    <div class="toggle-row">
-      <label class="field-label">Παράδοση</label>
-      <div class="toggle-buttons">
-        <label><input type="radio" name="delivery" [(ngModel)]="filterFilesDelivered" [value]="true"
-                      (change)="onSearch()"/> Ναι</label>
-        <label><input type="radio" name="delivery" [(ngModel)]="filterFilesDelivered" [value]="false"
-                      (change)="onSearch()"/> Όχι</label>
-        <span class="reset-icon" (click)="resetToggle('filterFilesDelivered')">×</span>
-      </div>
-    </div>
-  </div>
-
-
-<div class="wrapper-table">
-  <div class="container">
-    <div class="table-container">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>Τιμολόγια</th>
-          <th>Ημερομηνία Από</th>
-          <th>Ημερομηνία Εως</th>
-          <th>Τύπος</th>
-          <th style="min-width: 80px">Ποιος</th>
-          <th style="min-width: 100px">Περιοχή</th>
-          <th>Λεπτομέρειες</th>
-          <th>Έξοδα</th>
-          <th>Αμοιβή</th>
-          <th>Προκαταβολή</th>
-          <th>Υπόλοιπο</th>
-          <th>Εξοφλήθηκε</th>
-          <th>Αρχεία</th>
-          <th>Παράδοση</th>
-          <th style="min-width: 80px">Σχόλια</th>
-          <th></th>
-        </tr>
-
-        </thead>
-        <tbody>
-        <tr *ngFor="let business of businessList; let i = index">
-          <td>{{ (page * size) + i + 1 }}</td>
-          <td style="position:relative; width: 20px;"> <i (click)="openInvoicesDialog(business)" style="cursor:pointer" class="fa-solid fa-folder"></i>
-            <span
-            *ngIf="business.invoicesId?.length"
-            class="badge"
-          >
-    {{ business.invoicesId.length }}
-  </span></td>
-          <td>{{ business.date }}</td>
-          <td>{{ business.dateTo }}</td>
-          <td>{{ business.type }}</td>
-          <td>{{ business.who }}</td>
-          <td>{{ business.area }}</td>
-          <td>{{ business.details }}</td>
-          <td>{{ business.costs }}</td>
-          <td style="background-color: rgba(184,184,184,0.16);">{{ business.fee }}</td>
-          <td>{{ business.advancePayment }}</td>
-          <td>{{ business.remainingMoney }}</td>
-          <td [appBooleanColor]="business.payout" >{{ convertBoolean(business.payout) }}</td>
-          <td [appBooleanColor]="business.filesCompleted">{{ convertBoolean(business.filesCompleted) }}</td>
-          <td [appBooleanColor]="business.filesDelivered">{{ convertBoolean(business.filesDelivered) }}</td>
-          <td>{{ business.comments }}</td>
-          <td>
-            <div class="dropdown" (click)="toggleDropdown($event, business.id)">
-              <button class="menu-btn">⋮</button>
-              <ul class="dropdown-menu" *ngIf="openRowId === business.id">
-                <li>
-                  <button class="edit-btn" (click)="editRow(business)"> Επεξεργασία</button>
-                </li>
-                <li>
-                  <button class="delete-btn" (click)="deleteRow(business)">Διαγραφή</button>
-                </li>
-
-                <li *ngIf="business.googleCalendarId">
-                  <button class="delete-btn" (click)="deleteGoogleEvent(business)">Διαγραφή Google Event</button>
-                </li>
-              </ul>
-            </div>
-          </td>
-
-
-        </tr>
-
-        </tbody>
-        <tfoot>
-<!--        <tr style="padding-top: 2px" *ngIf="totalIncome>0">-->
-<!--          <td colspan="9" style="text-align: right; padding-top: 2px">Σύνολο:</td>-->
-<!--          <td  style="text-align: center; background-color: rgba(184,184,184,0.16); padding-top: 2px">-->
-<!--            {{ totalIncome  }}-->
-<!--          </td>-->
-<!--          <td colspan="7"></td>-->
-<!--        </tr>-->
-        </tfoot>
-      </table>
-      <div class="table-footer">
-
-        <div class="pagination">
-          <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">
-            <i class="fa-solid fa-arrow-left"></i>
-          </button>
-          <span> {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>
-          <button class="pagination-buttons" (click)="onPageChange(page + 1)"
-                  [disabled]="(page + 1) * size >= totalElements">
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-        <div class="total-records" style=" font-size:12px; font-weight: 400; padding-right:5px">
-          Εγγραφές: {{ totalElements }}
-        </div>
-
-
-      </div>
-
-
-      <div *ngIf="showForm" class="modal-overlay">
-        <div class="modal">
-          <i class="fa-solid fa-xmark close-button" (click)="onCancel()"></i>
-          <form class="modal-container" [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
-
-            <!-- MAIN 2-COLUMN GRID -->
-            <div class="form-grid">
-
-              <div class="input-fields">
-                <span class="details">Ημερομηνία</span>
-                <input type="date" formControlName="date">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Ημερομηνία Έως</span>
-                <input type="date" formControlName="dateTo">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Τύπος</span>
-                <input type="text" formControlName="type">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Ποιος</span>
-                <input type="text" formControlName="who">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Περιοχή</span>
-                <input type="text" formControlName="area">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Λεπτομέρειες</span>
-                <input type="text" formControlName="details">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Αμοιβή</span>
-                <input type="number" formControlName="fee">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Προκαταβολή</span>
-                <input type="number" formControlName="advancePayment">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Υπόλοιπο</span>
-                <input type="number" formControlName="remainingMoney">
-              </div>
-
-              <div class="input-fields">
-                <span class="details">Έξοδα</span>
-                <input type="number" formControlName="costs">
-              </div>
-
-              <!-- COMMENTS FULL WIDTH -->
-              <div class="input-fields full-row">
-                <span class="details">Σχόλια</span>
-                <textarea rows="3" formControlName="comments"></textarea>
-              </div>
-
-            </div>
-
-            <!-- CHECKBOXES SINGLE ROW -->
-            <div class="checkbox-row">
-              <label class="details-checkbox">
-                <input type="checkbox" formControlName="payout">
-                Αποπληρωμή
-              </label>
-
-              <label class="details-checkbox">
-                <input type="checkbox" formControlName="filesCompleted">
-                Αρχεία
-              </label>
-
-              <label class="details-checkbox">
-                <input type="checkbox" formControlName="filesDelivered">
-                Παράδοση
-              </label>
-            </div>
-
-            <!-- ACTION BUTTONS -->
-            <div class="form-actions">
-              <button class="cancel-button" type="button" (click)="onCancel()">
-                <i class="fas fa-times"></i> Cancel
-              </button>
-              <button class="save-button" type="submit">
-                <i class="fas fa-save"></i> Save
-              </button>
-            </div>
-
-          </form>
-
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>#</th>
+      <th>Τιμολόγια</th>
+      <th pSortableColumn="date">Ημερομηνία Από <p-sortIcon field="date"/></th>
+      <th pSortableColumn="dateTo">Ημερομηνία Εως <p-sortIcon field="dateTo"/></th>
+      <th pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
+      <th style="min-width: 80px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
+      <th style="min-width: 100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
+      <th>Λεπτομέρειες</th>
+      <th>Έξοδα</th>
+      <th pSortableColumn="fee">Αμοιβή <p-sortIcon field="fee"/></th>
+      <th>Προκαταβολή</th>
+      <th>Υπόλοιπο</th>
+      <th>Εξοφλήθηκε</th>
+      <th>Αρχεία</th>
+      <th>Παράδοση</th>
+      <th style="min-width: 80px">Σχόλια</th>
+      <th></th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>
+        <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input #dateFromInput type="date" pInputText style="width:100%" (change)="filter($any($event.target).value)" />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th>
+        <p-columnFilter field="dateTo" matchMode="dateBefore" [showMenu]="false">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input #dateToInput type="date" pInputText style="width:100%" (change)="filter($any($event.target).value)" />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th><p-columnFilter type="text" field="type" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="area" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="details" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="costs" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="fee" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="advancePayment" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="remainingMoney" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="boolean" field="payout" /></th>
+      <th><p-columnFilter type="boolean" field="filesCompleted" /></th>
+      <th><p-columnFilter type="boolean" field="filesDelivered" /></th>
+      <th><p-columnFilter type="text" field="comments" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-business let-i="rowIndex">
+    <tr>
+      <td>{{ (page * size) + i + 1 }}</td>
+      <td style="position:relative; width: 20px;">
+        <span *ngIf="business.invoicesId?.length" class="badge">{{ business.invoicesId.length }}</span>
+      </td>
+      <td>{{ business.date }}</td>
+      <td>{{ business.dateTo }}</td>
+      <td>{{ business.type }}</td>
+      <td>{{ business.who }}</td>
+      <td>{{ business.area }}</td>
+      <td>{{ business.details }}</td>
+      <td>{{ business.costs }}</td>
+      <td style="background-color: rgba(184,184,184,0.16);">{{ business.fee }}</td>
+      <td>{{ business.advancePayment }}</td>
+      <td>{{ business.remainingMoney }}</td>
+      <td [appBooleanColor]="business.payout">{{ convertBoolean(business.payout) }}</td>
+      <td [appBooleanColor]="business.filesCompleted">{{ convertBoolean(business.filesCompleted) }}</td>
+      <td [appBooleanColor]="business.filesDelivered">{{ convertBoolean(business.filesDelivered) }}</td>
+      <td>{{ business.comments }}</td>
+      <td>
+        <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, business)" />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <tr>
+      <td colspan="8" style="text-align:right; font-weight:bold;">Σύνολο:</td>
+      <td style="font-weight:bold;">{{ getFilteredTotal('costs', dt) }}</td>
+      <td style="font-weight:bold; background-color: rgba(184,184,184,0.16);">{{ getFilteredTotal('fee', dt) }}</td>
+      <td style="font-weight:bold;">{{ getFilteredTotal('advancePayment', dt) }}</td>
+      <td style="font-weight:bold;">{{ getFilteredTotal('remainingMoney', dt) }}</td>
+      <td colspan="5"></td>
+    </tr>
+  </ng-template>
+</p-table>
 </div>
-</div>
+<p-menu #rowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
+
+<p-dialog header="Επιχείρηση" [(visible)]="showForm" [modal]="true" [style]="{width:'700px'}" [closable]="true" (onHide)="onCancel()">
+  <form [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Ημερομηνία</label>
+        <input type="date" pInputText formControlName="date" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Ημερομηνία Έως</label>
+        <input type="date" pInputText formControlName="dateTo" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Τύπος</label>
+        <input pInputText formControlName="type" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Ποιος</label>
+        <input pInputText formControlName="who" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Περιοχή</label>
+        <input pInputText formControlName="area" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Λεπτομέρειες</label>
+        <input pInputText formControlName="details" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Αμοιβή</label>
+        <p-inputnumber formControlName="fee" [style]="{width:'100%'}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Προκαταβολή</label>
+        <p-inputnumber formControlName="advancePayment" [style]="{width:'100%'}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Υπόλοιπο</label>
+        <p-inputnumber formControlName="remainingMoney" [style]="{width:'100%'}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Έξοδα</label>
+        <p-inputnumber formControlName="costs" [style]="{width:'100%'}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem; grid-column: span 2;">
+        <label style="font-weight:500;">Σχόλια</label>
+        <textarea pTextarea formControlName="comments" rows="3" style="width:100%;"></textarea>
+      </div>
+    </div>
+    <div style="display:flex; gap:2rem; margin-top:1.2rem; align-items:center;">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <p-checkbox formControlName="payout" [binary]="true" inputId="payout" />
+        <label for="payout">Αποπληρωμή</label>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <p-checkbox formControlName="filesCompleted" [binary]="true" inputId="filesCompleted" />
+        <label for="filesCompleted">Αρχεία</label>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <p-checkbox formControlName="filesDelivered" [binary]="true" inputId="filesDelivered" />
+        <label for="filesDelivered">Παράδοση</label>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+      <p-button label="Cancel" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="onCancel()" type="button" />
+      <p-button label="Save" icon="pi pi-save" type="submit" />
+    </div>
+  </form>
+</p-dialog>
 
 <ng-container *ngIf="selectedBusiness">
   <app-invoice-dialog

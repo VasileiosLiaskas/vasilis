@@ -14,37 +14,9 @@ export class BusinessService {
   }
   private baseUrl = environment.apiUrl + 'business';
 
-  getBusinessList(page: number = 0, size: number = 10, searchQuery: string,
-                  dateFrom: string, dateTo: string, filterFilesDelivered: boolean, filterFilesCompleted: boolean,
-                  filterPayout: boolean
-                  ): Observable<Page<Business>> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
 
-    if (searchQuery) {
-      params = params.set('keyword', searchQuery);
-    }
-    if (dateFrom){
-      params=params.set('dateFrom', dateFrom);
-    }
-    if (dateTo){
-      params=params.set('dateTo', dateTo);
-    }
-    if (filterFilesDelivered !== null && filterFilesDelivered !== undefined) {
-      params = params.set('filterFilesDelivered', String(filterFilesDelivered));
-    }
-
-    if (filterFilesCompleted !== null && filterFilesCompleted !== undefined) {
-      params = params.set('filterFilesCompleted', String(filterFilesCompleted));
-    }
-
-    if (filterPayout !== null && filterPayout !== undefined) {
-      params = params.set('filterPayout', String(filterPayout));
-    }
-
-
-    return this.http.get<Page<Business>>(`${this.baseUrl}/list`, { params });
+  getBusinessList(): Observable<Business[]> {
+    return this.http.get<Business[]>(`${this.baseUrl}/list`);
   }
 
   initForm() {

@@ -64,25 +64,6 @@ export class InvoiceService {
     return this.http.get<Page<Invoice>>(`${this.baseUrl}/list`, { params });
   }
 
-  // loadInvoices(filters?: {
-  //   invoiceNumber?: string;
-  //   businessId?: number;
-  //   invoiceDate?: string;
-  //   dateCreated?: string;
-  // }): Observable<Invoice[]> {
-  //   let params = new HttpParams();
-  //
-  //   if (filters) {
-  //     Object.keys(filters).forEach(key => {
-  //       const value = filters[key as keyof typeof filters];
-  //       if (value !== null && value !== undefined && value !== '') {
-  //         params = params.set(key, value);
-  //       }
-  //     });
-  //   }
-  //
-  //   return this.http.get<Invoice[]>(`${this.baseUrl}/find`, {params});
-  // }
 
   downloadInvoice(id: number): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/download/${id}`, {
@@ -103,7 +84,6 @@ export class InvoiceService {
       invoiceType: invoice.invoiceType
     };
 
-    console.log(params.invoiceDate);
     return this.http.put(
       `${this.baseUrl}/edit/${invoice.id}`,{}, { params, responseType: 'text' }
     );

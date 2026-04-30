@@ -1,27 +1,51 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
-
+import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Business} from './business.model';
 import {BusinessService} from './business.service';
-import {CommonModule, NgForOf} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {ToasterService} from '../toaster/toaster.service';
-import {query} from '@angular/animations';
 import {BooleanColorDirective} from '../../boolean.color.directive';
 import {InvoiceDialogComponent} from '../invoice-dialog/invoice-dialog.component';
 import {GoogleCalendarService} from '../google-calendar.service';
 import {gapi} from 'gapi-script';
+import {ButtonModule} from 'primeng/button';
+import {ToolbarModule} from 'primeng/toolbar';
+import {DialogModule} from 'primeng/dialog';
+import {InputTextModule} from 'primeng/inputtext';
+import {DatePickerModule} from 'primeng/datepicker';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {CheckboxModule} from 'primeng/checkbox';
+import {Menu, MenuModule} from 'primeng/menu';
+import {TagModule} from 'primeng/tag';
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {TextareaModule} from 'primeng/textarea';
+import {IconFieldModule} from 'primeng/iconfield';
+import {InputIconModule} from 'primeng/inputicon';
+import {FilterService, MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-business',
   imports: [
     FormsModule,
     TableModule,
-    NgForOf,
     CommonModule,
     ReactiveFormsModule,
     BooleanColorDirective,
-    InvoiceDialogComponent
+    InvoiceDialogComponent,
+    ButtonModule,
+    ToolbarModule,
+    DialogModule,
+    InputTextModule,
+    DatePickerModule,
+    InputNumberModule,
+    CheckboxModule,
+    MenuModule,
+    TagModule,
+    SelectButtonModule,
+    TextareaModule,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './business.component.html',
   standalone: true,
@@ -35,69 +59,72 @@ export class BusinessComponent implements OnInit{
   page: number = 0;
   size: number = 10;
   totalElements: number = 0;
-  protected readonly Math = Math;
-  searchQuery: string = '';
-  dateFrom: string = '';
-  dateTo: string = '';
-  totalIncome: number=0;
-  isOpen: boolean=false;
-  openRowId: number | null = null;
-  filterPayout!: boolean ;
-  filterFilesCompleted!: boolean;
-  filterFilesDelivered!: boolean;
-  showFilters = false;
-  private totalRecords!: number;
+  searchValue: string = '';
+  dateFromFilter: string = '';
+  dateToFilter: string = '';
+  activeMenuItems: MenuItem[] = [];
+  @ViewChild('rowMenu') rowMenu!: Menu;
   selectedBusiness: Business | null = null;
 
 
   constructor(
     private businessService: BusinessService,
     private toasterService: ToasterService,
-    private calendarService: GoogleCalendarService
+    private calendarService: GoogleCalendarService,
+    private filterService: FilterService
   ) { }
 
 
   ngOnInit(): void {
-    this.loadBusinessList(this.searchQuery);
-    this.businessForm=this.businessService.initForm();
-
-
+    this.registerDateFilters();
+    this.loadBusinessList();
+    this.businessForm = this.businessService.initForm();
   }
-  loadBusinessList(searchQuery: string | null) {
-    this.businessService.getBusinessList(this.page,
-      this.size,
-      this.searchQuery,
-      this.dateFrom,
-      this.dateTo,
-      this.filterFilesDelivered,
-      this.filterFilesCompleted,
-      this.filterPayout).subscribe(response => {
-      this.businessList = response.content;  // The actual data
-      console.log(this.businessList,"η λίστα")
-      this.totalElements = response.totalElements; // Total number of entries
-      this.totalRecords= response.content.length > 0 ? response.content[0].totalRecords : 0;
-      this.totalIncome = response.content.length > 0 ? response.content[0].totalIncome : 0;
+
+  registerDateFilters() {
+    // Parses "DD-MM-YYYY" string to a comparable Date
+    const parseDate = (dateStr: string): Date | null => {
+      if (!dateStr) return null;
+      const parts = dateStr.split('-');
+      if (parts.length === 3 && parts[0].length <= 2) {
+        return new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      }
+      return new Date(dateStr);
+    };
+
+    // "dateAfter": show rows where the field date >= filter date
+    this.filterService.register('dateAfter', (value: any, filter: any): boolean => {
+      if (!filter) return true;
+      const rowDate = parseDate(value);
+      const filterDate = new Date(filter); // filter is "YYYY-MM-DD" from input[type=date]
+      if (!rowDate) return false;
+      return rowDate >= filterDate;
     });
 
+    // "dateBefore": show rows where the field date <= filter date
+    this.filterService.register('dateBefore', (value: any, filter: any): boolean => {
+      if (!filter) return true;
+      const rowDate = parseDate(value);
+      const filterDate = new Date(filter);
+      if (!rowDate) return false;
+      return rowDate <= filterDate;
+    });
   }
 
-  onPageChange(newPage: number) {
-    if (newPage < 0 || newPage >= Math.ceil(this.totalElements / this.size)) {
-      return;
-    }
-    this.page = newPage;
-    this.loadBusinessList(this.searchQuery);
+  loadBusinessList() {
+    this.businessService.getBusinessList().subscribe(response => {
+      this.businessList = response;
+    });
   }
-
-
 
   addBusiness() {
-    this.showForm= !this.showForm;
-    if (this.showForm) {
-      this.businessForm = this.businessService.initForm();// Reinitialize the form with fresh values
-      console.log(this.businessForm.value);
-    }
+    this.businessForm = this.businessService.initForm();
+    this.showForm = true;
   }
+
+
+
+
 
   //
   async submitBusiness() {
@@ -109,52 +136,52 @@ export class BusinessComponent implements OnInit{
       next: async (savedBusiness:Business) => {
         this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
         console.log("to saved", savedBusiness);
-        try {
+        // try {
+        //
+        //   // Make sure the "end" date is +1 day so the event lasts through dateTo
+        //   const startDate = new Date(this.convertToISODateGoogle(business.date));
+        //   const endDate = new Date(this.convertToISODateGoogle(business.dateTo));
+        //
+        //   endDate.setDate(endDate.getDate() + 1);
+        //
+        //   const event = {
+        //     summary: business.type,
+        //     description: business.details + ' '+ business.who,
+        //     start: { date: startDate.toISOString().split('T')[0] },
+        //     end: { date: endDate.toISOString().split('T')[0] },
+        //   };
 
-          // Make sure the "end" date is +1 day so the event lasts through dateTo
-          const startDate = new Date(this.convertToISODateGoogle(business.date));
-          const endDate = new Date(this.convertToISODateGoogle(business.dateTo));
-
-          endDate.setDate(endDate.getDate() + 1);
-
-          const event = {
-            summary: business.type,
-            description: business.details + ' '+ business.who,
-            start: { date: startDate.toISOString().split('T')[0] },
-            end: { date: endDate.toISOString().split('T')[0] },
-          };
-
-          if (business.googleCalendarId) {
-            console.log("yparxei to google calendar")
-            try {
-              console.log('Checking event before update:', business.googleCalendarId);
-              const existing = await gapi.client.calendar.events.get({
-                calendarId: 'primary',
-                eventId: business.googleCalendarId,
-              });
-              console.log('Existing event found:', existing.result);
-            } catch (err) {
-              console.error('Event not found with this ID!', business.googleCalendarId, err);
-            }
-
-            // Use PATCH instead of UPDATE
-            const updatedEvent = await this.calendarService.patchEvent(business.googleCalendarId, event);
-            console.log('Google Calendar event updated:', updatedEvent);
-          }
-          else {
-            const createdEvent = await this.calendarService.createEvent(event);
-            console.log('Google Calendar new event created:', createdEvent);
-
-            business.googleCalendarId = createdEvent.id;
-            this.businessService.updateGoogleCalendarId(savedBusiness.id, createdEvent.id).subscribe();
-          }
-        } catch (err) {
-          console.error('Error creating Google Calendar event:', err);
-        }
+        //   if (business.googleCalendarId) {
+        //     console.log("yparxei to google calendar")
+        //     try {
+        //       console.log('Checking event before update:', business.googleCalendarId);
+        //       const existing = await gapi.client.calendar.events.get({
+        //         calendarId: 'primary',
+        //         eventId: business.googleCalendarId,
+        //       });
+        //       console.log('Existing event found:', existing.result);
+        //     } catch (err) {
+        //       console.error('Event not found with this ID!', business.googleCalendarId, err);
+        //     }
+        //
+        //     // Use PATCH instead of UPDATE
+        //     const updatedEvent = await this.calendarService.patchEvent(business.googleCalendarId, event);
+        //     console.log('Google Calendar event updated:', updatedEvent);
+        //   }
+        //   else {
+        //     const createdEvent = await this.calendarService.createEvent(event);
+        //     console.log('Google Calendar new event created:', createdEvent);
+        //
+        //     business.googleCalendarId = createdEvent.id;
+        //     this.businessService.updateGoogleCalendarId(savedBusiness.id, createdEvent.id).subscribe();
+        //   }
+        // } catch (err) {
+        //   console.error('Error creating Google Calendar event:', err);
+        // }
 
         // Reset form and reload list
         this.businessForm.reset();
-        this.loadBusinessList(null);
+        this.loadBusinessList();
         this.showForm = false;
       },
       error: (error) => {
@@ -163,30 +190,11 @@ export class BusinessComponent implements OnInit{
       },
     });
   }
-  openDatePicker(datePicker: HTMLInputElement) {
-    if (datePicker) {
-      datePicker.showPicker(); // Open the date picker
-    }
-  }
-
-  setDateFrom(event: any) {
-    this.dateFrom = event.target.value;
-    console.log(this.dateFrom);
-    const query = this.searchQuery.trim() === '' ? null : this.searchQuery;
-    this.loadBusinessList(query)// Updates the text input with the selected date
-  }
-  setDateTo(event: any) {
-    this.dateTo = event.target.value; // Updates the text input with the selected date
-    const query = this.searchQuery.trim() === '' ? null : this.searchQuery;
-    this.loadBusinessList(query)// Updates the text input with the selected date
-  }
 
 
-  onSearch() {
-    this.page = 0; // Reset to the first page when searching
-    const query = this.searchQuery.trim() === '' ? null : this.searchQuery;
-    this.loadBusinessList(query);
-  }
+
+
+
 
   onCancel() {
     this.businessForm.reset();
@@ -196,13 +204,36 @@ export class BusinessComponent implements OnInit{
   convertBoolean(value: boolean): string {
     return value ? 'Ναι' : 'Όχι';
   }
-  @HostListener('document:click')
-  closeDropdown() {
-    this.openRowId = null;
+
+  getFilteredTotal(field: string, table: any): number {
+    const data = table.filteredValue || this.businessList;
+    return data.reduce((sum: number, item: any) => sum + (Number(item[field]) || 0), 0);
   }
-  toggleDropdown(event: MouseEvent, rowId: number) {
-    event.stopPropagation();
-    this.openRowId = this.openRowId === rowId ? null : rowId;
+
+  clearFilters(table: any) {
+    table.clear();
+    this.searchValue = '';
+    // Reset native date inputs
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    dateInputs.forEach((input: any) => input.value = '');
+  }
+
+  convertDateForFilter(value: string): string {
+    if (!value) return '';
+    // Input type="date" gives "YYYY-MM-DD", convert to "DD-MM-YYYY" to match your data
+    const [year, month, day] = value.split('-');
+    return `${day}-${month}-${year}`;
+  }
+
+  openMenu(event: Event, business: Business) {
+    this.activeMenuItems = [
+      { label: 'Επεξεργασία', icon: 'pi pi-pencil', command: () => this.editRow(business) },
+      { label: 'Διαγραφή', icon: 'pi pi-trash', command: () => this.deleteRow(business) }
+    ];
+   /* if (business.googleCalendarId) {
+      this.activeMenuItems.push({ label: 'Διαγραφή Google Event', icon: 'pi pi-calendar-minus', command: () => this.deleteGoogleEvent(business) });
+    }*/
+    this.rowMenu.toggle(event);
   }
 
   editRow(business: Business) {
@@ -214,15 +245,15 @@ export class BusinessComponent implements OnInit{
     this.businessForm.patchValue({
       ...business,
       date: formattedDate,
-      dateTo: formattedDateTo,
-      googleCalendarId:business.googleCalendarId
+      dateTo: formattedDateTo,/*
+     */ googleCalendarId:business.googleCalendarId
     });
   }
 
   deleteRow(row: any) {
     this.businessService.deleteRow(row.id).subscribe({
       next: () => {
-        this.loadBusinessList(null); // Reload data
+        this.loadBusinessList(); // Reload data
         this.toasterService.showMessage("Διαγράφηκε Επιτυχώς", "success");
       },
       error: (err) => {
@@ -249,20 +280,7 @@ export class BusinessComponent implements OnInit{
   }
 
 
-  exportToExcel() {
-    this.businessService.downloadExcel();
-  }
 
-  resetToggle(field: 'filterPayout' | 'filterFilesCompleted' | 'filterFilesDelivered') {
-    this[field] = null as any; // Clear the toggle
-    this.onSearch(); // Refresh list with updated filters
-    console.log("reset filter")
-  }
-
-  toggleFilters() {
-
-    this.showFilters = !this.showFilters;
-  }
 
 
   openInvoicesDialog(business: Business): void {
@@ -284,7 +302,7 @@ export class BusinessComponent implements OnInit{
     return `${year}-${month}-${day}`; // "2025-10-19" ✅ ISO-compatible
   }
 
-  async deleteGoogleEvent(business: Business) {
+ /* async deleteGoogleEvent(business: Business) {
     if (!business.googleCalendarId) {
       this.toasterService.showMessage('Δεν βρέθηκε αντίστοιχο event στο calendar', 'info');
       return;
@@ -300,5 +318,5 @@ export class BusinessComponent implements OnInit{
       console.error('Error deleting Google Calendar event:', error);
       this.toasterService.showMessage('Το Google Calendar event δεν μπόρεσε να διαγραφεί', 'error');
     }
-  }
+  }*/
 }

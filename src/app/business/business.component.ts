@@ -25,6 +25,7 @@ import {InputIconModule} from 'primeng/inputicon';
 import {FilterService, MenuItem} from 'primeng/api';
 import {ActivatedRoute} from '@angular/router';
 import {Table} from 'primeng/table';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-business',
@@ -322,17 +323,138 @@ export class BusinessComponent implements OnInit{
 
 
   convertToISODateGoogle(dateInput: string | Date): string {
-    if (!dateInput) return ''; // handle null
-
+    if (!dateInput) return '';
     if (dateInput instanceof Date) {
-      return dateInput.toISOString().split('T')[0]; // YYYY-MM-DD
+      return dateInput.toISOString().split('T')[0];
     }
-
-    const parts = dateInput.split('-'); // "19-10-2025"
-    if (parts.length !== 3) return ''; // invalid format
-
+    const parts = dateInput.split('-');
+    if (parts.length !== 3) return '';
     const [day, month, year] = parts;
-    return `${year}-${month}-${day}`; // "2025-10-19" ✅ ISO-compatible
+    return `${year}-${month}-${day}`;
+  }
+
+  exportToExcel() {
+    const monthNames = ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος',
+      'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'];
+
+    // Group businesses by month (from date field DD-MM-YYYY)
+    const grouped = new Map<string, Business[]>();
+
+    this.businessList.forEach(b => {
+      const dateStr = b.date as any;
+      if (!dateStr) return;
+      const parts = dateStr.split('-');
+      let monthKey: string;
+      if (parts.length === 3 && parts[0].length <= 2) {
+        // DD-MM-YYYY
+        monthKey = `${parts[2]}-${parts[1]}`;
+      } else {
+        // YYYY-MM-DD
+        monthKey = `${parts[0]}-${parts[1]}`;
+      }
+      if (!grouped.has(monthKey)) {
+        grouped.set(monthKey, []);
+      }
+      grouped.get(monthKey)!.push(b);
+    });
+
+    // Sort month keys
+    const sortedKeys = Array.from(grouped.keys()).sort();
+
+    const wb = XLSX.utils.book_new();
+
+    // Create a sheet for each month
+    sortedKeys.forEach(key => {
+      const [year, month] = key.split('-');
+      const sheetName = `${monthNames[+month - 1]} ${year}`;
+      const businesses = grouped.get(key)!;
+
+      const rows: any[] = businesses.map(b => ({
+        'Ημερομηνία Από': b.date,
+        'Ημερομηνία Έως': b.dateTo,
+        'Τύπος': b.type,
+        'Ποιος': b.who,
+        'Περιοχή': b.area,
+        'Λεπτομέρειες': b.details,
+        'Έξοδα': b.costs || 0,
+        'Αμοιβή': b.fee || 0,
+        'Προκαταβολή': b.advancePayment || 0,
+        'Υπόλοιπο': b.remainingMoney || 0,
+        'Εξοφλήθηκε': b.payout ? 'Ναι' : 'Όχι',
+        'Αρχεία': b.filesCompleted ? 'Ναι' : 'Όχι',
+        'Παράδοση': b.filesDelivered ? 'Ναι' : 'Όχι',
+        'Σχόλια': b.comments || ''
+      }));
+
+      // Add totals row
+      const totalCosts = businesses.reduce((s, b) => s + (b.costs || 0), 0);
+      const totalFee = businesses.reduce((s, b) => s + (b.fee || 0), 0);
+      const totalAdvance = businesses.reduce((s, b) => s + (b.advancePayment || 0), 0);
+      const totalRemaining = businesses.reduce((s, b) => s + (b.remainingMoney || 0), 0);
+
+      rows.push({
+        'Ημερομηνία Από': '',
+        'Ημερομηνία Έως': '',
+        'Τύπος': '',
+        'Ποιος': '',
+        'Περιοχή': '',
+        'Λεπτομέρειες': 'ΣΥΝΟΛΟ',
+        'Έξοδα': totalCosts,
+        'Αμοιβή': totalFee,
+        'Προκαταβολή': totalAdvance,
+        'Υπόλοιπο': totalRemaining,
+        'Εξοφλήθηκε': '',
+        'Αρχεία': '',
+        'Παράδοση': '',
+        'Σχόλια': ''
+      });
+
+      const ws = XLSX.utils.json_to_sheet(rows);
+
+      // Set column widths
+      ws['!cols'] = [
+        {wch: 14}, {wch: 14}, {wch: 15}, {wch: 18}, {wch: 15},
+        {wch: 25}, {wch: 10}, {wch: 10}, {wch: 14}, {wch: 12},
+        {wch: 12}, {wch: 10}, {wch: 10}, {wch: 25}
+      ];
+
+      // Truncate sheet name to 31 chars (Excel limit)
+      const safeName = sheetName.substring(0, 31);
+      XLSX.utils.book_append_sheet(wb, ws, safeName);
+    });
+
+    // Add summary sheet
+    const summaryRows = sortedKeys.map(key => {
+      const [year, month] = key.split('-');
+      const businesses = grouped.get(key)!;
+      return {
+        'Μήνας': `${monthNames[+month - 1]} ${year}`,
+        'Εγγραφές': businesses.length,
+        'Έξοδα': businesses.reduce((s, b) => s + (b.costs || 0), 0),
+        'Αμοιβή': businesses.reduce((s, b) => s + (b.fee || 0), 0),
+        'Προκαταβολή': businesses.reduce((s, b) => s + (b.advancePayment || 0), 0),
+        'Υπόλοιπο': businesses.reduce((s, b) => s + (b.remainingMoney || 0), 0),
+      };
+    });
+
+    // Grand totals
+    summaryRows.push({
+      'Μήνας': 'ΓΕΝΙΚΟ ΣΥΝΟΛΟ',
+      'Εγγραφές': this.businessList.length,
+      'Έξοδα': this.businessList.reduce((s, b) => s + (b.costs || 0), 0),
+      'Αμοιβή': this.businessList.reduce((s, b) => s + (b.fee || 0), 0),
+      'Προκαταβολή': this.businessList.reduce((s, b) => s + (b.advancePayment || 0), 0),
+      'Υπόλοιπο': this.businessList.reduce((s, b) => s + (b.remainingMoney || 0), 0),
+    });
+
+    const summaryWs = XLSX.utils.json_to_sheet(summaryRows);
+    summaryWs['!cols'] = [{wch: 22}, {wch: 10}, {wch: 12}, {wch: 12}, {wch: 14}, {wch: 12}];
+    XLSX.utils.book_append_sheet(wb, summaryWs, 'Σύνοψη');
+
+    // Download
+    const now = new Date();
+    const fileName = `Επιχειρήσεις_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}.xlsx`;
+    XLSX.writeFile(wb, fileName);
   }
 
  /* async deleteGoogleEvent(business: Business) {

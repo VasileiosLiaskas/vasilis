@@ -25,7 +25,7 @@ import {InputIconModule} from 'primeng/inputicon';
 import {FilterService, MenuItem} from 'primeng/api';
 import {ActivatedRoute} from '@angular/router';
 import {Table} from 'primeng/table';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style';
 
 @Component({
   selector: 'app-business',
@@ -411,6 +411,9 @@ export class BusinessComponent implements OnInit{
 
       const ws = XLSX.utils.json_to_sheet(rows);
 
+      // Bold header row and totals row
+      this.applyBoldRows(ws, [0, rows.length]);
+
       // Set column widths
       ws['!cols'] = [
         {wch: 14}, {wch: 14}, {wch: 15}, {wch: 18}, {wch: 15},
@@ -448,6 +451,10 @@ export class BusinessComponent implements OnInit{
     });
 
     const summaryWs = XLSX.utils.json_to_sheet(summaryRows);
+
+    // Bold header and grand total rows
+    this.applyBoldRows(summaryWs, [0, summaryRows.length]);
+
     summaryWs['!cols'] = [{wch: 22}, {wch: 10}, {wch: 12}, {wch: 12}, {wch: 14}, {wch: 12}];
     XLSX.utils.book_append_sheet(wb, summaryWs, 'Σύνοψη');
 
@@ -455,6 +462,18 @@ export class BusinessComponent implements OnInit{
     const now = new Date();
     const fileName = `Επιχειρήσεις_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}.xlsx`;
     XLSX.writeFile(wb, fileName);
+  }
+
+  private applyBoldRows(ws: XLSX.WorkSheet, rowIndices: number[]) {
+    const range = XLSX.utils.decode_range(ws['!ref']!);
+    for (const rowIdx of rowIndices) {
+      for (let col = range.s.c; col <= range.e.c; col++) {
+        const cellAddr = XLSX.utils.encode_cell({r: rowIdx, c: col});
+        if (ws[cellAddr]) {
+          ws[cellAddr].s = {font: {bold: true}};
+        }
+      }
+    }
   }
 
  /* async deleteGoogleEvent(business: Business) {

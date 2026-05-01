@@ -1,29 +1,78 @@
-
 <header>
-    <div class="logo" >
+    <div class="logo">
       <img src="logo.png" alt="Logo" class="logo-image">
     </div>
 
   <div class="icons">
-<!--    <i (click)="openBusiness()" class="fa-solid fa-money-bill papers"></i>-->
-<!--    <i (click)="openInvoices()" class="fa-solid fa-newspaper papers"></i>-->
-    <i (click)="openCalendar()" class="fa-solid fa-calendar-days calendar "></i>
+    <div class="icon-wrapper" (click)="toggleComments()">
+      <i class="fa-solid fa-comments calendar"></i>
+      <span *ngIf="commentCount > 0" class="icon-badge">{{ commentCount }}</span>
+    </div>
+    <i (click)="openCalendar()" class="fa-solid fa-calendar-days calendar"></i>
     <i class="fa-solid fa-user profile" (click)="toggleLogoMenu()"></i>
     <div class="profile-dropdown" *ngIf="showLogoMenu">
       <ul>
-<!--        <li (click)="menuAction('myProfile')">Το προφίλ μου</li>-->
-<!--        <li (click)="menuAction('settings')">Ρυθμίσεις</li>-->
         <li (click)="menuAction('logout')">Έξοδος</li>
       </ul>
     </div>
-
   </div>
 </header>
 
-<div *ngIf="calendarView" id="calendarModal" class="modal">
-a
-<div class="modal-content">
-  <iframe  class="calendar-container" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FAthens&showPrint=0&src=Y29jb2JpbGxvY29AZ21haWwuY29t&src=MWFjM2VjZDc1YTY5NGEzMWRjNmVhMTI0MzY3NWU1OGE5ZDBmNzExZjliYzU1ZDBlZTI3N2MyOWUzYTI5OWVmZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZWwuZ3JlZWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4&color=%23ae1304&color=%23F6BF26" style="border:solid 1px #777"  frameborder="0" scrolling="no"></iframe>
-  <span class="close" (click)="closeCalendar()">&times;</span>
+<!-- Comments Modal -->
+<div *ngIf="showComments" class="modal" (click)="closeComments()">
+  <div class="comments-modal" (click)="$event.stopPropagation()">
+    <div class="comments-header">
+      <div class="comments-title">
+        <i class="fa-solid fa-comments" style="color:#6c757d;"></i>
+        <span>Σχόλια</span>
+        <span class="comments-count">{{ comments.length }}</span>
+      </div>
+      <span class="close-comments" (click)="closeComments()">&times;</span>
+    </div>
+
+    <div class="comments-list">
+      <div *ngIf="comments.length === 0" class="no-comments">
+        Δεν υπάρχουν σχόλια
+      </div>
+      <div *ngFor="let comment of comments" class="comment-item">
+        <div class="comment-meta">
+          <span class="comment-author">{{ comment.author || 'Χρήστης' }}</span>
+          <span class="comment-date">{{ formatCommentDate(comment.createdAt) }}</span>
+        </div>
+
+        <!-- View mode -->
+        <div *ngIf="editingCommentId !== comment.id" class="comment-body">
+          <p class="comment-text">{{ comment.text }}</p>
+          <div class="comment-actions">
+            <i class="fa-solid fa-pen-to-square comment-action-btn" title="Επεξεργασία" (click)="startEdit(comment)"></i>
+            <i class="fa-solid fa-trash comment-action-btn delete" title="Διαγραφή" (click)="deleteComment(comment)"></i>
+          </div>
+        </div>
+
+        <!-- Edit mode -->
+        <div *ngIf="editingCommentId === comment.id" class="comment-edit">
+          <textarea class="comment-edit-input" [(ngModel)]="editingText" rows="3"></textarea>
+          <div class="comment-edit-actions">
+            <button class="btn-save" (click)="saveEdit(comment)">Αποθήκευση</button>
+            <button class="btn-cancel" (click)="cancelEdit()">Ακύρωση</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="comment-input-section">
+      <textarea class="comment-input" [(ngModel)]="newCommentText" placeholder="Γράψε ένα σχόλιο..." rows="3"></textarea>
+      <div class="comment-input-footer">
+        <button class="btn-comment" (click)="addComment()" [disabled]="!newCommentText.trim()">Σχόλιο</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Calendar Modal -->
+<div *ngIf="calendarView" id="calendarModal" class="modal">
+  <div class="modal-content">
+    <iframe class="calendar-container" src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FAthens&showPrint=0&src=Y29jb2JpbGxvY29AZ21haWwuY29t&src=MWFjM2VjZDc1YTY5NGEzMWRjNmVhMTI0MzY3NWU1OGE5ZDBmNzExZjliYzU1ZDBlZTI3N2MyOWUzYTI5OWVmZkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZWwuZ3JlZWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%234285F4&color=%23ae1304&color=%23F6BF26" style="border:solid 1px #777" frameborder="0" scrolling="no"></iframe>
+    <span class="close" (click)="closeCalendar()">&times;</span>
+  </div>
 </div>

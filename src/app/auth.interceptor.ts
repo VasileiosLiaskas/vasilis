@@ -7,10 +7,12 @@ import {
 } from '@angular/common/http';
 import {catchError, Observable, throwError} from 'rxjs';
 import {Router} from '@angular/router';
+import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private authService: AuthService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -20,9 +22,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(cloned).pipe(
       catchError(error => {
-        if (error.status === 401) {
+        if (error.status === 401 && !this.authService.isAuthenticated()) {
           localStorage.removeItem('authToken');
-          this.router.navigate(['/login']);
+          if (!this.router.url.startsWith('/login')) {
+            this.router.navigate(['/login']);
+          }
         }
         return throwError(() => error);
       })

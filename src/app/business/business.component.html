@@ -2,6 +2,7 @@
   <div class="business__table">
 <p-table #dt [value]="businessList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
          [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
+         paginatorDropdownAppendTo="body"
          currentPageReportTemplate="Εμφάνιση {first} έως {last} από {totalRecords} εγγραφές"
          [scrollable]="true" scrollDirection="horizontal"
          styleClass="p-datatable-striped"
@@ -44,14 +45,14 @@
       <th>
         <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <input #dateFromInput type="date" pInputText style="width:100%" (change)="filter($any($event.target).value)" />
+            <input #dateFromInput type="date" pInputText style="width:100%" [(ngModel)]="dateFromFilter" (change)="filter($any($event.target).value)" />
           </ng-template>
         </p-columnFilter>
       </th>
       <th>
         <p-columnFilter field="dateTo" matchMode="dateBefore" [showMenu]="false">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <input #dateToInput type="date" pInputText style="width:100%" (change)="filter($any($event.target).value)" />
+            <input #dateToInput type="date" pInputText style="width:100%" [(ngModel)]="dateToFilter" (change)="filter($any($event.target).value)" />
           </ng-template>
         </p-columnFilter>
       </th>

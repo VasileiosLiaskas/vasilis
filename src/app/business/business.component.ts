@@ -213,9 +213,8 @@ export class BusinessComponent implements OnInit{
   clearFilters(table: any) {
     table.clear();
     this.searchValue = '';
-    // Reset native date inputs
-    const dateInputs = document.querySelectorAll('input[type="date"]');
-    dateInputs.forEach((input: any) => input.value = '');
+    this.dateFromFilter = '';
+    this.dateToFilter = '';
   }
 
   convertDateForFilter(value: string): string {

@@ -21,6 +21,12 @@
 ::ng-deep .p-datatable td {
   text-align: center !important;
   vertical-align: middle;
+  border-right: 1px solid #e9ecef !important;
+}
+
+::ng-deep .p-datatable th:last-child,
+::ng-deep .p-datatable td:last-child {
+  border-right: none !important;
 }
 
 /* Striped row styling */
@@ -43,6 +49,7 @@
   overflow: visible !important;
   align-items: center !important;
   gap: 0.5rem !important;
+  justify-content: flex-end !important;
 }
 
 ::ng-deep .p-paginator .p-dropdown {
@@ -51,7 +58,7 @@
 }
 
 ::ng-deep .p-paginator .p-paginator-current {
-  font-size: 0.875rem !important;
+  font-size: 0.75rem !important;
   color: #6c757d !important;
 }
 

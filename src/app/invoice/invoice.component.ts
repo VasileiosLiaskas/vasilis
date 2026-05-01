@@ -56,6 +56,7 @@ export class InvoiceComponent implements OnInit{
   size: number = 10;
   totalElements: number = 0;
   searchValue: string = '';
+  dateFilterValue: string = '';
 
   // Form and dialog
   invoiceForm!: FormGroup;
@@ -101,6 +102,7 @@ export class InvoiceComponent implements OnInit{
   clearFilters(table: Table) {
     table.clear();
     this.searchValue = '';
+    this.dateFilterValue = '';
   }
 
   private initializeForm() {

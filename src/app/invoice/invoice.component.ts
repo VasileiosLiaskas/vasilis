@@ -20,6 +20,7 @@ import {InputTextarea} from 'primeng/inputtextarea';
 import {TooltipModule} from 'primeng/tooltip';
 import {MenuItem} from 'primeng/api';
 import {Table} from 'primeng/table';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-invoice',
@@ -73,7 +74,8 @@ export class InvoiceComponent implements OnInit{
   constructor(private http: HttpClient,
               private invoiceService: InvoiceService,
               private toasterService: ToasterService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private router: Router) {
     this.initializeMenuItems();
     this.initializeForm();
   }
@@ -356,6 +358,10 @@ export class InvoiceComponent implements OnInit{
   onPageChange(newPage: number) {
     this.page = newPage;
     this.loadInvoiceList();
+  }
+
+  goToBusiness(businessId: number) {
+    this.router.navigate(['/business'], { queryParams: { highlightBusinessId: businessId } });
   }
 
   private initializeMenuItems() {

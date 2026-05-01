@@ -72,7 +72,8 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-business let-i="rowIndex">
-    <tr>
+    <tr [attr.data-business-id]="business.id"
+        [ngClass]="{'highlighted-row': highlightedBusinessId === business.id}">
       <td>{{ (page * size) + i + 1 }}</td>
       <td style="position:relative; cursor:pointer; text-align:center;" (click)="openInvoicesDialog(business)">
         <i class="pi pi-folder" style="font-size:1.2rem; color:#6c757d;"></i>

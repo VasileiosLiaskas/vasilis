@@ -28,6 +28,7 @@
           <th pSortableColumn="description">Περιγραφή <p-sortIcon field="description"/></th>
           <th pSortableColumn="invoiceType">Τύπος Τιμολογίου <p-sortIcon field="invoiceType"/></th>
           <th>Αρχείο</th>
+          <th>Επιχείρηση</th>
           <th></th>
         </tr>
         <tr>
@@ -45,6 +46,7 @@
           <th><p-columnFilter type="text" field="invoiceType" [showMenu]="false" placeholder="Φίλτρο..." /></th>
           <th></th>
           <th></th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-invoice let-i="rowIndex">
@@ -58,6 +60,10 @@
           <td>
             <p-button icon="pi pi-download" [text]="true" [rounded]="true" severity="success"
                       (onClick)="downloadInvoice(invoice)" pTooltip="Λήψη αρχείου" />
+          </td>
+          <td>
+            <p-button *ngIf="invoice.businessId" icon="pi pi-arrow-right" [text]="true" [rounded]="true" severity="info"
+                      (onClick)="goToBusiness(invoice.businessId)" pTooltip="Μετάβαση στην επιχείρηση" />
           </td>
           <td>
             <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, invoice)" />

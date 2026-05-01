@@ -23,6 +23,8 @@ import {TextareaModule} from 'primeng/textarea';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {FilterService, MenuItem} from 'primeng/api';
+import {ActivatedRoute} from '@angular/router';
+import {Table} from 'primeng/table';
 
 @Component({
   selector: 'app-business',
@@ -64,21 +66,31 @@ export class BusinessComponent implements OnInit{
   dateToFilter: string = '';
   activeMenuItems: MenuItem[] = [];
   @ViewChild('rowMenu') rowMenu!: Menu;
+  @ViewChild('dt') dt!: Table;
   selectedBusiness: Business | null = null;
+  highlightedBusinessId: number | null = null;
 
 
   constructor(
     private businessService: BusinessService,
     private toasterService: ToasterService,
     private calendarService: GoogleCalendarService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private route: ActivatedRoute
   ) { }
 
 
   ngOnInit(): void {
     this.registerDateFilters();
-    this.loadBusinessList();
     this.businessForm = this.businessService.initForm();
+
+    this.route.queryParams.subscribe(params => {
+      const highlightId = params['highlightBusinessId'];
+      if (highlightId) {
+        this.highlightedBusinessId = +highlightId;
+      }
+      this.loadBusinessList();
+    });
   }
 
   registerDateFilters() {
@@ -114,6 +126,28 @@ export class BusinessComponent implements OnInit{
   loadBusinessList() {
     this.businessService.getBusinessList().subscribe(response => {
       this.businessList = response;
+
+      if (this.highlightedBusinessId && this.dt) {
+        // Find the index of the highlighted business
+        const index = this.businessList.findIndex(b => b.id === this.highlightedBusinessId);
+        if (index >= 0) {
+          // Calculate the page the row is on and navigate to it
+          const page = Math.floor(index / this.size);
+          this.dt.first = page * this.size;
+
+          // Scroll to the row after rendering
+          setTimeout(() => {
+            const row = document.querySelector(`tr[data-business-id="${this.highlightedBusinessId}"]`);
+            if (row) {
+              row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            // Clear highlight after 3 seconds
+            setTimeout(() => {
+              this.highlightedBusinessId = null;
+            }, 3000);
+          }, 100);
+        }
+      }
     });
   }
 

@@ -95,3 +95,41 @@
   70% { background-color: #fff3cd; }
   100% { background-color: transparent; }
 }
+
+/* Allow columns to shrink */
+::ng-deep .p-datatable th,
+::ng-deep .p-datatable td {
+  padding: 0.4rem 0.5rem !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th,
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  min-width: 0 !important;
+}
+
+::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th,
+::ng-deep .p-datatable-scrollable .p-datatable-tbody > tr > td,
+::ng-deep .p-datatable-scrollable .p-datatable-tfoot > tr > td {
+  flex: none !important;
+}
+
+/* Force filter inputs to fit within column */
+::ng-deep .p-datatable .p-column-filter,
+::ng-deep .p-datatable .p-column-filter-element,
+::ng-deep .p-datatable .p-inputtext {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+::ng-deep .p-datatable th {
+  overflow: hidden !important;
+}
+
+::ng-deep .p-datatable .p-column-filter-row {
+  width: 100% !important;
+}

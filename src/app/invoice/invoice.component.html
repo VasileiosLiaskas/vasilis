@@ -1,128 +1,142 @@
-<!--<div class="filter-table-container">-->
-<!--  <div class="filter-row">-->
-<!--    <div class="filter-left">-->
-<!--      <div class="search-filter">-->
+<div class="invoice">
+  <div class="invoice__table">
+    <p-table #dt [value]="invoiceList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
+             [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
+             currentPageReportTemplate="Εμφάνιση {first} έως {last} από {totalRecords} εγγραφές"
+             [scrollable]="true" scrollDirection="horizontal"
+             styleClass="p-datatable-striped"
+             [globalFilterFields]="['invoiceNumber','invoiceDate','fileName','description','invoiceType']">
+      <ng-template pTemplate="caption">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <p-button label="Δημιουργία" icon="pi pi-plus" (onClick)="addInvoice()" />
+            <p-iconfield iconPosition="left">
+              <p-inputicon styleClass="pi pi-search" />
+              <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dt.filterGlobal(searchValue, 'contains')" />
+            </p-iconfield>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>#</th>
+          <th pSortableColumn="invoiceNumber">Αριθμός Τιμολογίου <p-sortIcon field="invoiceNumber"/></th>
+          <th pSortableColumn="invoiceDate">Ημερομηνία <p-sortIcon field="invoiceDate"/></th>
+          <th pSortableColumn="fileName">Όνομα Αρχείου <p-sortIcon field="fileName"/></th>
+          <th pSortableColumn="description">Περιγραφή <p-sortIcon field="description"/></th>
+          <th pSortableColumn="invoiceType">Τύπος Τιμολογίου <p-sortIcon field="invoiceType"/></th>
+          <th>Αρχείο</th>
+          <th></th>
+        </tr>
+        <tr>
+          <th></th>
+          <th><p-columnFilter type="text" field="invoiceNumber" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+          <th>
+            <p-columnFilter field="invoiceDate" matchMode="dateAfter" [showMenu]="false">
+              <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                <input type="date" pInputText style="width:100%" (change)="filter($any($event.target).value)" />
+              </ng-template>
+            </p-columnFilter>
+          </th>
+          <th><p-columnFilter type="text" field="fileName" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+          <th><p-columnFilter type="text" field="description" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+          <th><p-columnFilter type="text" field="invoiceType" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-invoice let-i="rowIndex">
+        <tr>
+          <td>{{ (page * size) + i + 1 }}</td>
+          <td>{{ invoice.invoiceNumber }}</td>
+          <td>{{ invoice.invoiceDate }}</td>
+          <td>{{ invoice.fileName }}</td>
+          <td>{{ invoice.description }}</td>
+          <td>{{ invoice.invoiceType | invoiceTypeTranslate }}</td>
+          <td>
+            <p-button icon="pi pi-download" [text]="true" [rounded]="true" severity="success"
+                      (onClick)="downloadInvoice(invoice)" pTooltip="Λήψη αρχείου" />
+          </td>
+          <td>
+            <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, invoice)" />
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
 
-<!--        <input type="text" placeholder="Αναζήτηση.." [(ngModel)]="searchQuery" (change)="loadInvoiceList()">-->
-<!--        <i class="fa-solid fa-magnifying-glass"></i>-->
-<!--      </div>-->
+<p-menu #rowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
 
-<!--      <div class="search-filter date-from">-->
-<!--        <input type="text" [ngModel]="dateFrom" [value]="dateFrom" (change)="loadInvoiceList()" placeholder="Ημερομηνία Από" readonly-->
-<!--               (click)="openDatePicker(datePickerFrom)">-->
-<!--        <input type="date" #datePickerFrom (change)="setDateFrom($event)" class="hidden-datepicker">-->
-<!--      </div>-->
-<!--      <div class="search-filter date-to">-->
-<!--        <input type="text" [ngModel]="dateTo" placeholder="Ημερομηνία Μέχρι" readonly-->
-<!--               (click)="openDatePicker(datePickerTo)">-->
-<!--        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">-->
-<!--      </div>-->
-<!--&lt;!&ndash;      <div class="open-filter" (click)="toggleFilters()">&ndash;&gt;-->
-<!--&lt;!&ndash;        <i class="fa-solid" [ngClass]="showFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--    </div>-->
-<!--    <div class="filter-right">-->
-<!--      <div class="button-bar">-->
+<p-dialog header="Τιμολόγιο" [(visible)]="openDialog" [modal]="true" [style]="{width:'600px'}" [closable]="true" (onHide)="closeDialog()">
+  <form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Αριθμός Τιμολογίου</label>
+        <input pInputText formControlName="invoiceNumber" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Ημερομηνία</label>
+        <input type="date" pInputText formControlName="invoiceDate" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Όνομα Αρχείου</label>
+        <input pInputText formControlName="fileName" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Τύπος Τιμολογίου</label>
+        <p-dropdown formControlName="invoiceType" [options]="invoiceTypeOptions"
+                   optionLabel="label" optionValue="value" placeholder="Επιλέξτε τύπο..."
+                   [style]="{width:'100%'}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem; grid-column: span 2;">
+        <label style="font-weight:500;">Περιγραφή</label>
+        <textarea pTextarea formControlName="description" rows="3" style="width:100%;"></textarea>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem; grid-column: span 2;">
+        <label style="font-weight:500;">Αρχείο</label>
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <p-button
+            label="Επιλογή Αρχείου"
+            icon="pi pi-upload"
+            severity="secondary"
+            [outlined]="true"
+            (onClick)="triggerFileInput()"
+            [style]="{width:'200px'}" />
+          <input
+            #fileInput
+            type="file"
+            (change)="onFileSelected($event)"
+            accept=".pdf,.doc,.docx,.jpg,.png"
+            style="display:none;" />
+          <div *ngIf="selectedFile" style="display:flex; align-items:center; gap:0.5rem; padding:0.5rem; background-color:#f8f9fa; border-radius:4px;">
+            <i class="pi pi-file" style="color:#6c757d;"></i>
+            <span style="font-size:0.9rem; color:#495057;">{{ selectedFile.name }}</span>
+            <p-button
+              icon="pi pi-times"
+              severity="danger"
+              [text]="true"
+              [rounded]="true"
+              size="small"
+              (onClick)="removeFile()"
+              pTooltip="Αφαίρεση αρχείου" />
+          </div>
+          <small style="color:#666;">Επιτρεπόμενοι τύποι: PDF, DOC, DOCX, JPG, PNG (Μέγιστο: 10MB)</small>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+      <p-button label="Ακύρωση" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="closeDialog()" type="button" />
+      <p-button label="Αποθήκευση" icon="pi pi-save" type="submit" [disabled]="!invoiceForm.valid" />
+    </div>
+  </form>
+</p-dialog>
 
-<!--        <button class="create" (click)="addInvoice()"><i class="fa-solid fa-plus"></i>Δημιουργία</button>-->
-
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-
-<!--  <div class="toggle-filter" *ngIf="showFilters">-->
-<!--    <div class="toggle-row">-->
-<!--      <label class="field-label">Εξοφλήθηκε</label>-->
-<!--      <div class="toggle-buttons">-->
-
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="toggle-row">-->
-<!--      <label class="field-label">Αρχεία</label>-->
-<!--      <div class="toggle-buttons">-->
-
-
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="toggle-row">-->
-<!--      <label class="field-label">Παράδοση</label>-->
-<!--      <div class="toggle-buttons">-->
-
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--<div class="table-container">-->
-<!--  <table class="table">-->
-<!--    <thead>-->
-<!--    <tr >-->
-<!--      <th>#</th>-->
-<!--      <th>Αριθμός Τιμολογίου</th>-->
-<!--      <th>Ημερομηνία</th>-->
-<!--      <th>Όνομα Αρχείου</th>-->
-<!--      <th>Περιγραφή</th>-->
-<!--      <th>Τύπος Τιμολογίου</th>-->
-<!--      <th>Αρχείο</th>-->
-
-<!--      <th></th>-->
-<!--    </tr>-->
-
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr *ngFor="let invoice of invoiceList; let i = index">-->
-<!--      <td>{{ (page * size) + i + 1 }}</td>-->
-<!--      <td>{{invoice.invoiceNumber}}</td>-->
-<!--      <td>{{ invoice.invoiceDate }}</td>-->
-<!--      <td>{{ invoice.fileName}}</td>-->
-<!--      <td>{{ invoice.description}}</td>-->
-<!--      <td>{{invoice.invoiceType | invoiceTypeTranslate}}</td>-->
-<!--      <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>-->
-
-<!--      <td>-->
-<!--        <div class="dropdown" (click)="toggleDropdown($event, invoice.id)">-->
-<!--          <button class="menu-btn">⋮</button>-->
-<!--          <ul class="dropdown-menu" *ngIf="openRowId === invoice.id">-->
-<!--            <li>-->
-<!--              <button class="edit-btn" (click)="editRow(invoice)"> Επεξεργασία</button>-->
-<!--            </li>-->
-<!--            <li>-->
-<!--              <button class="delete-btn" (click)="deleteRow(invoice)">Διαγραφή</button>-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--        </div>-->
-<!--      </td>-->
-
-
-<!--    </tr>-->
-
-<!--    </tbody>-->
-
-
-<!--  </table>-->
-<!--  <div class="table-footer">-->
-<!--    <div class="pagination">-->
-<!--      <button class="pagination-buttons" (click)="onPageChange(page - 1)" [disabled]="page === 0">-->
-<!--        <i class="fa-solid fa-arrow-left"></i>-->
-<!--      </button>-->
-<!--      <span> {{ page + 1 }} of {{ Math.ceil(totalElements / size) }}</span>-->
-<!--      <button class="pagination-buttons" (click)="onPageChange(page + 1)"-->
-<!--              [disabled]="(page + 1) * size >= totalElements">-->
-<!--        <i class="fa-solid fa-arrow-right"></i>-->
-<!--      </button>-->
-<!--    </div>-->
-<!--    <div class="total-records" style=" font-size:12px; font-weight: 400; padding-right:5px">-->
-<!--      Εγγραφές: {{ totalElements }}-->
-<!--    </div>-->
-
-<!--  </div>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--<ng-container *ngIf="openDialog">-->
-<!--  <app-invoice-dialog-->
-<!--    [invoice]="selectedInvoice"-->
-<!--    (close)="closeDialog()"-->
-<!--    (saved)="onInvoiceSaved()">-->
-<!--  </app-invoice-dialog>-->
-<!--</ng-container>-->
+<ng-container *ngIf="openDialog">
+  <app-invoice-dialog
+    [invoice]="selectedInvoice"
+    (close)="closeDialog()"
+    (saved)="onInvoiceSaved()">
+  </app-invoice-dialog>
+</ng-container>

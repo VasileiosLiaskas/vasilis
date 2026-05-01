@@ -1,3 +1,69 @@
 .business{
-  padding: 3rem;
+  padding: 2rem;
+  border-radius: 5px;
+  background-color: rgb(255 255 255);
+
+}
+::ng-deep .p-datatable {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+::ng-deep .p-datatable-header {
+  border-radius: 12px 12px 0 0;
+}
+
+::ng-deep .p-paginator-bottom {
+  border-radius: 0 0 12px 12px;
+}
+
+::ng-deep .p-datatable th,
+::ng-deep .p-datatable td {
+  text-align: center !important;
+  vertical-align: middle;
+}
+
+/* Striped row styling */
+::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #e3f2fd !important;
+}
+
+/* Paginator styling - dropdown on left, pagination on right */
+::ng-deep .p-paginator {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow: visible !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+::ng-deep .p-paginator .p-dropdown {
+  margin-right: auto !important;
+  z-index: 1000 !important;
+}
+
+::ng-deep .p-paginator .p-paginator-current {
+  font-size: 0.875rem !important;
+  color: #6c757d !important;
+}
+
+/* Fix dropdown visibility */
+::ng-deep .p-paginator .p-dropdown-panel {
+  z-index: 1001 !important;
+}
+
+::ng-deep .p-datatable-wrapper {
+  overflow: visible !important;
+}
+
+::ng-deep .business__table {
+  overflow: visible !important;
 }

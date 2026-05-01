@@ -10,9 +10,7 @@ import {Invoice} from '../invoice/invoice.model';
 @Component({
   selector: 'app-invoice-dialog',
   imports: [
-    NgForOf,
     FormsModule,
-    NgIf
   ],
   templateUrl: './invoice-dialog.component.html',
   standalone: true,
@@ -62,10 +60,7 @@ export class InvoiceDialogComponent implements OnInit{
 
   loadInvoices(): void {
 
-    this.invoiceService.loadInvoices({businessId:this.businessId}).subscribe( invoices => {
-     this.invoiceList = invoices.content;
-     console.log(this.invoiceList);
-    })
+
   }
 
   @HostListener('document:click')

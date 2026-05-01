@@ -1,7 +1,10 @@
 <div class="business">
+  <div class="business__table">
 <p-table #dt [value]="businessList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
-         [rowsPerPageOptions]="[10,25,50]"
-         [tableStyle]="{'min-width': '80rem'}" [scrollable]="true"
+         [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
+         currentPageReportTemplate="Εμφάνιση {first} έως {last} από {totalRecords} εγγραφές"
+         [scrollable]="true" scrollDirection="horizontal"
+         styleClass="p-datatable-striped"
          [globalFilterFields]="['date','dateTo','type','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
   <ng-template pTemplate="caption">
     <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -21,14 +24,14 @@
       <th>Τιμολόγια</th>
       <th pSortableColumn="date">Ημερομηνία Από <p-sortIcon field="date"/></th>
       <th pSortableColumn="dateTo">Ημερομηνία Εως <p-sortIcon field="dateTo"/></th>
-      <th pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
+      <th  pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
       <th style="min-width: 80px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
       <th style="min-width: 100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
       <th>Λεπτομέρειες</th>
-      <th>Έξοδα</th>
-      <th pSortableColumn="fee">Αμοιβή <p-sortIcon field="fee"/></th>
-      <th>Προκαταβολή</th>
-      <th>Υπόλοιπο</th>
+      <th style="width: 80px; min-width: 80px;">Έξοδα</th>
+      <th style="width: 120px; min-width: 120px;" pSortableColumn="fee">Αμοιβή <p-sortIcon field="fee"/></th>
+      <th style="width: 80px; min-width: 80px;">Προκαταβολή</th>
+      <th style="width: 80px; min-width: 80px;" >Υπόλοιπο</th>
       <th>Εξοφλήθηκε</th>
       <th>Αρχεία</th>
       <th>Παράδοση</th>
@@ -56,10 +59,10 @@
       <th><p-columnFilter type="text" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="area" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="details" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="costs" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="fee" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="advancePayment" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="remainingMoney" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th style="width: 80px; min-width: 80px;"><p-columnFilter type="text" field="costs" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th style="width: 120px; min-width: 120px;"><p-columnFilter type="text" field="fee" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th style="width: 80px; min-width: 80px;"><p-columnFilter type="text" field="advancePayment" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th style="width: 80px; min-width: 80px;"><p-columnFilter type="text" field="remainingMoney" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="boolean" field="payout" /></th>
       <th><p-columnFilter type="boolean" field="filesCompleted" /></th>
       <th><p-columnFilter type="boolean" field="filesDelivered" /></th>
@@ -79,11 +82,11 @@
       <td>{{ business.who }}</td>
       <td>{{ business.area }}</td>
       <td>{{ business.details }}</td>
-      <td>{{ business.costs }}</td>
-      <td style="background-color: rgba(184,184,184,0.16);">{{ business.fee }}</td>
-      <td>{{ business.advancePayment }}</td>
-      <td>{{ business.remainingMoney }}</td>
-      <td [appBooleanColor]="business.payout">{{ convertBoolean(business.payout) }}</td>
+      <td style="width: 80px; min-width: 80px;">{{ business.costs }}</td>
+      <td style="background-color: rgba(184,184,184,0.16); width: 120px; min-width: 120px;">{{ business.fee }}</td>
+      <td style="width: 80px; min-width: 80px;">{{ business.advancePayment }}</td>
+      <td style="width: 80px; min-width: 80px;">{{ business.remainingMoney }}</td>
+      <td style="width: 120px;" [appBooleanColor]="business.payout">{{ convertBoolean(business.payout) }}</td>
       <td [appBooleanColor]="business.filesCompleted">{{ convertBoolean(business.filesCompleted) }}</td>
       <td [appBooleanColor]="business.filesDelivered">{{ convertBoolean(business.filesDelivered) }}</td>
       <td>{{ business.comments }}</td>
@@ -95,14 +98,15 @@
   <ng-template pTemplate="footer">
     <tr>
       <td colspan="8" style="text-align:right; font-weight:bold;">Σύνολο:</td>
-      <td style="font-weight:bold;">{{ getFilteredTotal('costs', dt) }}</td>
-      <td style="font-weight:bold; background-color: rgba(184,184,184,0.16);">{{ getFilteredTotal('fee', dt) }}</td>
-      <td style="font-weight:bold;">{{ getFilteredTotal('advancePayment', dt) }}</td>
-      <td style="font-weight:bold;">{{ getFilteredTotal('remainingMoney', dt) }}</td>
+      <td style="font-weight:bold; width: 80px; min-width: 80px;">{{ getFilteredTotal('costs', dt) }}</td>
+      <td style="font-weight:bold; background-color: rgba(184,184,184,0.16); width: 120px; min-width: 120px;">{{ getFilteredTotal('fee', dt) }}</td>
+      <td style="font-weight:bold; width: 80px; min-width: 80px;">{{ getFilteredTotal('advancePayment', dt) }}</td>
+      <td style="font-weight:bold; width: 80px; min-width: 80px;">{{ getFilteredTotal('remainingMoney', dt) }}</td>
       <td colspan="5"></td>
     </tr>
   </ng-template>
 </p-table>
+  </div>
 </div>
 <p-menu #rowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
 

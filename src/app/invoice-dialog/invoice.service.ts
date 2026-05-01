@@ -43,26 +43,6 @@ export class InvoiceService {
     return this.http.post(`${this.baseUrl}/save`, formData,{ responseType: 'text'} );
   }
 
-  loadInvoices(options: {
-    page?: number;
-    size?: number;
-    searchQuery?: string;
-    dateFrom?: string;
-    dateTo?: string;
-    businessId?: number;
-  } = {}): Observable<Page<Invoice>> {
-
-    let params = new HttpParams()
-      .set('page', (options.page ?? 0).toString())
-      .set('size', (options.size ?? 10).toString());
-
-    if (options.searchQuery) params = params.set('keyword', options.searchQuery);
-    if (options.dateFrom) params = params.set('dateFrom', options.dateFrom);
-    if (options.dateTo) params = params.set('dateTo', options.dateTo);
-    if (options.businessId) params = params.set('businessId', options.businessId.toString());
-
-    return this.http.get<Page<Invoice>>(`${this.baseUrl}/list`, { params });
-  }
 
 
   downloadInvoice(id: number): Observable<Blob> {
@@ -87,5 +67,34 @@ export class InvoiceService {
     return this.http.put(
       `${this.baseUrl}/edit/${invoice.id}`,{}, { params, responseType: 'text' }
     );
+  }
+
+  getInvoices() {
+    return this.http.get<Invoice[]>(`${this.baseUrl}/list`);
+  }
+
+  createInvoice(formData: FormData): Observable<any> {
+    return this.http.post(`${this.baseUrl}/save`, formData, { responseType: 'text' });
+  }
+
+  updateInvoice(invoice: {
+    id: number;
+    fileName: string;
+    invoiceNumber: string;
+    description: string;
+    invoiceDate: string;
+    invoiceType: string;
+  }): Observable<any> {
+    const params = new HttpParams()
+      .set('fileName', invoice.fileName || '')
+      .set('invoiceNumber', invoice.invoiceNumber || '')
+      .set('description', invoice.description || '')
+      .set('invoiceDate', invoice.invoiceDate || '')
+      .set('invoiceType', invoice.invoiceType || '');
+
+    return this.http.put(`${this.baseUrl}/edit/${invoice.id}`, {}, {
+      params: params,
+      responseType: 'text'
+    });
   }
 }

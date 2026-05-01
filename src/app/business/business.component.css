@@ -13,6 +13,11 @@
   border-radius: 12px 12px 0 0;
 }
 
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background-color: #43454a !important;
+  color: white !important;
+}
+
 ::ng-deep .p-paginator-bottom {
   border-radius: 0 0 12px 12px;
 }
@@ -40,6 +45,11 @@
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
   background-color: #e3f2fd !important;
+}
+
+/* Divider line before footer totals */
+::ng-deep .p-datatable .p-datatable-tfoot > tr > td {
+  border-top: 2px solid #43454a !important;
 }
 
 /* Paginator styling - dropdown on left, pagination on right */

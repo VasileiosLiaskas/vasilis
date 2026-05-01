@@ -13,6 +13,11 @@
   border-radius: 12px 12px 0 0;
 }
 
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+  background-color: #43454a !important;
+  color: white !important;
+}
+
 ::ng-deep .p-paginator-bottom {
   border-radius: 0 0 12px 12px;
 }

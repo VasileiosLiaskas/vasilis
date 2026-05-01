@@ -73,6 +73,11 @@ export class InvoiceService {
     return this.http.get<Invoice[]>(`${this.baseUrl}/list`);
   }
 
+  getInvoicesByBusinessId(businessId: number): Observable<Invoice[]> {
+    const params = new HttpParams().set('businessId', businessId.toString());
+    return this.http.get<Invoice[]>(`${this.baseUrl}/find`, { params });
+  }
+
   createInvoice(formData: FormData): Observable<any> {
     return this.http.post(`${this.baseUrl}/save`, formData, { responseType: 'text' });
   }

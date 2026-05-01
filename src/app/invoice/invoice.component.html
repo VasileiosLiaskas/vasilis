@@ -134,10 +134,4 @@
   </form>
 </p-dialog>
 
-<ng-container *ngIf="openDialog">
-  <app-invoice-dialog
-    [invoice]="selectedInvoice"
-    (close)="closeDialog()"
-    (saved)="onInvoiceSaved()">
-  </app-invoice-dialog>
-</ng-container>
+

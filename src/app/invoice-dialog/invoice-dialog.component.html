@@ -1,181 +1,103 @@
-<!--<div class="dialog-overlay">-->
-<!--  <div class="dialog-container">-->
-<!--    <div class="dialog-header">-->
-<!--      <h3 style="color:#474646">Τιμολόγια</h3>-->
-<!--      <button class="close-btn" (click)="closeDialog()">&times;</button>-->
-<!--    </div>-->
-<!--    <div *ngIf="businessId" class="dialog-content">-->
-<!--      <div class="table-wrapper">-->
-<!--      <table *ngIf="invoiceList?.length>0" class="dialog-table">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--          <th>#</th>-->
-<!--          <th>Ημερομηνία</th>-->
-<!--          <th>Αριθμός Τιμολογίου</th>-->
-<!--          <th>Όνομα Αρχείου</th>-->
-<!--          <th>Περιγραφή</th>-->
-<!--          <th>Αρχείο</th>-->
-<!--          <th></th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr *ngFor="let invoice of invoiceList; let i = index">-->
-<!--          <td>{{i + 1 }}</td>-->
-<!--          <td *ngIf="!invoice.editable">{{ invoice.invoiceDate }}</td>-->
-<!--          <td *ngIf="invoice.editable">-->
-<!--            <input type="date" [(ngModel)]="invoice.invoiceDate"/>-->
-<!--          </td>-->
-<!--          <td *ngIf="!invoice.editable">{{invoice.invoiceNumber}}</td>-->
-<!--          <td *ngIf="invoice.editable">-->
-<!--            <input type="text" [(ngModel)]="invoice.invoiceNumber"/>-->
-<!--          </td>-->
-<!--          <td *ngIf="!invoice.editable">{{ invoice.fileName}}</td>-->
-<!--          <td *ngIf="invoice.editable">-->
-<!--            <input type="text" [(ngModel)]="invoice.fileName"/>-->
-<!--          </td>-->
-<!--          <td *ngIf="!invoice.editable">{{ invoice.description}}</td>-->
-<!--          <td *ngIf="invoice.editable">-->
-<!--            <input type="text"  [(ngModel)]="invoice.description"/>-->
-<!--          </td>-->
-<!--          <td><i (click)="downloadInvoice(invoice)" class="fa-solid fa-file-arrow-down"></i></td>-->
-<!--          <td>-->
-<!--            <div *ngIf="!invoice.editable" class="dropdown" (click)="toggleDropdown($event, invoice.id)">-->
-<!--              <button class="menu-btn">⋮</button>-->
-<!--              <ul class="dropdown-menu" *ngIf="openRowId === invoice.id">-->
-<!--                <li>-->
-<!--                  <button class="edit-btn" (click)="editRow(invoice)"> Επεξεργασία</button>-->
-<!--                </li>-->
-<!--                <li>-->
-<!--                  <button class="delete-btn" (click)="deleteRow(invoice)">Διαγραφή</button>-->
-<!--                </li>-->
-<!--              </ul>-->
-<!--            </div>-->
-<!--            <div *ngIf="invoice.editable" class="actions-buttons">-->
-<!--              <button class="save-btn" (click)="saveRow(invoice)">-->
-<!--                <i class="fa-solid fa-check"></i>-->
-<!--              </button>-->
-<!--              <button class="cancel-btn" (click)="cancelEdit(invoice)">-->
-<!--                <i class="fa-solid fa-xmark"></i>-->
-<!--              </button>-->
-<!--            </div>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--      </table>-->
-<!--      </div>-->
-<!--    </div>-->
 
+<p-dialog [header]="'Τιμολόγια - ' + business.who" [(visible)]="showDialog" [modal]="true" [style]="{width:'1200px'}" [closable]="true" (onHide)="closeDialog()">
+  <div style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+    <p-button label="Νέο Τιμολόγιο" icon="pi pi-plus" (onClick)="addInvoice()" />
+    <p-iconfield iconPosition="left">
+      <p-inputicon styleClass="pi pi-search" />
+      <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dtInvoice.filterGlobal(searchValue, 'contains')" />
+    </p-iconfield>
+  </div>
 
+  <p-table #dtInvoice [value]="invoiceList" [paginator]="true" [rows]="5"
+           [rowsPerPageOptions]="[5,10,25]" [showCurrentPageReport]="true"
+           currentPageReportTemplate="Εμφάνιση {first} έως {last} από {totalRecords} εγγραφές"
+           styleClass="p-datatable-striped"
+           [globalFilterFields]="['invoiceNumber','invoiceDate','fileName','description','invoiceType']">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th pSortableColumn="invoiceNumber">Αριθμός Τιμολογίου <p-sortIcon field="invoiceNumber"/></th>
+        <th pSortableColumn="invoiceDate">Ημερομηνία <p-sortIcon field="invoiceDate"/></th>
+        <th pSortableColumn="fileName">Όνομα Αρχείου <p-sortIcon field="fileName"/></th>
+        <th>Περιγραφή</th>
+        <th pSortableColumn="invoiceType">Τύπος <p-sortIcon field="invoiceType"/></th>
+        <th>Αρχείο</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-invoice let-i="rowIndex">
+      <tr>
+        <td>{{ i + 1 }}</td>
+        <td>{{ invoice.invoiceNumber }}</td>
+        <td>{{ invoice.invoiceDate }}</td>
+        <td>{{ invoice.fileName }}</td>
+        <td>{{ invoice.description }}</td>
+        <td>{{ invoice.invoiceType | invoiceTypeTranslate }}</td>
+        <td>
+          <p-button icon="pi pi-download" [text]="true" [rounded]="true" severity="success"
+                    (onClick)="downloadInvoice(invoice)" pTooltip="Λήψη αρχείου" />
+        </td>
+        <td>
+          <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, invoice)" />
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="8" style="text-align:center; padding:2rem; color:#999;">Δεν βρέθηκαν τιμολόγια</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-dialog>
 
-<!--    <div class="dialog-file-container">-->
-<!--      <div class="upload-files">-->
-<!--        <button *ngIf="!fileName" class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>-->
-<!--        <input  type="file" #fileInput style="display: none; width: 100%" (change)="onFileSelected($event)">-->
-<!--        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>-->
+<p-menu #invoiceRowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
 
-<!--        <div *ngIf="!selectedFile && fileName" class="existing-file">-->
-<!--          <label for="fileNameInput">Όνομα Αρχείου: </label>-->
-<!--          <input id="fileNameInput"-->
-<!--                 type="text"-->
-<!--                 [(ngModel)]="fileName"-->
-<!--                 class="input-text editable-file-name"-->
-<!--                 placeholder="Όνομα αρχείου">-->
-<!--        </div>-->
-<!--      </div>-->
+<p-dialog header="Τιμολόγιο" [(visible)]="showInvoiceForm" [modal]="true" [style]="{width:'600px'}" [closable]="true" (onHide)="closeInvoiceForm()">
+  <form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Αριθμός Τιμολογίου</label>
+        <input pInputText formControlName="invoiceNumber" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Ημερομηνία</label>
+        <input type="date" pInputText formControlName="invoiceDate" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Όνομα Αρχείου</label>
+        <input pInputText formControlName="fileName" style="width:100%;">
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+        <label style="font-weight:500;">Τύπος Τιμολογίου</label>
+        <p-dropdown formControlName="invoiceType" [options]="invoiceTypeOptions"
+                   optionLabel="label" optionValue="value" placeholder="Επιλέξτε τύπο..."
+                   [style]="{width:'100%'}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem; grid-column: span 2;">
+        <label style="font-weight:500;">Περιγραφή</label>
+        <textarea pTextarea formControlName="description" rows="3" style="width:100%;"></textarea>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.4rem; grid-column: span 2;">
+        <label style="font-weight:500;">Αρχείο</label>
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+          <p-button label="Επιλογή Αρχείου" icon="pi pi-upload" severity="secondary" [outlined]="true"
+                    (onClick)="triggerFileInput()" [style]="{width:'200px'}" />
+          <input id="invoiceDialogFileInput" type="file" (change)="onFileSelected($event)"
+                 accept=".pdf,.doc,.docx,.jpg,.png" style="display:none;" />
+          <div *ngIf="selectedFile" style="display:flex; align-items:center; gap:0.5rem; padding:0.5rem; background-color:#f8f9fa; border-radius:4px;">
+            <i class="pi pi-file" style="color:#6c757d;"></i>
+            <span style="font-size:0.9rem; color:#495057;">{{ selectedFile.name }}</span>
+            <p-button icon="pi pi-times" severity="danger" [text]="true" [rounded]="true" size="small"
+                      (onClick)="removeFile()" pTooltip="Αφαίρεση αρχείου" />
+          </div>
+          <small style="color:#666;">Επιτρεπόμενοι τύποι: PDF, DOC, DOCX, JPG, PNG (Μέγιστο: 10MB)</small>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+      <p-button label="Ακύρωση" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="closeInvoiceForm()" type="button" />
+      <p-button label="Αποθήκευση" icon="pi pi-save" type="submit" />
+    </div>
+  </form>
+</p-dialog>
 
-
-
-<!--      <div class="file-form existing-file">-->
-<!--        <label  for="invoiceNumber">Αριθμός Τιμολογίου: </label>-->
-<!--        <input  id="invoiceNumber" type="text" [(ngModel)]="invoiceNumber" placeholder="Αριθμός Τιμολογίου" class="input-text editable-file-name">-->
-<!--        <label  for="description">Περιγραφή: </label>-->
-<!--        <textarea id=description class="input-text editable-file-name"  [(ngModel)]="description" placeholder="Περιγραφή" ></textarea>-->
-<!--        <label  for="invoiceDate">Ημερομηνία: </label>-->
-<!--        <input id="invoiceDate" class="input-text editable-file-name" type="text" [ngModel]="invoiceDate" placeholder="Ημερομηνία" readonly-->
-<!--               (click)="openDatePicker($event, datePickerTo)">-->
-<!--        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker">-->
-<!--      </div>-->
-
-<!--      <div  class="invoice-type" >-->
-<!--        <label>-->
-<!--          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE">-->
-<!--          Τιμολόγιο Αμοιβής-->
-<!--        </label>-->
-<!--        <label>-->
-<!--          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE">-->
-<!--          Τιμολόγιο Αγοράς-->
-<!--        </label>-->
-
-<!--      </div>-->
-
-<!--      <div class="save-files">-->
-<!--        <button  class="btn" (click)="uploadInvoice()">Ανέβασμα</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    <div class="dialog-file-container">&ndash;&gt;-->
-<!--&lt;!&ndash;      <div class="upload-files">&ndash;&gt;-->
-<!--&lt;!&ndash;        <button *ngIf="!fileName" class="btn" (click)="fileInput.click()">Επιλογή Αρχείου</button>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">&ndash;&gt;-->
-<!--&lt;!&ndash;        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <div *ngIf="!selectedFile && fileName" class="existing-file">&ndash;&gt;-->
-<!--&lt;!&ndash;          <label for="fileNameInput">Όνομα Αρχείου:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;          <input&ndash;&gt;-->
-<!--&lt;!&ndash;            id="fileNameInput"&ndash;&gt;-->
-<!--&lt;!&ndash;            type="text"&ndash;&gt;-->
-<!--&lt;!&ndash;            [(ngModel)]="fileName"&ndash;&gt;-->
-<!--&lt;!&ndash;            class="input-text editable-file-name"&ndash;&gt;-->
-<!--&lt;!&ndash;            placeholder="Όνομα αρχείου"&ndash;&gt;-->
-<!--&lt;!&ndash;          />&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;      <div class="file-form">&ndash;&gt;-->
-<!--&lt;!&ndash;        <label for="invoiceNumber">Αριθμός Τιμολογίου:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input&ndash;&gt;-->
-<!--&lt;!&ndash;          id="invoiceNumber"&ndash;&gt;-->
-<!--&lt;!&ndash;          type="text"&ndash;&gt;-->
-<!--&lt;!&ndash;          [(ngModel)]="invoiceNumber"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="Αριθμός Τιμολογίου"&ndash;&gt;-->
-<!--&lt;!&ndash;          class="input-text"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <label for="description">Περιγραφή:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <textarea&ndash;&gt;-->
-<!--&lt;!&ndash;          id="description"&ndash;&gt;-->
-<!--&lt;!&ndash;          [(ngModel)]="description"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="Περιγραφή"&ndash;&gt;-->
-<!--&lt;!&ndash;          class="input-text"&ndash;&gt;-->
-<!--&lt;!&ndash;        ></textarea>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <label for="invoiceDate">Ημερομηνία:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input&ndash;&gt;-->
-<!--&lt;!&ndash;          id="invoiceDate"&ndash;&gt;-->
-<!--&lt;!&ndash;          class="input-text"&ndash;&gt;-->
-<!--&lt;!&ndash;          type="text"&ndash;&gt;-->
-<!--&lt;!&ndash;          [ngModel]="invoiceDate"&ndash;&gt;-->
-<!--&lt;!&ndash;          placeholder="Ημερομηνία"&ndash;&gt;-->
-<!--&lt;!&ndash;          readonly&ndash;&gt;-->
-<!--&lt;!&ndash;          (click)="openDatePicker($event, datePickerTo)"&ndash;&gt;-->
-<!--&lt;!&ndash;        />&ndash;&gt;-->
-<!--&lt;!&ndash;        <input type="date" #datePickerTo (change)="setDateTo($event)" class="hidden-datepicker" />&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;      <div class="invoice-type">&ndash;&gt;-->
-<!--&lt;!&ndash;        <label>&ndash;&gt;-->
-<!--&lt;!&ndash;          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="FEE_INVOICE" />&ndash;&gt;-->
-<!--&lt;!&ndash;          Τιμολόγιο Αμοιβής&ndash;&gt;-->
-<!--&lt;!&ndash;        </label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <label>&ndash;&gt;-->
-<!--&lt;!&ndash;          <input type="radio" name="invoiceType" [(ngModel)]="invoiceType" value="PURCHASE_INVOICE" />&ndash;&gt;-->
-<!--&lt;!&ndash;          Τιμολόγιο Αγοράς&ndash;&gt;-->
-<!--&lt;!&ndash;        </label>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;      <div class="save-files">&ndash;&gt;-->
-<!--&lt;!&ndash;        <button class="btn primary" (click)="uploadInvoice()">Ανέβασμα</button>&ndash;&gt;-->
-<!--&lt;!&ndash;      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;</div>&ndash;&gt;-->

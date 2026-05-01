@@ -37,7 +37,6 @@ import {Table} from 'primeng/table';
     TooltipModule,
     NgIf,
     InvoiceTypePipe,
-    InvoiceDialogComponent
   ],
   templateUrl: './invoice.component.html',
   standalone: true,

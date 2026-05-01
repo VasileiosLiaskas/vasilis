@@ -74,8 +74,9 @@
   <ng-template pTemplate="body" let-business let-i="rowIndex">
     <tr>
       <td>{{ (page * size) + i + 1 }}</td>
-      <td style="position:relative; width: 20px;">
-        <span *ngIf="business.invoicesId?.length" class="badge">{{ business.invoicesId.length }}</span>
+      <td style="position:relative; cursor:pointer; text-align:center;" (click)="openInvoicesDialog(business)">
+        <i class="pi pi-folder" style="font-size:1.2rem; color:#6c757d;"></i>
+        <span *ngIf="business.invoicesId?.length" class="badge" style="position:absolute; top:12px; right:33px; background:#e74c3c; color:#fff; border-radius:50%; font-size:0.7rem; width:18px; height:18px; display:flex; align-items:center; justify-content:center;">{{ business.invoicesId.length }}</span>
       </td>
       <td>{{ business.date }}</td>
       <td>{{ business.dateTo }}</td>
@@ -183,6 +184,7 @@
 <ng-container *ngIf="selectedBusiness">
   <app-invoice-dialog
     [business]="selectedBusiness"
-    (close)="selectedBusiness = null">
+    (close)="selectedBusiness = null"
+    (saved)="loadBusinessList()">
   </app-invoice-dialog>
 </ng-container>

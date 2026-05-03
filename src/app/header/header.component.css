@@ -413,3 +413,84 @@ ul li a {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Account Modal */
+.account-modal {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  width: 450px;
+  max-width: 95vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.account-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #333;
+}
+
+.account-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.account-body {
+  padding: 1.2rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.account-section h4 {
+  margin: 0 0 0.8rem 0;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.account-field {
+  margin-bottom: 0.8rem;
+}
+
+.account-field label {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  margin-bottom: 0.3rem;
+}
+
+.account-input {
+  width: 100%;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #e0e0e0;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.account-input:focus {
+  outline: none;
+  border-color: #42A5F5;
+}
+
+.account-field-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.account-divider {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 1.2rem 0;
+}

@@ -12,6 +12,7 @@
     <i class="fa-solid fa-user profile" (click)="toggleLogoMenu()"></i>
     <div class="profile-dropdown" *ngIf="showLogoMenu">
       <ul>
+        <li (click)="menuAction('account')">Ο Λογαριασμός μου</li>
         <li (click)="menuAction('logout')">Έξοδος</li>
       </ul>
     </div>
@@ -64,6 +65,55 @@
       <textarea class="comment-input" [(ngModel)]="newCommentText" placeholder="Γράψε ένα σχόλιο..." rows="3"></textarea>
       <div class="comment-input-footer">
         <button class="btn-comment" (click)="addComment()" [disabled]="!newCommentText.trim()">Σχόλιο</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account Modal -->
+<div *ngIf="showAccountModal" class="modal" (click)="closeAccountModal()">
+  <div class="account-modal" (click)="$event.stopPropagation()">
+    <div class="account-header">
+      <div class="account-title">
+        <i class="fa-solid fa-user-gear" style="color:#6c757d;"></i>
+        <span>Ο Λογαριασμός μου</span>
+      </div>
+      <span class="close-comments" (click)="closeAccountModal()">&times;</span>
+    </div>
+
+    <div class="account-body">
+      <!-- Change Username -->
+      <div class="account-section">
+        <h4>Αλλαγή Ονόματος Χρήστη</h4>
+        <div class="account-field">
+          <label>Νέο Όνομα Χρήστη</label>
+          <input type="text" [(ngModel)]="newUsername" placeholder="Νέο όνομα χρήστη" class="account-input" />
+        </div>
+        <div class="account-field-actions">
+          <button class="btn-save" (click)="changeUsername()" [disabled]="!newUsername.trim()">Αποθήκευση</button>
+        </div>
+      </div>
+
+      <hr class="account-divider" />
+
+      <!-- Change Password -->
+      <div class="account-section">
+        <h4>Αλλαγή Κωδικού</h4>
+        <div class="account-field">
+          <label>Τρέχων Κωδικός</label>
+          <input type="password" [(ngModel)]="currentPassword" placeholder="Τρέχων κωδικός" class="account-input" />
+        </div>
+        <div class="account-field">
+          <label>Νέος Κωδικός</label>
+          <input type="password" [(ngModel)]="newPassword" placeholder="Νέος κωδικός" class="account-input" />
+        </div>
+        <div class="account-field">
+          <label>Επιβεβαίωση Κωδικού</label>
+          <input type="password" [(ngModel)]="confirmPassword" placeholder="Επιβεβαίωση κωδικού" class="account-input" />
+        </div>
+        <div class="account-field-actions">
+          <button class="btn-save" (click)="changePassword()" [disabled]="!currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()">Αποθήκευση</button>
+        </div>
       </div>
     </div>
   </div>

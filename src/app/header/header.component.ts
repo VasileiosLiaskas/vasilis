@@ -6,6 +6,8 @@ import {CommentService} from '../comment/comment.service';
 import {Comment} from '../comment/comment.model';
 import {FormsModule} from '@angular/forms';
 import {ToasterService} from '../toaster/toaster.service';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +27,8 @@ export class HeaderComponent {
               private router: Router,
               private authService: AuthService,
               private commentService: CommentService,
-              private toasterService: ToasterService) {}
+              private toasterService: ToasterService,
+              private http: HttpClient) {}
 
   calendarView: boolean = false;
   showLogoMenu: boolean = false;
@@ -35,6 +38,13 @@ export class HeaderComponent {
   editingCommentId: number | null = null;
   editingText: string = '';
   commentCount: number = 0;
+  showAccountModal: boolean = false;
+  newUsername: string = '';
+  currentPassword: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+
+  private userApiUrl = environment.apiUrl + 'user';
 
   openCalendar() {
     this.calendarView = !this.calendarView;
@@ -53,6 +63,9 @@ export class HeaderComponent {
       this.authService.logout();
       this.showLogoMenu = false;
       this.router.navigate(['/login']);
+    } else if (option1 === 'account') {
+      this.showAccountModal = true;
+      this.showLogoMenu = false;
     }
   }
 
@@ -172,5 +185,50 @@ export class HeaderComponent {
       return timePart ? `${day} ${monthName} ${year} ${timePart}` : `${day} ${monthName} ${year}`;
     }
     return dateStr;
+  }
+
+  closeAccountModal() {
+    this.showAccountModal = false;
+    this.newUsername = '';
+    this.currentPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+  }
+
+  changeUsername() {
+    const username = this.newUsername.trim();
+    if (!username) return;
+
+    this.http.put(`${this.userApiUrl}/change-username`, { username }).subscribe({
+      next: () => {
+        this.toasterService.showMessage('Το όνομα χρήστη ενημερώθηκε', 'success');
+        this.newUsername = '';
+      },
+      error: () => {
+        this.toasterService.showMessage('Σφάλμα κατά την αλλαγή ονόματος', 'error');
+      }
+    });
+  }
+
+  changePassword() {
+    if (this.newPassword !== this.confirmPassword) {
+      this.toasterService.showMessage('Οι κωδικοί δεν ταιριάζουν', 'error');
+      return;
+    }
+
+    this.http.put(`${this.userApiUrl}/change-password`, {
+      currentPassword: this.currentPassword,
+      newPassword: this.newPassword
+    }, { responseType: 'text' }).subscribe({
+      next: () => {
+        this.toasterService.showMessage('Ο κωδικός ενημερώθηκε', 'success');
+        this.currentPassword = '';
+        this.newPassword = '';
+        this.confirmPassword = '';
+      },
+      error: () => {
+        this.toasterService.showMessage('Σφάλμα κατά την αλλαγή κωδικού', 'error');
+      }
+    });
   }
 }

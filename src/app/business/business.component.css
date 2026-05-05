@@ -133,3 +133,182 @@
 ::ng-deep .p-datatable .p-column-filter-row {
   width: 100% !important;
 }
+
+/* Responsive Form Styles */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-field-full {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Button group for table caption */
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .business {
+    padding: 1rem;
+  }
+
+  /* Make table more mobile-friendly */
+  ::ng-deep .p-datatable {
+    font-size: 0.8rem !important;
+  }
+
+  ::ng-deep .p-datatable th,
+  ::ng-deep .p-datatable td {
+    padding: 0.3rem 0.4rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  ::ng-deep .p-datatable .p-column-filter .p-inputtext {
+    padding: 0.3rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-field-full {
+    grid-column: span 1;
+  }
+
+  /* Adjust dialog for mobile */
+  ::ng-deep .p-dialog {
+    width: 95vw !important;
+    margin: 0.5rem !important;
+  }
+
+  ::ng-deep .p-dialog .p-dialog-content {
+    padding: 1rem !important;
+  }
+
+  ::ng-deep .p-dialog .p-dialog-header {
+    padding: 1rem !important;
+  }
+
+  /* Make form buttons stack on mobile */
+  ::ng-deep .p-dialog .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  ::ng-deep .p-dialog .form-actions .p-button {
+    width: 100%;
+  }
+
+  /* Checkbox layout for mobile */
+  .form-checkboxes {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: flex-start !important;
+  }
+
+  /* Table caption buttons for mobile */
+  .table-caption {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: stretch !important;
+  }
+
+  .table-caption-actions {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .table-caption .p-button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .table-caption-actions .p-iconfield {
+    width: 100% !important;
+  }
+
+  .table-caption-actions .p-iconfield input {
+    width: 100% !important;
+  }
+
+  /* Keep create and export buttons in the same row */
+  .table-caption-actions .button-group {
+    display: flex !important;
+    gap: 1rem !important;
+    width: 100% !important;
+  }
+
+  .table-caption-actions .button-group .p-button {
+    flex: 1 !important;
+    width: auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .business {
+    padding: 0.5rem;
+  }
+
+  .form-grid {
+    gap: 0.75rem;
+  }
+
+  ::ng-deep .p-dialog {
+    margin: 0.25rem !important;
+  }
+
+  ::ng-deep .p-dialog .p-dialog-content {
+    padding: 0.75rem !important;
+  }
+
+  ::ng-deep .p-dialog .p-dialog-header {
+    padding: 0.75rem !important;
+  }
+
+  /* Smaller text inputs on very small screens */
+  ::ng-deep .p-dialog .p-inputtext,
+  ::ng-deep .p-dialog .p-inputnumber,
+  ::ng-deep .p-dialog textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    min-height: 44px !important; /* Touch-friendly size */
+  }
+
+  ::ng-deep .p-dialog .p-button {
+    min-height: 44px !important; /* Touch-friendly size */
+  }
+
+  ::ng-deep .p-dialog label {
+    font-size: 14px !important;
+    margin-bottom: 4px !important;
+  }
+
+  /* Table improvements for mobile */
+  ::ng-deep .p-datatable .p-datatable-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Ensure form elements are easy to tap */
+  ::ng-deep .p-checkbox .p-checkbox-box {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+

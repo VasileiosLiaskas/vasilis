@@ -9,16 +9,18 @@
          styleClass="p-datatable-striped"
          [globalFilterFields]="['date','dateTo','type','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
   <ng-template pTemplate="caption">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div class="table-caption" style="display:flex; justify-content:space-between; align-items:center;">
       <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
-      <div style="display:flex; align-items:center; gap:0.5rem;">
+      <div class="table-caption-actions" style="display:flex; align-items:center; gap:0.5rem;">
 
         <p-iconfield iconPosition="left">
           <p-inputicon styleClass="pi pi-search" />
           <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dt.filterGlobal(searchValue, 'contains')" />
         </p-iconfield>
-        <p-button label="Δημιουργία" icon="pi pi-plus" (onClick)="addBusiness()" />
-        <p-button label="" icon="pi pi-file" severity="success" [outlined]="true" (onClick)="exportToExcel()" />
+        <div class="button-group">
+          <p-button label="Δημιουργία" icon="pi pi-plus" (onClick)="addBusiness()" />
+          <p-button label="" icon="pi pi-file" severity="success" [outlined]="true" (onClick)="exportToExcel()" />
+        </div>
       </div>
     </div>
   </ng-template>
@@ -116,55 +118,55 @@
 </div>
 <p-menu #rowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
 
-<p-dialog header="Επιχείρηση" [(visible)]="showForm" [modal]="true" [style]="{width:'700px'}" [closable]="true" (onHide)="onCancel()">
+<p-dialog header="Επιχείρηση" [(visible)]="showForm" [modal]="true" [style]="{width:'min(95vw, 700px)', 'max-height':'90vh'}" [closable]="true" (onHide)="onCancel()">
   <form [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+    <div class="form-grid">
+      <div class="form-field">
         <label style="font-weight:500;">Ημερομηνία</label>
         <input type="date" pInputText formControlName="date" style="width:100%;">
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Ημερομηνία Έως</label>
         <input type="date" pInputText formControlName="dateTo" style="width:100%;">
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Τύπος</label>
         <input pInputText formControlName="type" style="width:100%;">
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Ποιος</label>
         <input pInputText formControlName="who" style="width:100%;">
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Περιοχή</label>
         <input pInputText formControlName="area" style="width:100%;">
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Λεπτομέρειες</label>
         <input pInputText formControlName="details" style="width:100%;">
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Αμοιβή</label>
         <p-inputnumber formControlName="fee" [style]="{width:'100%'}" />
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Προκαταβολή</label>
         <p-inputnumber formControlName="advancePayment" [style]="{width:'100%'}" />
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Υπόλοιπο</label>
         <p-inputnumber formControlName="remainingMoney" [style]="{width:'100%'}" />
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem;">
+      <div class="form-field">
         <label style="font-weight:500;">Έξοδα</label>
         <p-inputnumber formControlName="costs" [style]="{width:'100%'}" />
       </div>
-      <div style="display:flex; flex-direction:column; gap:0.4rem; grid-column: span 2;">
+      <div class="form-field form-field-full">
         <label style="font-weight:500;">Σχόλια</label>
         <textarea pTextarea formControlName="comments" rows="3" style="width:100%;"></textarea>
       </div>
     </div>
-    <div style="display:flex; gap:2rem; margin-top:1.2rem; align-items:center;">
+    <div class="form-checkboxes" style="display:flex; gap:2rem; margin-top:1.2rem; align-items:center;">
       <div style="display:flex; align-items:center; gap:0.5rem;">
         <p-checkbox formControlName="payout" [binary]="true" inputId="payout" />
         <label for="payout">Αποπληρωμή</label>
@@ -178,7 +180,7 @@
         <label for="filesDelivered">Παράδοση</label>
       </div>
     </div>
-    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+    <div class="form-actions" style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
       <p-button label="Cancel" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="onCancel()" type="button" />
       <p-button label="Save" icon="pi pi-save" type="submit" />
     </div>

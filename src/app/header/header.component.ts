@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
 import {NgIf, NgForOf, DatePipe} from '@angular/common';
 import {Router} from '@angular/router';
 import {AuthService} from '../auth.service';
@@ -23,7 +23,7 @@ import {SettingsComponent} from '../settings/settings.component';
   standalone: true,
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
 
   constructor(private elementRef: ElementRef,
     private router: Router,
@@ -203,6 +203,11 @@ export class HeaderComponent {
 
   closeSettingsModal() {
     this.showSettingsModal = false;
+  }
+
+  ngOnInit(): void {
+    // Load comments immediately when the header component initializes
+    this.loadComments();
   }
 
 

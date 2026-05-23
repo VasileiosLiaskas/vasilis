@@ -19,6 +19,19 @@ npm install
 
 The `prepare` script (in `package.json`) will automatically configure Git to use `.githooks` as the hooks directory.
 
+### For Windows users with JetBrains IDE (WebStorm, IntelliJ, etc.)
+
+If you want to push via the IDE UI button instead of command line, make sure your IDE is using **Git from PATH** (not embedded Git). Check:
+
+1. **WebStorm/IntelliJ Settings:**
+   - Go to: `Settings → Version Control → Git`
+   - Set "Git executable" to: `git` (or `C:\Program Files\Git\cmd\git.exe` on Windows)
+   - Save and restart the IDE
+
+2. After this, when you click **Push** in the IDE, the `.githooks/pre-push.bat` hook will run automatically and bump the version.
+
+**If the IDE still doesn't run the hook**, use command line instead (Git push in terminal always works).
+
 ## Manual version bump (if needed)
 
 To manually bump the version without pushing:
@@ -41,6 +54,21 @@ If you want to disable the pre-push hook temporarily:
 ```bash
 git push --no-verify
 ```
+
+## How to push (two options)
+
+### Option 1: Command Line (Most Reliable ✅)
+```bash
+git push
+```
+The `.githooks/pre-push.bat` hook will run automatically and bump the version. **This always works.**
+
+### Option 2: JetBrains IDE UI (Click Push Button)
+If your IDE is configured to use Git from PATH (see setup section above), clicking **Push** in the IDE should also trigger the hook.
+
+**If the hook doesn't run in the IDE:**
+- Your IDE might be using embedded Git instead of system Git
+- In that case, just use command line: `git push` (in terminal within IDE or external terminal)
 
 ## CI/CD
 

@@ -134,7 +134,7 @@
 </div>
 <p-menu #rowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
 
-<p-dialog header="Επιχείρηση" [(visible)]="showForm" [modal]="true" [style]="{width:'min(95vw, 700px)', 'max-height':'90vh'}" [closable]="true" (onHide)="onCancel()">
+<p-dialog [(visible)]="showForm" [modal]="true" [style]="{width:'min(95vw, 700px)', 'max-height':'90vh'}" [closable]="true" (onHide)="onCancel()">
   <form [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
     <div class="form-grid">
       <div class="form-field">

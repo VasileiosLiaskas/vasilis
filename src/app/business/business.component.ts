@@ -581,7 +581,7 @@ export class BusinessComponent implements OnInit{
 
     // Download
     const now = new Date();
-    const fileName = `Επιχειρήσεις_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}.xlsx`;
+    const fileName = `Δουλειές_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}.xlsx`;
     XLSX.writeFile(wb, fileName);
   }
 

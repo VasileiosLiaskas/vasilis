@@ -19,7 +19,7 @@ export class SettingsComponent implements OnInit {
   parametricValues: string = '';
 
   menuItems = [
-    {id: 'parametric', label: 'Παραμετρικές Τιμές'}
+    {id: 'parametric', label: 'Παραμετρικές Τιμές Τύπου'}
   ];
 
   constructor(private parametricService: ParametricService,

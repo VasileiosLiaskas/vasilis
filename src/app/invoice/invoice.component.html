@@ -28,7 +28,7 @@
           <th pSortableColumn="description">Περιγραφή <p-sortIcon field="description"/></th>
           <th pSortableColumn="invoiceType">Τύπος Τιμολογίου <p-sortIcon field="invoiceType"/></th>
           <th>Αρχείο</th>
-          <th>Επιχείρηση</th>
+          <th>Δουλειά</th>
           <th></th>
         </tr>
         <tr>
@@ -63,7 +63,7 @@
           </td>
           <td>
             <p-button *ngIf="invoice.businessId" icon="pi pi-arrow-right" [text]="true" [rounded]="true" severity="info"
-                      (onClick)="goToBusiness(invoice.businessId)" pTooltip="Μετάβαση στην επιχείρηση" />
+                      (onClick)="goToBusiness(invoice.businessId)" pTooltip="Μετάβαση" />
           </td>
           <td>
             <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, invoice)" />

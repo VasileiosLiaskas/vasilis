@@ -1,0 +1,38 @@
+name: Deploy Angular (refactor)
+
+on:
+  push:
+    branches:
+      - refactor
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-angular-refactor
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy on Hetzner via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HETZNER_HOST }}
+          username: ${{ secrets.HETZNER_USER }}
+          key: ${{ secrets.HETZNER_SSH_KEY }}
+          passphrase: ${{ secrets.HETZNER_SSH_PASSPHRASE }}
+          port: 22
+          script_stop: true
+          script: |
+            set -e
+            cd /opt/vasilis
+
+            git fetch origin
+            git checkout refactor
+            git pull origin refactor
+
+            cd /opt
+            docker-compose up -d --build angular
+            docker-compose ps angular
+

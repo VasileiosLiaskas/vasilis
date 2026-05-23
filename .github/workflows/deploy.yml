@@ -15,14 +15,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout (for version info)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Deploy on Hetzner via SSH
         uses: appleboy/ssh-action@v1.2.0
+        env:
+          APP_VERSION: "0.2.${{ github.run_number }}"
+          GIT_COMMIT_SHA: ${{ github.sha }}
         with:
           host: ${{ secrets.HETZNER_HOST }}
           username: ${{ secrets.HETZNER_USER }}
           key: ${{ secrets.HETZNER_SSH_KEY }}
           passphrase: ${{ secrets.HETZNER_SSH_PASSPHRASE }}
           port: 22
+          envs: APP_VERSION,GIT_COMMIT_SHA
           script_stop: true
           script: |
             set -e
@@ -32,13 +41,14 @@ jobs:
             git checkout refactor
             git reset --hard origin/refactor
 
-            # Extract version info for Docker build
-            APP_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || grep '"version"' package.json | head -1 | sed 's/.*: "//;s/".*//')
-            GIT_COMMIT_SHA=$(git rev-parse HEAD)
             APP_BUILD_DATE=$(git log -1 --format=%cI)
 
             cd /opt
-            docker-compose build --build-arg APP_VERSION=$APP_VERSION --build-arg GIT_COMMIT_SHA=$GIT_COMMIT_SHA --build-arg APP_BUILD_DATE=$APP_BUILD_DATE angular
+            docker-compose build \
+              --build-arg APP_VERSION=$APP_VERSION \
+              --build-arg GIT_COMMIT_SHA=$GIT_COMMIT_SHA \
+              --build-arg APP_BUILD_DATE=$APP_BUILD_DATE \
+              angular
             docker-compose up -d angular
             docker-compose ps angular
 

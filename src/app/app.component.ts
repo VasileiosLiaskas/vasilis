@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Router, RouterOutlet} from '@angular/router';
-import {BusinessComponent} from './business/business.component';
 import {HeaderComponent} from './header/header.component';
 import {ToasterComponent} from './toaster/toaster.component';
 import {NgIf, NgStyle} from '@angular/common';
+import {AuthService} from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,8 @@ import {NgIf, NgStyle} from '@angular/common';
     RouterOutlet,
     HeaderComponent,
     ToasterComponent,
-    NgStyle
+    NgStyle,
+    NgIf
   ],
   templateUrl: './app.component.html',
   standalone: true,
@@ -20,13 +21,13 @@ import {NgIf, NgStyle} from '@angular/common';
 export class AppComponent  implements OnInit{
   activeTab: string = 'business';
   underlinePosition = '0%';
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
   ngOnInit(): void {
 
   }
 
-  get isLoggedIn(): boolean {
-    return !!localStorage.getItem('authToken');
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
   }
 
   navigate(tab: string) {

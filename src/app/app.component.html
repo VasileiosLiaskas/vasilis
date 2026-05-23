@@ -1,9 +1,9 @@
 <div class="main-layout">
-  <app-header></app-header>
+  <app-header *ngIf="isAuthenticated"></app-header>
   <app-toaster></app-toaster>
 
-  <!-- This is your intentional empty space -->
-  <div class="spacer">
+  <!-- This is your intentional empty space (tabs) - show only when authenticated -->
+  <div *ngIf="isAuthenticated" class="spacer">
     <div class="tabs-menu">
       <button class="tab" [class.active]="activeTab === 'business'" (click)="navigate('business')">
         <i class="fa-solid fa-briefcase"></i>

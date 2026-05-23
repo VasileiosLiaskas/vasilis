@@ -28,11 +28,17 @@ jobs:
             set -e
             cd /opt/vasilis
 
-            git fetch origin
+            git fetch origin --tags
             git checkout refactor
             git pull origin refactor
 
+            # Extract version info for Docker build
+            APP_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || grep '"version"' package.json | head -1 | sed 's/.*: "//;s/".*//')
+            GIT_COMMIT_SHA=$(git rev-parse HEAD)
+            APP_BUILD_DATE=$(git log -1 --format=%cI)
+
             cd /opt
-            docker-compose up -d --build angular
+            docker-compose build --build-arg APP_VERSION=$APP_VERSION --build-arg GIT_COMMIT_SHA=$GIT_COMMIT_SHA --build-arg APP_BUILD_DATE=$APP_BUILD_DATE angular
+            docker-compose up -d angular
             docker-compose ps angular
 

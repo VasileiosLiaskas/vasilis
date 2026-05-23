@@ -1,13 +1,14 @@
 {
   "name": "vasilis",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "scripts": {
     "start": "node server.js dist/vasilis/browser",
     "prebuild": "node generate-version.js",
     "build": "ng build --configuration production",
-    "postinstall": "npm run build"
-  },
-  "private": true,
+    "postinstall": "npm run build",
+    "prepare": "git config core.hooksPath .githooks"
+   },
+   "private": true,
   "dependencies": {
     "@angular/animations": "^19.1.0",
     "@angular/cdk": "^19.1.4",

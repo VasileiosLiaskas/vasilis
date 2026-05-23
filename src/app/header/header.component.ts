@@ -46,6 +46,10 @@ export class HeaderComponent implements OnInit {
   newPassword: string = '';
   confirmPassword: string = '';
   showSettingsModal: boolean = false;
+  showAboutModal: boolean = false;
+  lastCommitDate: string | null = null;
+  lastCommitHash: string | null = null;
+  version: string | null = null;
 
   private userApiUrl = environment.apiUrl + 'user';
 
@@ -72,6 +76,10 @@ export class HeaderComponent implements OnInit {
     } else if (option1 === 'settings') {
       this.showSettingsModal = true;
       this.showLogoMenu = false;
+    } else if (option1 === 'about') {
+      this.showAboutModal = true;
+      this.showLogoMenu = false;
+      this.loadLastCommitInfo();
     }
   }
 
@@ -203,6 +211,39 @@ export class HeaderComponent implements OnInit {
 
   closeSettingsModal() {
     this.showSettingsModal = false;
+  }
+
+  closeAboutModal() {
+    this.showAboutModal = false;
+  }
+
+  private loadLastCommitInfo() {
+    // Prefer reading a build-time generated file in assets (created by generate-version.js)
+    // Falls back to /api/last-commit if the asset is not present (older deployments)
+    this.http.get<{date: string | null, hash: string | null}>('/assets/version.json').subscribe({
+      next: (res) => {
+        this.lastCommitDate = res.date || null;
+        this.lastCommitHash = res.hash || null;
+        // version.json includes package version when generated at build time
+        // field name is 'version'
+        // use it in the About modal
+        // cast to any to avoid TS complaints
+        this.version = (res as any).version || null;
+      },
+      error: () => {
+        // Fallback to server API if asset isn't available
+        this.http.get<{date: string | null, hash: string | null}>('/api/last-commit').subscribe({
+            next: (res2) => {
+              this.lastCommitDate = res2.date;
+              this.lastCommitHash = res2.hash;
+          },
+          error: () => {
+            this.lastCommitDate = null;
+            this.lastCommitHash = null;
+          }
+        });
+      }
+    });
   }
 
   ngOnInit(): void {

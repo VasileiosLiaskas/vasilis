@@ -14,6 +14,7 @@
       <ul>
         <li (click)="menuAction('account')">Ο Λογαριασμός μου</li>
         <li (click)="menuAction('settings')">Ρυθμίσεις</li>
+        <li (click)="menuAction('about')">About</li>
         <li (click)="menuAction('logout')">Έξοδος</li>
       </ul>
     </div>
@@ -132,6 +133,27 @@
 <div *ngIf="showSettingsModal" class="modal" (click)="closeSettingsModal()">
   <div (click)="$event.stopPropagation()">
     <app-settings (close)="closeSettingsModal()"></app-settings>
+  </div>
+</div>
+
+<!-- About Modal -->
+<div *ngIf="showAboutModal" class="modal" (click)="closeAboutModal()">
+  <div class="about-modal" (click)="$event.stopPropagation()">
+    <div class="about-header">
+      <div class="about-title">
+        <i class="fa-solid fa-info-circle" style="color:#6c757d;"></i>
+        <span>About</span>
+      </div>
+      <span class="close-comments" (click)="closeAboutModal()">&times;</span>
+    </div>
+
+    <div class="about-body">
+      <p><strong>PhotoFaliro</strong> version {{ version || 'v0.2' }}</p>
+      <p>All rights reserved</p>
+      <p *ngIf="lastCommitDate">Last update: {{ lastCommitDate | date:'d MMM y, HH:mm' }}</p>
+      <p *ngIf="!lastCommitDate">Last update: Unknown</p>
+      <p *ngIf="lastCommitHash">Commit: {{ lastCommitHash }}</p>
+    </div>
   </div>
 </div>
 

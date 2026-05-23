@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "node server.js dist/vasilis/browser",
+    "prebuild": "node generate-version.js",
     "build": "ng build --configuration production",
     "postinstall": "npm run build"
   },

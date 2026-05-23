@@ -188,6 +188,43 @@ ul li a {
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
 }
 
+/* About Modal - use same dark styling as comments modal */
+.about-modal {
+  background: #1e1e1e;
+  color: #e0e0e0;
+  width: 420px;
+  max-width: 95vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.about-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid #333;
+}
+
+.about-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.about-body {
+  padding: 1.2rem;
+  overflow-y: auto;
+  flex: 1;
+  color: #dcdcdc;
+}
+
 .comments-header {
   display: flex;
   justify-content: space-between;

@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
 import {ToasterService} from '../toaster/toaster.service';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {SettingsComponent} from '../settings/settings.component';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,8 @@ import {environment} from '../../environments/environment';
     NgIf,
     NgForOf,
     DatePipe,
-    FormsModule
+    FormsModule,
+    SettingsComponent
   ],
   templateUrl: './header.component.html',
   standalone: true,
@@ -24,11 +26,11 @@ import {environment} from '../../environments/environment';
 export class HeaderComponent {
 
   constructor(private elementRef: ElementRef,
-              private router: Router,
-              private authService: AuthService,
-              private commentService: CommentService,
-              private toasterService: ToasterService,
-              private http: HttpClient) {}
+    private router: Router,
+    private authService: AuthService,
+    private commentService: CommentService,
+    private toasterService: ToasterService,
+    private http: HttpClient) { }
 
   calendarView: boolean = false;
   showLogoMenu: boolean = false;
@@ -43,6 +45,7 @@ export class HeaderComponent {
   currentPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
+  showSettingsModal: boolean = false;
 
   private userApiUrl = environment.apiUrl + 'user';
 
@@ -65,6 +68,9 @@ export class HeaderComponent {
       this.router.navigate(['/login']);
     } else if (option1 === 'account') {
       this.showAccountModal = true;
+      this.showLogoMenu = false;
+    } else if (option1 === 'settings') {
+      this.showSettingsModal = true;
       this.showLogoMenu = false;
     }
   }
@@ -194,6 +200,11 @@ export class HeaderComponent {
     this.newPassword = '';
     this.confirmPassword = '';
   }
+
+  closeSettingsModal() {
+    this.showSettingsModal = false;
+  }
+
 
   changeUsername() {
     const username = this.newUsername.trim();

@@ -1,11 +1,61 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ParametricService} from '../parametric/parametric.service';
+import {ToasterService} from '../toaster/toaster.service';
 
 @Component({
   selector: 'app-settings',
-  imports: [],
+  imports: [NgIf, NgForOf, NgClass, FormsModule],
   templateUrl: './settings.component.html',
+  standalone: true,
   styleUrl: './settings.component.css'
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
 
+  @Output() close = new EventEmitter<void>();
+
+  activeSection: string = 'parametric';
+  parametricValues: string = '';
+
+  menuItems = [
+    {id: 'parametric', label: 'Παραμετρικές Τιμές'}
+  ];
+
+  constructor(private parametricService: ParametricService,
+              private toasterService: ToasterService) {}
+
+  ngOnInit() {
+    this.loadParametricValues();
+  }
+
+  selectSection(id: string) {
+    this.activeSection = id;
+  }
+
+  loadParametricValues() {
+    this.parametricService.getTextareaValues('invoice_category').subscribe({
+      next: (data: string) => {
+        this.parametricValues = data || '';
+      },
+      error: () => {
+        this.parametricValues = '';
+      }
+    });
+  }
+
+  saveParametricValues() {
+    this.parametricService.replaceFromTextarea('invoice_category', this.parametricValues).subscribe({
+      next: () => {
+        this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success');
+      },
+      error: () => {
+        this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error');
+      }
+    });
+  }
+
+  closeModal() {
+    this.close.emit();
+  }
 }

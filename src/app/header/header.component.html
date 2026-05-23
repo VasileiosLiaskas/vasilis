@@ -13,6 +13,7 @@
     <div class="profile-dropdown" *ngIf="showLogoMenu">
       <ul>
         <li (click)="menuAction('account')">Ο Λογαριασμός μου</li>
+        <li (click)="menuAction('settings')">Ρυθμίσεις</li>
         <li (click)="menuAction('logout')">Έξοδος</li>
       </ul>
     </div>
@@ -126,3 +127,11 @@
     <span class="close" (click)="closeCalendar()">&times;</span>
   </div>
 </div>
+
+<!-- Settings Modal -->
+<div *ngIf="showSettingsModal" class="modal" (click)="closeSettingsModal()">
+  <div (click)="$event.stopPropagation()">
+    <app-settings (close)="closeSettingsModal()"></app-settings>
+  </div>
+</div>
+

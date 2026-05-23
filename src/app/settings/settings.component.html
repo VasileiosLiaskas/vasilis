@@ -1,1 +1,39 @@
-<p>settings works!</p>
+<div class="settings-container">
+  <!-- Header -->
+  <div class="settings-header">
+    <div class="settings-title">
+      <i class="fa-solid fa-gear"></i>
+      <span>Ρυθμίσεις</span>
+    </div>
+    <span class="close-btn" (click)="closeModal()">&times;</span>
+  </div>
+
+  <!-- Body: two columns -->
+  <div class="settings-body">
+    <!-- Left column: menu -->
+    <div class="settings-sidebar">
+      <ul>
+        <li *ngFor="let item of menuItems"
+            [ngClass]="{'active': activeSection === item.id}"
+            (click)="selectSection(item.id)">
+          {{ item.label }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right column: content -->
+    <div class="settings-content">
+      <div *ngIf="activeSection === 'parametric'" class="settings-panel">
+        <h4>Παραμετρικές Τιμές</h4>
+        <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
+        <textarea class="settings-textarea"
+                  [(ngModel)]="parametricValues"
+                  rows="10"
+                  placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
+        <div class="settings-actions">
+          <button class="btn-save" (click)="saveParametricValues()">Αποθήκευση</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

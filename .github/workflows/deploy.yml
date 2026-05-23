@@ -30,7 +30,7 @@ jobs:
 
             git fetch origin --tags
             git checkout refactor
-            git pull origin refactor
+            git reset --hard origin/refactor
 
             # Extract version info for Docker build
             APP_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || grep '"version"' package.json | head -1 | sed 's/.*: "//;s/".*//')

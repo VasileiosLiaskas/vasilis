@@ -89,7 +89,7 @@ Instead of bumping `package.json` in CI, stamp a build version into `src/assets/
 - `APP_BUILD_DATE` (ISO date)
 - `GITHUB_SHA` (commit hash; already provided by GitHub Actions)
 
-Example (step in your workflow):
+Example (step in your workflow):  
 
 ```yaml
 - name: Build

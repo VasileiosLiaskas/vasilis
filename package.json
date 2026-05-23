@@ -5,6 +5,8 @@
     "start": "node server.js dist/vasilis/browser",
     "prebuild": "node generate-version.js",
     "build": "ng build --configuration production",
+    "version:write": "node generate-version.js",
+    "version:bump:patch": "npm version patch --no-git-tag-version",
     "postinstall": "npm run build",
     "prepare": "git config core.hooksPath .githooks"
    },

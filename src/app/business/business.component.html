@@ -7,7 +7,7 @@
          [scrollable]="true" scrollDirection="horizontal"
          [tableStyle]="{'table-layout':'fixed','min-width':'1600px','width':'100%'}"
          styleClass="p-datatable-striped"
-         [globalFilterFields]="['date','dateTo','type','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
+         [globalFilterFields]="['date','dateTo','dateSearch','dateToSearch','type','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
   <ng-template pTemplate="caption">
     <div class="table-caption" style="display:flex; justify-content:space-between; align-items:center;">
       <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
@@ -29,7 +29,9 @@
       <th style="width:40px">#</th>
       <th style="width:50px">Τιμολόγια</th>
       <th style="width:110px" pSortableColumn="date">Ημ. Από <p-sortIcon field="date"/></th>
+<!--
       <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th>
+-->
       <th style="width:100px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
       <th style="width:100px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
       <th style="width:100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
@@ -49,18 +51,32 @@
       <th></th>
       <th>
         <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
-          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <input #dateFromInput type="date" pInputText style="width:100%" [(ngModel)]="dateFromFilter" (change)="filter($any($event.target).value)" />
+          <ng-template pTemplate="filter" let-filter="filterCallback">
+            <p-datepicker
+              [(ngModel)]="dateFromFilter"
+              [showIcon]="true"
+              [appendTo]="'body'"
+              dateFormat="dd/mm/yy"
+              styleClass="w-full"
+              (onSelect)="filter($event)">
+            </p-datepicker>
           </ng-template>
         </p-columnFilter>
       </th>
-      <th>
+     <!-- <th>
         <p-columnFilter field="dateTo" matchMode="dateBefore" [showMenu]="false">
-          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <input #dateToInput type="date" pInputText style="width:100%" [(ngModel)]="dateToFilter" (change)="filter($any($event.target).value)" />
+          <ng-template pTemplate="filter" let-filter="filterCallback">
+            <p-datepicker
+              [(ngModel)]="dateToFilter"
+              [showIcon]="true"
+              [appendTo]="'body'"
+              dateFormat="dd/mm/yy"
+              styleClass="w-full"
+              (onSelect)="filter($event)">
+            </p-datepicker>
           </ng-template>
         </p-columnFilter>
-      </th>
+      </th>-->
       <th><p-columnFilter type="text" field="type" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="area" [showMenu]="false" placeholder="Φίλτρο..." /></th>
@@ -84,8 +100,8 @@
         <i class="pi pi-folder" style="font-size:1.2rem; color:#6c757d;"></i>
         <span *ngIf="business.invoicesId?.length" class="badge" style="position:absolute; top:12px; right:33px; background:#e74c3c; color:#fff; border-radius:50%; font-size:0.7rem; width:18px; height:18px; display:flex; align-items:center; justify-content:center;">{{ business.invoicesId.length }}</span>
       </td>
-      <td>{{ business.date }}</td>
-      <td>{{ business.dateTo }}</td>
+      <td>{{ formatDateAsYYMMDD(business.date) }}</td>
+     <!-- <td>{{ formatDateAsYYMMDD(business.dateTo) }}</td>-->
       <td>{{ business.type }}</td>
       <td>{{ business.who }}</td>
       <td>{{ business.area }}</td>
@@ -94,9 +110,9 @@
       <td style="background-color: rgba(184,184,184,0.16);">{{ business.fee }}</td>
       <td>{{ business.advancePayment }}</td>
       <td>{{ business.remainingMoney }}</td>
-      <td [appBooleanColor]="business.payout">{{ convertBoolean(business.payout) }}</td>
-      <td [appBooleanColor]="business.filesCompleted">{{ convertBoolean(business.filesCompleted) }}</td>
-      <td [appBooleanColor]="business.filesDelivered">{{ convertBoolean(business.filesDelivered) }}</td>
+      <td [appBooleanColor]="business.payout" style="cursor:pointer;" (click)="onBooleanCellClick(business, 'payout')">{{ convertBoolean(business.payout) }}</td>
+      <td [appBooleanColor]="business.filesCompleted" style="cursor:pointer;" (click)="onBooleanCellClick(business, 'filesCompleted')">{{ convertBoolean(business.filesCompleted) }}</td>
+      <td [appBooleanColor]="business.filesDelivered" style="cursor:pointer;" (click)="onBooleanCellClick(business, 'filesDelivered')">{{ convertBoolean(business.filesDelivered) }}</td>
       <td>{{ business.comments }}</td>
       <td>
         <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, business)" />
@@ -105,7 +121,7 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <tr>
-      <td colspan="8" style="text-align:right; font-weight:bold;"></td>
+      <td colspan="7" style="text-align:right; font-weight:bold;"></td>
       <td style="font-weight:bold;">{{ getFilteredTotal('costs', dt) }}</td>
       <td style="font-weight:bold; background-color: rgba(184,184,184,0.16);">{{ getFilteredTotal('fee', dt) }}</td>
       <td style="font-weight:bold;">{{ getFilteredTotal('advancePayment', dt) }}</td>
@@ -131,7 +147,18 @@
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Τύπος</label>
-        <input pInputText formControlName="type" style="width:100%;">
+        <p-dropdown
+          formControlName="type"
+          [options]="workTypeOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Επιλογή..."
+          [filter]="true"
+          [showClear]="true"
+          [loading]="isLoadingWorkTypes"
+          appendTo="body"
+          [style]="{width:'100%'}">
+        </p-dropdown>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Ποιος</label>

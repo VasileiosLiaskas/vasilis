@@ -22,10 +22,12 @@ import {SelectButtonModule} from 'primeng/selectbutton';
 import {TextareaModule} from 'primeng/textarea';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
+import {DropdownModule} from 'primeng/dropdown';
 import {FilterService, MenuItem} from 'primeng/api';
 import {ActivatedRoute} from '@angular/router';
 import {Table} from 'primeng/table';
 import * as XLSX from 'xlsx-js-style';
+import {ParametricService} from '../parametric/parametric.service';
 
 @Component({
   selector: 'app-business',
@@ -48,7 +50,8 @@ import * as XLSX from 'xlsx-js-style';
     SelectButtonModule,
     TextareaModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    DropdownModule
   ],
   templateUrl: './business.component.html',
   standalone: true,
@@ -63,13 +66,16 @@ export class BusinessComponent implements OnInit{
   size: number = 10;
   totalElements: number = 0;
   searchValue: string = '';
-  dateFromFilter: string = '';
-  dateToFilter: string = '';
+  dateFromFilter: Date | null = null;
+  dateToFilter: Date | null = null;
   activeMenuItems: MenuItem[] = [];
   @ViewChild('rowMenu') rowMenu!: Menu;
   @ViewChild('dt') dt!: Table;
   selectedBusiness: Business | null = null;
   highlightedBusinessId: number | null = null;
+  workTypeOptions: { label: string; value: string }[] = [];
+  isLoadingWorkTypes = false;
+  private booleanClickCounts: Record<string, number> = {};
 
 
   constructor(
@@ -77,13 +83,15 @@ export class BusinessComponent implements OnInit{
     private toasterService: ToasterService,
     private calendarService: GoogleCalendarService,
     private filterService: FilterService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private parametricService: ParametricService
   ) { }
 
 
   ngOnInit(): void {
     this.registerDateFilters();
     this.businessForm = this.businessService.initForm();
+    this.loadWorkTypeOptions();
 
     this.route.queryParams.subscribe(params => {
       const highlightId = params['highlightBusinessId'];
@@ -95,38 +103,60 @@ export class BusinessComponent implements OnInit{
   }
 
   registerDateFilters() {
-    // Parses "DD-MM-YYYY" string to a comparable Date
-    const parseDate = (dateStr: string): Date | null => {
-      if (!dateStr) return null;
-      const parts = dateStr.split('-');
-      if (parts.length === 3 && parts[0].length <= 2) {
-        return new Date(+parts[2], +parts[1] - 1, +parts[0]);
+    const parseDate = (value: string | Date): Date | null => {
+      if (!value) return null;
+
+      if (value instanceof Date) {
+        const d = new Date(value);
+        d.setHours(0, 0, 0, 0);
+        return d;
       }
-      return new Date(dateStr);
+
+      const parts = value.split('-');
+      let parsed: Date;
+
+      if (parts.length === 3 && parts[0].length <= 2) {
+        // DD-MM-YYYY
+        parsed = new Date(+parts[2], +parts[1] - 1, +parts[0]);
+      } else {
+        // YYYY-MM-DD (or any Date-parsable string)
+        parsed = new Date(value);
+      }
+
+      if (isNaN(parsed.getTime())) return null;
+      parsed.setHours(0, 0, 0, 0);
+      return parsed;
     };
 
     // "dateAfter": show rows where the field date >= filter date
-    this.filterService.register('dateAfter', (value: any, filter: any): boolean => {
+    this.filterService.register('dateAfter', (value: any, filter: Date | string | null): boolean => {
       if (!filter) return true;
       const rowDate = parseDate(value);
-      const filterDate = new Date(filter); // filter is "YYYY-MM-DD" from input[type=date]
+      const filterDate = parseDate(filter as any);
       if (!rowDate) return false;
+      if (!filterDate) return true;
       return rowDate >= filterDate;
     });
 
     // "dateBefore": show rows where the field date <= filter date
-    this.filterService.register('dateBefore', (value: any, filter: any): boolean => {
+    this.filterService.register('dateBefore', (value: any, filter: Date | string | null): boolean => {
       if (!filter) return true;
       const rowDate = parseDate(value);
-      const filterDate = new Date(filter);
+      const filterDate = parseDate(filter as any);
       if (!rowDate) return false;
+      if (!filterDate) return true;
       return rowDate <= filterDate;
     });
   }
 
   loadBusinessList() {
     this.businessService.getBusinessList().subscribe(response => {
-      this.businessList = response;
+      this.booleanClickCounts = {};
+      this.businessList = response.map((business: any) => ({
+        ...business,
+        dateSearch: this.formatDateAsYYMMDD(business.date),
+        dateToSearch: this.formatDateAsYYMMDD(business.dateTo)
+      }));
 
       if (this.highlightedBusinessId && this.dt) {
         // Find the index of the highlighted business
@@ -240,6 +270,65 @@ export class BusinessComponent implements OnInit{
     return value ? 'Ναι' : 'Όχι';
   }
 
+  onBooleanCellClick(business: any, field: 'payout' | 'filesCompleted' | 'filesDelivered') {
+    const clickKey = `${business.id}-${field}`;
+    const currentCount = (this.booleanClickCounts[clickKey] || 0) + 1;
+    this.booleanClickCounts[clickKey] = currentCount;
+
+    if (currentCount < 4) {
+      return;
+    }
+
+    this.booleanClickCounts[clickKey] = 0;
+    const newValue = !business[field];
+
+    const payload: any = {
+      ...business,
+      [field]: newValue
+    };
+
+    // Search helper fields are UI-only and should not be sent to API.
+    delete payload.dateSearch;
+    delete payload.dateToSearch;
+
+    this.businessService.save(payload).subscribe({
+      next: () => {
+        business[field] = newValue;
+      },
+      error: (error) => {
+        console.error(error);
+        this.toasterService.showMessage('Αποτυχία ενημέρωσης', 'error');
+      }
+    });
+  }
+
+  formatDateAsYYMMDD(dateInput: string | Date): string {
+    if (!dateInput) return '';
+
+    let year = '';
+    let month = '';
+    let day = '';
+
+    if (dateInput instanceof Date) {
+      year = String(dateInput.getFullYear());
+      month = String(dateInput.getMonth() + 1).padStart(2, '0');
+      day = String(dateInput.getDate()).padStart(2, '0');
+    } else {
+      const parts = dateInput.split('-');
+      if (parts.length !== 3) return dateInput;
+
+      // Supports both DD-MM-YYYY and YYYY-MM-DD values.
+      if (parts[0].length === 4) {
+        [year, month, day] = parts;
+      } else {
+        [day, month, year] = parts;
+      }
+    }
+
+    if (!year || !month || !day) return '';
+    return `${year.slice(-2)}${month.padStart(2, '0')}${day.padStart(2, '0')}`;
+  }
+
   getFilteredTotal(field: string, table: any): number {
     const data = table.filteredValue || this.businessList;
     return data.reduce((sum: number, item: any) => sum + (Number(item[field]) || 0), 0);
@@ -248,15 +337,8 @@ export class BusinessComponent implements OnInit{
   clearFilters(table: any) {
     table.clear();
     this.searchValue = '';
-    this.dateFromFilter = '';
-    this.dateToFilter = '';
-  }
-
-  convertDateForFilter(value: string): string {
-    if (!value) return '';
-    // Input type="date" gives "YYYY-MM-DD", convert to "DD-MM-YYYY" to match your data
-    const [year, month, day] = value.split('-');
-    return `${day}-${month}-${year}`;
+    this.dateFromFilter = null;
+    this.dateToFilter = null;
   }
 
   openMenu(event: Event, business: Business) {
@@ -282,6 +364,45 @@ export class BusinessComponent implements OnInit{
       dateTo: formattedDateTo,/*
      */ googleCalendarId:business.googleCalendarId
     });
+    this.ensureCurrentDetailsOption(business.details);
+  }
+
+  private loadWorkTypeOptions() {
+    this.isLoadingWorkTypes = true;
+    this.parametricService.getTextareaValues('work_type').subscribe({
+      next: (data: string) => {
+        this.workTypeOptions = this.parseParametricValues(data);
+        this.isLoadingWorkTypes = false;
+        this.ensureCurrentDetailsOption();
+      },
+      error: () => {
+        this.workTypeOptions = [];
+        this.isLoadingWorkTypes = false;
+      }
+    });
+  }
+
+  private parseParametricValues(valuesText: string): { label: string; value: string }[] {
+    const uniqueValues = new Set(
+      (valuesText || '')
+        .split(/\r?\n/)
+        .map(value => value.trim())
+        .filter(Boolean)
+    );
+
+    return Array.from(uniqueValues).map(value => ({ label: value, value }));
+  }
+
+  private ensureCurrentDetailsOption(details?: string) {
+    const currentDetails = (details ?? this.businessForm?.get('type')?.value ?? '').trim();
+    if (!currentDetails) {
+      return;
+    }
+
+    const exists = this.workTypeOptions.some(option => option.value === currentDetails);
+    if (!exists) {
+      this.workTypeOptions = [{ label: currentDetails, value: currentDetails }, ...this.workTypeOptions];
+    }
   }
 
   deleteRow(row: any) {

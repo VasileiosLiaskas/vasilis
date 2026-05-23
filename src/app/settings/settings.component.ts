@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit {
   }
 
   loadParametricValues() {
-    this.parametricService.getTextareaValues('invoice_category').subscribe({
+    this.parametricService.getTextareaValues('work_type').subscribe({
       next: (data: string) => {
         this.parametricValues = data || '';
       },
@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit {
   }
 
   saveParametricValues() {
-    this.parametricService.replaceFromTextarea('invoice_category', this.parametricValues).subscribe({
+    this.parametricService.replaceFromTextarea('work_type', this.parametricValues).subscribe({
       next: () => {
         this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success');
       },

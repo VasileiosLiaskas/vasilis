@@ -72,5 +72,32 @@ If your IDE is configured to use Git from PATH (see setup section above), clicki
 
 ## CI/CD
 
-If using GitHub Actions or similar, the hook will also run in CI if the runner has a Git checkout. The build will always embed the current version in the bundled `version.json` asset.
+### Important: Git hooks do NOT run in GitHub Actions
+
+The auto-bump in this repo is implemented as a **local Git pre-push hook**.
+GitHub Actions (and most CI systems) do **not** execute your local hooks.
+
+Also, some IDE Git integrations may bypass hooks depending on configuration (embedded Git / custom push implementation).
+
+### Recommended CI approach (GitHub Actions)
+
+Instead of bumping `package.json` in CI, stamp a build version into `src/assets/version.json` during the build.
+
+`generate-version.js` supports overriding values via env vars:
+
+- `APP_VERSION` (string shown in the app)
+- `APP_BUILD_DATE` (ISO date)
+- `GITHUB_SHA` (commit hash; already provided by GitHub Actions)
+
+Example (step in your workflow):
+
+```yaml
+- name: Build
+  run: |
+    echo "APP_VERSION=${GITHUB_REF_NAME}.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+    npm ci
+    npm run build
+```
+
+This keeps `package.json` stable while ensuring every pipeline build embeds the correct version information.
 

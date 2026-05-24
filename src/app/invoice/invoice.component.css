@@ -72,3 +72,55 @@
   z-index: 1001 !important;
 }
 
+
+/* Responsive caption (Clear, Create, Search) for invoice table */
+.invoice-caption{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:0.5rem;
+  flex-wrap:wrap; /* allow wrapping on small screens */
+}
+.caption-left{
+  flex: 0 0 auto;
+}
+.caption-right{
+  display:flex;
+  flex: 1 1 auto;
+  justify-content:flex-end;
+}
+.caption-actions{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  flex-wrap:wrap;
+}
+
+/* Mobile: stack the controls vertically */
+@media (max-width: 640px){
+  .invoice-caption{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .caption-left,
+  .caption-right{
+    width:100%;
+  }
+  .caption-right{ justify-content:flex-start; }
+  .caption-actions{ width:100%; justify-content:flex-start; }
+  /* make the search field take available width on mobile */
+  .caption-actions p-iconfield{
+    flex:1 1 auto;
+    min-width:0; /* allow input to shrink properly inside flex */
+  }
+  .caption-actions p-button{ flex: 0 0 auto; }
+}
+
+/* Reduce overall component padding on small screens */
+@media (max-width: 640px){
+  .invoice{
+    padding: 0.75rem; /* reduce from 2rem to 0.75rem on mobile */
+  }
+}
+
+

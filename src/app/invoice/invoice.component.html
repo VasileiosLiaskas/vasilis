@@ -8,14 +8,19 @@
              styleClass="p-datatable-striped"
              [globalFilterFields]="['invoiceNumber','invoiceDate','fileName','description','invoiceType']">
       <ng-template pTemplate="caption">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
-          <div style="display:flex; align-items:center; gap:0.5rem;">
-            <p-button label="Δημιουργία" icon="pi pi-plus" (onClick)="addInvoice()" />
-            <p-iconfield iconPosition="left">
-              <p-inputicon styleClass="pi pi-search" />
-              <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dt.filterGlobal(searchValue, 'contains')" />
-            </p-iconfield>
+        <!-- Responsive caption: stacks on small screens -->
+        <div class="invoice-caption">
+          <div class="caption-left">
+            <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
+          </div>
+          <div class="caption-right">
+            <div class="caption-actions">
+              <p-button label="Δημιουργία" icon="pi pi-plus" (onClick)="addInvoice()" />
+              <p-iconfield iconPosition="left">
+                <p-inputicon styleClass="pi pi-search" />
+                <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dt.filterGlobal(searchValue, 'contains')" />
+              </p-iconfield>
+            </div>
           </div>
         </div>
       </ng-template>

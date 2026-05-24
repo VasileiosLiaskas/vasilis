@@ -26,9 +26,9 @@
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th pFrozenColumn alignFrozen="left" style="width:40px">#</th>
-      <th pFrozenColumn alignFrozen="left" style="width:50px">Τιμολόγια</th>
-      <th pFrozenColumn alignFrozen="left" style="width:110px" pSortableColumn="date">Ημ. Από <p-sortIcon field="date"/></th>
+      <th style="width:40px">#</th>
+      <th style="width:50px">Τιμολόγια</th>
+      <th style="width:110px" pSortableColumn="date">Ημ. Από <p-sortIcon field="date"/></th>
 <!--
       <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th>
 -->
@@ -47,9 +47,9 @@
       <th style="width:40px"></th>
     </tr>
     <tr>
-      <th pFrozenColumn alignFrozen="left" style="width:40px"></th>
-      <th pFrozenColumn alignFrozen="left" style="width:50px"></th>
-      <th pFrozenColumn alignFrozen="left" style="width:110px">
+      <th style="width:40px"></th>
+      <th style="width:50px"></th>
+      <th style="width:110px">
         <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
           <ng-template pTemplate="filter" let-filter="filterCallback">
             <p-datepicker
@@ -95,14 +95,14 @@
   <ng-template pTemplate="body" let-business let-i="rowIndex">
     <tr [attr.data-business-id]="business.id"
         [ngClass]="{'highlighted-row': highlightedBusinessId === business.id}">
-      <td pFrozenColumn alignFrozen="left" style="width:40px">{{ (page * size) + i + 1 }}</td>
-      <td pFrozenColumn alignFrozen="left" style="width:50px; cursor:pointer; text-align:center;" (click)="openInvoicesDialog(business)">
+      <td style="width:40px">{{ (page * size) + i + 1 }}</td>
+      <td style="width:50px; cursor:pointer; text-align:center;" (click)="openInvoicesDialog(business)">
         <span class="invoice-folder">
           <i class="pi pi-folder"></i>
           <span *ngIf="business.invoicesId?.length" class="invoice-badge">{{ business.invoicesId.length }}</span>
         </span>
       </td>
-      <td pFrozenColumn alignFrozen="left" style="width:110px">{{ formatDateAsYYMMDD(business.date) }}</td>
+      <td style="width:110px">{{ formatDateAsYYMMDD(business.date) }}</td>
      <!-- <td>{{ formatDateAsYYMMDD(business.dateTo) }}</td>-->
       <td>{{ business.type }}</td>
       <td>{{ business.who }}</td>

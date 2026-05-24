@@ -220,7 +220,7 @@ export class HeaderComponent implements OnInit {
   private loadLastCommitInfo() {
     // Prefer reading a build-time generated file in assets (created by generate-version.js)
     // Falls back to /api/last-commit if the asset is not present (older deployments)
-    this.http.get<{date: string | null, hash: string | null}>('/assets/version.json').subscribe({
+    this.http.get<{date: string | null, hash: string | null}>(`/assets/version.json?t=${Date.now()}`).subscribe({
       next: (res) => {
         this.lastCommitDate = res.date || null;
         this.lastCommitHash = res.hash || null;

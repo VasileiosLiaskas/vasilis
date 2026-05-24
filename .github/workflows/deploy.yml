@@ -23,7 +23,7 @@ jobs:
       - name: Deploy on Hetzner via SSH
         uses: appleboy/ssh-action@v1.2.0
         env:
-          APP_VERSION: "0.2.${{ github.run_number }}"
+          APP_VERSION: "0.${{ github.run_number }}"
           GIT_COMMIT_SHA: ${{ github.sha }}
         with:
           host: ${{ secrets.HETZNER_HOST }}

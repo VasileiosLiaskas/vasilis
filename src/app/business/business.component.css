@@ -78,11 +78,74 @@
 }
 
 ::ng-deep .p-datatable-wrapper {
-  overflow: visible !important;
+  /* PrimeNG manages the scroll container internally for scrollable tables */
+  overflow: hidden !important;
+}
+
+/* Ensure the datatable scroll body is the actual horizontal scroll container */
+::ng-deep .p-datatable-scrollable .p-datatable-wrapper {
+  overflow: auto !important;
 }
 
 ::ng-deep .business__table {
   overflow: visible !important;
+}
+
+/* Frozen column visual fixes (keep the frozen column readable while scrolling) */
+::ng-deep .p-datatable .p-frozen-column {
+  z-index: 2;
+}
+
+/* Body frozen cells must be sticky/on-top to prevent scrolling columns from sliding under them */
+::ng-deep .p-datatable .p-datatable-tbody > tr > td.p-frozen-column {
+  /* PrimeNG already handles frozen positioning; we only ensure correct stacking */
+  z-index: 4;
+}
+
+/* Folder + badge layout inside the frozen 'Τιμολόγια' column */
+::ng-deep .p-datatable .invoice-folder {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+::ng-deep .p-datatable .invoice-folder .pi-folder {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+::ng-deep .p-datatable .invoice-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th.p-frozen-column {
+  z-index: 3;
+  background-color: #43454a !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td.p-frozen-column,
+::ng-deep .p-datatable .p-datatable-tfoot > tr > td.p-frozen-column {
+  background: #ffffff;
+}
+
+::ng-deep .p-datatable .p-frozen-column {
+  box-shadow: 2px 0 0 0 rgba(0, 0, 0, 0.06);
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr.highlighted-row {

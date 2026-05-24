@@ -148,9 +148,8 @@
     </div>
 
     <div class="about-body">
-      <p><strong>PhotoFaliro</strong> version {{ version }}</p>
-      <p *ngIf="lastCommitDate">Last update: {{ lastCommitDate | date:'d MMM y, HH:mm' }}</p>
-      <p *ngIf="!lastCommitDate">Last update: Unknown</p>
+      <p><strong>PhotoFaliro</strong> v{{ version }}</p>
+      <p  style="font-size:12px" *ngIf="lastCommitDate">Last update: {{ lastCommitDate | date:'d MMM y, HH:mm' }}</p>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ export class Business {
   public date!: Date;
   public dateTo!:Date;
   public type!: string;
+  public fromWho!: string;
   public who!: string;
   public area!: string;
   public details!: string;

@@ -26,6 +26,7 @@ export class BusinessService {
       date: [this.formatDate(new Date())],
       dateTo: [this.formatDate(new Date())],// Set date to current timestamp
       type: [business.type],
+      fromWho: [business.fromWho],
       who: [business.who],
       area: [business.area],
       details: [business.details],

@@ -17,9 +17,13 @@ export class SettingsComponent implements OnInit {
 
   activeSection: string = 'parametric';
   parametricValues: string = '';
+  fromWhoValues: string = '';
+  whoValues: string = '';
 
   menuItems = [
-    {id: 'parametric', label: 'Παραμετρικές Τιμές Τύπου'}
+    {id: 'parametric', label: 'Παραμετρικές Τιμές Τύπου'},
+    {id: 'from_who', label: 'Παραμετρικές Τιμές Από Ποιον'},
+    {id: 'who', label: 'Παραμετρικές Τιμές Ποιος'}
   ];
 
   constructor(private parametricService: ParametricService,
@@ -27,6 +31,8 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.loadParametricValues();
+    this.loadFromWhoValues();
+    this.loadWhoValues();
   }
 
   selectSection(id: string) {
@@ -52,6 +58,34 @@ export class SettingsComponent implements OnInit {
       error: () => {
         this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error');
       }
+    });
+  }
+
+  loadFromWhoValues() {
+    this.parametricService.getTextareaValues('from_who').subscribe({
+      next: (data: string) => { this.fromWhoValues = data || ''; },
+      error: () => { this.fromWhoValues = ''; }
+    });
+  }
+
+  saveFromWhoValues() {
+    this.parametricService.replaceFromTextarea('from_who', this.fromWhoValues).subscribe({
+      next: () => { this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success'); },
+      error: () => { this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error'); }
+    });
+  }
+
+  loadWhoValues() {
+    this.parametricService.getTextareaValues('who').subscribe({
+      next: (data: string) => { this.whoValues = data || ''; },
+      error: () => { this.whoValues = ''; }
+    });
+  }
+
+  saveWhoValues() {
+    this.parametricService.replaceFromTextarea('who', this.whoValues).subscribe({
+      next: () => { this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success'); },
+      error: () => { this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error'); }
     });
   }
 

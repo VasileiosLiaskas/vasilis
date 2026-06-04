@@ -74,7 +74,11 @@ export class BusinessComponent implements OnInit{
   selectedBusiness: Business | null = null;
   highlightedBusinessId: number | null = null;
   workTypeOptions: { label: string; value: string }[] = [];
+  fromWhoOptions: { label: string; value: string }[] = [];
+  whoOptions: { label: string; value: string }[] = [];
   isLoadingWorkTypes = false;
+  isLoadingFromWho = false;
+  isLoadingWho = false;
   private booleanClickCounts: Record<string, number> = {};
 
 
@@ -92,6 +96,8 @@ export class BusinessComponent implements OnInit{
     this.registerDateFilters();
     this.businessForm = this.businessService.initForm();
     this.loadWorkTypeOptions();
+    this.loadFromWhoOptions();
+    this.loadWhoOptions();
 
     this.route.queryParams.subscribe(params => {
       const highlightId = params['highlightBusinessId'];
@@ -365,6 +371,8 @@ export class BusinessComponent implements OnInit{
      */ googleCalendarId:business.googleCalendarId
     });
     this.ensureCurrentDetailsOption(business.details);
+    this.ensureCurrentOption('fromWho', this.fromWhoOptions);
+    this.ensureCurrentOption('who', this.whoOptions);
   }
 
   private loadWorkTypeOptions() {
@@ -380,6 +388,45 @@ export class BusinessComponent implements OnInit{
         this.isLoadingWorkTypes = false;
       }
     });
+  }
+
+  private loadFromWhoOptions() {
+    this.isLoadingFromWho = true;
+    this.parametricService.getTextareaValues('from_who').subscribe({
+      next: (data: string) => {
+        this.fromWhoOptions = this.parseParametricValues(data);
+        this.isLoadingFromWho = false;
+        this.ensureCurrentOption('fromWho', this.fromWhoOptions);
+      },
+      error: () => {
+        this.fromWhoOptions = [];
+        this.isLoadingFromWho = false;
+      }
+    });
+  }
+
+  private loadWhoOptions() {
+    this.isLoadingWho = true;
+    this.parametricService.getTextareaValues('who').subscribe({
+      next: (data: string) => {
+        this.whoOptions = this.parseParametricValues(data);
+        this.isLoadingWho = false;
+        this.ensureCurrentOption('who', this.whoOptions);
+      },
+      error: () => {
+        this.whoOptions = [];
+        this.isLoadingWho = false;
+      }
+    });
+  }
+
+  private ensureCurrentOption(field: string, options: { label: string; value: string }[]) {
+    const currentValue = (this.businessForm?.get(field)?.value ?? '').trim();
+    if (!currentValue) return;
+    const exists = options.some(o => o.value === currentValue);
+    if (!exists) {
+      options.unshift({ label: currentValue, value: currentValue });
+    }
   }
 
   private parseParametricValues(valuesText: string): { label: string; value: string }[] {
@@ -494,6 +541,7 @@ export class BusinessComponent implements OnInit{
         'Ημερομηνία Από': b.date,
         'Ημερομηνία Έως': b.dateTo,
         'Τύπος': b.type,
+        'Από Ποιον': b.fromWho || '',
         'Ποιος': b.who,
         'Περιοχή': b.area,
         'Λεπτομέρειες': b.details,
@@ -517,6 +565,7 @@ export class BusinessComponent implements OnInit{
         'Ημερομηνία Από': '',
         'Ημερομηνία Έως': '',
         'Τύπος': '',
+        'Από Ποιον': '',
         'Ποιος': '',
         'Περιοχή': '',
         'Λεπτομέρειες': 'ΣΥΝΟΛΟ',

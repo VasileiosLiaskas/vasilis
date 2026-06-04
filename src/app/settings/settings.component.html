@@ -24,7 +24,7 @@
     <!-- Right column: content -->
     <div class="settings-content">
       <div *ngIf="activeSection === 'parametric'" class="settings-panel">
-        <h4>Παραμετρικές Τιμές Τύπου</h4>
+        <h4>Τύπος</h4>
         <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
         <textarea class="settings-textarea"
                   [(ngModel)]="parametricValues"
@@ -32,6 +32,30 @@
                   placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
         <div class="settings-actions">
           <button class="btn-save" (click)="saveParametricValues()">Αποθήκευση</button>
+        </div>
+      </div>
+
+      <div *ngIf="activeSection === 'from_who'" class="settings-panel">
+        <h4>Από Ποιον</h4>
+        <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
+        <textarea class="settings-textarea"
+                  [(ngModel)]="fromWhoValues"
+                  rows="10"
+                  placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
+        <div class="settings-actions">
+          <button class="btn-save" (click)="saveFromWhoValues()">Αποθήκευση</button>
+        </div>
+      </div>
+
+      <div *ngIf="activeSection === 'who'" class="settings-panel">
+        <h4>Ποιος</h4>
+        <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
+        <textarea class="settings-textarea"
+                  [(ngModel)]="whoValues"
+                  rows="10"
+                  placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
+        <div class="settings-actions">
+          <button class="btn-save" (click)="saveWhoValues()">Αποθήκευση</button>
         </div>
       </div>
     </div>

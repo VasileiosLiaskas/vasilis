@@ -7,7 +7,7 @@
          [scrollable]="true" scrollDirection="horizontal"
          [tableStyle]="{'table-layout':'fixed','min-width':'1600px','width':'100%'}"
          styleClass="p-datatable-striped"
-         [globalFilterFields]="['date','dateTo','dateSearch','dateToSearch','type','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
+         [globalFilterFields]="['date','dateTo','dateSearch','dateToSearch','type','fromWho','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">
   <ng-template pTemplate="caption">
     <div class="table-caption" style="display:flex; justify-content:space-between; align-items:center;">
       <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
@@ -33,6 +33,7 @@
       <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th>
 -->
       <th style="width:100px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
+      <th style="width:100px" pSortableColumn="fromWho">Από Ποιον <p-sortIcon field="fromWho"/></th>
       <th style="width:100px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
       <th style="width:100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
       <th style="width:150px">Λεπτομέρειες</th>
@@ -78,6 +79,7 @@
         </p-columnFilter>
       </th>-->
       <th><p-columnFilter type="text" field="type" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" field="fromWho" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="area" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" field="details" [showMenu]="false" placeholder="Φίλτρο..." /></th>
@@ -105,6 +107,7 @@
       <td style="width:110px">{{ formatDateAsYYMMDD(business.date) }}</td>
      <!-- <td>{{ formatDateAsYYMMDD(business.dateTo) }}</td>-->
       <td>{{ business.type }}</td>
+      <td>{{ business.fromWho }}</td>
       <td>{{ business.who }}</td>
       <td>{{ business.area }}</td>
       <td>{{ business.details }}</td>
@@ -123,7 +126,7 @@
   </ng-template>
   <ng-template pTemplate="footer">
     <tr>
-      <td colspan="7" style="text-align:right; font-weight:bold;"></td>
+      <td colspan="8" style="text-align:right; font-weight:bold;"></td>
       <td style="font-weight:bold;">{{ getFilteredTotal('costs', dt) }}</td>
       <td style="font-weight:bold; background-color: rgba(184,184,184,0.16);">{{ getFilteredTotal('fee', dt) }}</td>
       <td style="font-weight:bold;">{{ getFilteredTotal('advancePayment', dt) }}</td>
@@ -163,8 +166,34 @@
         </p-dropdown>
       </div>
       <div class="form-field">
+        <label style="font-weight:500;">Από Ποιον</label>
+        <p-dropdown
+          formControlName="fromWho"
+          [options]="fromWhoOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Επιλογή..."
+          [filter]="true"
+          [showClear]="true"
+          [loading]="isLoadingFromWho"
+          appendTo="body"
+          [style]="{width:'100%'}">
+        </p-dropdown>
+      </div>
+      <div class="form-field">
         <label style="font-weight:500;">Ποιος</label>
-        <input pInputText formControlName="who" style="width:100%;">
+        <p-dropdown
+          formControlName="who"
+          [options]="whoOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Επιλογή..."
+          [filter]="true"
+          [showClear]="true"
+          [loading]="isLoadingWho"
+          appendTo="body"
+          [style]="{width:'100%'}">
+        </p-dropdown>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Περιοχή</label>

@@ -53,14 +53,20 @@
       <th style="width:110px">
         <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
           <ng-template pTemplate="filter" let-filter="filterCallback">
-            <p-datepicker
-              [(ngModel)]="dateFromFilter"
-              [showIcon]="true"
-              [appendTo]="'body'"
-              dateFormat="dd/mm/yy"
-              styleClass="w-full"
-              (onSelect)="filter($event)">
-            </p-datepicker>
+            <div class="date-filter-wrapper">
+              <p-datepicker
+                [(ngModel)]="dateFromFilter"
+                [showIcon]="true"
+                [appendTo]="'body'"
+                dateFormat="dd/mm/yy"
+                styleClass="w-full"
+                (onSelect)="filter($event)">
+              </p-datepicker>
+              <button class="date-clear-btn" type="button"
+                      [style.display]="dateFromFilter ? 'flex' : 'none'"
+                      (mousedown)="$event.stopPropagation(); $event.preventDefault()"
+                      (click)="dateFromFilter = null; filter(null)">✕</button>
+            </div>
           </ng-template>
         </p-columnFilter>
       </th>
@@ -78,19 +84,19 @@
           </ng-template>
         </p-columnFilter>
       </th>-->
-      <th><p-columnFilter type="text" field="type" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="fromWho" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="area" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="details" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="costs" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="fee" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="advancePayment" [showMenu]="false" placeholder="Φίλτρο..." /></th>
-      <th><p-columnFilter type="text" field="remainingMoney" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="type" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="fromWho" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="area" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="details" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="costs" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="fee" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="advancePayment" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="remainingMoney" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="boolean" field="payout" /></th>
       <th><p-columnFilter type="boolean" field="filesCompleted" /></th>
       <th><p-columnFilter type="boolean" field="filesDelivered" /></th>
-      <th><p-columnFilter type="text" field="comments" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+      <th><p-columnFilter type="text" [showClearButton]="true" field="comments" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th></th>
     </tr>
   </ng-template>

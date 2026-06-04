@@ -189,6 +189,77 @@
   box-sizing: border-box !important;
 }
 
+/* Make column filter inline layout compact with clear button inside input */
+::ng-deep .p-datatable .p-datatable-inline-filter {
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  flex-wrap: nowrap !important;
+}
+
+::ng-deep .p-datatable .p-datatable-inline-filter .p-datatable-filter-element-container {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+/* Style the clear button as a small x inside the input */
+::ng-deep .p-datatable-inline-filter {
+  position: relative !important;
+}
+
+::ng-deep .p-datatable-inline-filter > p-button:last-child {
+  position: absolute !important;
+  right: 2px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 1 !important;
+}
+
+::ng-deep .p-datatable-inline-filter > p-button:last-child button,
+::ng-deep .p-datatable-inline-filter > p-button:last-child .p-button {
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  padding: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  color: #999 !important;
+  border-radius: 50% !important;
+}
+
+::ng-deep .p-datatable-inline-filter > p-button:last-child button:hover,
+::ng-deep .p-datatable-inline-filter > p-button:last-child .p-button:hover {
+  color: #333 !important;
+  background: rgba(0,0,0,0.08) !important;
+}
+
+/* Hide the SVG filter-slash icon and show × instead */
+::ng-deep .p-datatable-inline-filter > p-button:last-child svg,
+::ng-deep .p-datatable-inline-filter > p-button:last-child .p-button-label,
+::ng-deep .p-datatable-inline-filter > p-button:last-child .p-button-icon {
+  display: none !important;
+}
+
+::ng-deep .p-datatable-inline-filter > p-button:last-child button::after,
+::ng-deep .p-datatable-inline-filter > p-button:last-child .p-button::after {
+  content: '✕' !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+  color: inherit !important;
+}
+
+::ng-deep .p-datatable .p-datatable-inline-filter .p-datatable-filter-element-container .p-inputtext {
+  padding-right: 20px !important;
+  font-size: 0.78rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+}
+
+/* Hide the menu/filter icon button to save space */
+::ng-deep .p-datatable .p-datatable-inline-filter .p-datatable-column-filter-button {
+  display: none !important;
+}
+
 ::ng-deep .p-datatable th {
   overflow: hidden !important;
 }
@@ -375,3 +446,43 @@
   }
 }
 
+/* Date filter: wrapper with clear button */
+.date-filter-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.date-filter-wrapper ::ng-deep .p-datepicker {
+  width: 100% !important;
+}
+
+.date-filter-wrapper ::ng-deep .p-datepicker input {
+  padding-right: 22px !important;
+  font-size: 0.78rem !important;
+}
+
+.date-clear-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2.2rem;
+  height: 100%;
+  border: none;
+  background: #43454a;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0 4px 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.date-clear-btn:hover {
+  background: #e74c3c;
+  color: #fff;
+}

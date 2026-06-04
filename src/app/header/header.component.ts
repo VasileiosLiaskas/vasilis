@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
   confirmPassword: string = '';
   showSettingsModal: boolean = false;
   showAboutModal: boolean = false;
-  lastCommitDate: string | null = null;
+  lastCommitDate: Date | null = null;
   lastCommitHash: string | null = null;
   version: string | null = null;
 
@@ -222,7 +222,7 @@ export class HeaderComponent implements OnInit {
     // Falls back to /api/last-commit if the asset is not present (older deployments)
     this.http.get<{date: string | null, hash: string | null}>(`/assets/version.json?t=${Date.now()}`).subscribe({
       next: (res) => {
-        this.lastCommitDate = res.date || null;
+        this.lastCommitDate = res.date ? new Date(res.date) : null;
         this.lastCommitHash = res.hash || null;
         // version.json includes package version when generated at build time
         // field name is 'version'
@@ -234,7 +234,7 @@ export class HeaderComponent implements OnInit {
         // Fallback to server API if asset isn't available
         this.http.get<{date: string | null, hash: string | null}>('/api/last-commit').subscribe({
             next: (res2) => {
-              this.lastCommitDate = res2.date;
+              this.lastCommitDate = res2.date ? new Date(res2.date) : null;
               this.lastCommitHash = res2.hash;
           },
           error: () => {

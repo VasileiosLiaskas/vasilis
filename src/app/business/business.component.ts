@@ -68,6 +68,7 @@ export class BusinessComponent implements OnInit{
   searchValue: string = '';
   dateFromFilter: Date | null = null;
   dateToFilter: Date | null = null;
+  dateSearchFilter: string = '';
   activeMenuItems: MenuItem[] = [];
   @ViewChild('rowMenu') rowMenu!: Menu;
   @ViewChild('dt') dt!: Table;
@@ -345,6 +346,17 @@ export class BusinessComponent implements OnInit{
     this.searchValue = '';
     this.dateFromFilter = null;
     this.dateToFilter = null;
+    this.dateSearchFilter = '';
+  }
+
+  onDateSearchInput(event: Event, table: Table) {
+    const value = (event.target as HTMLInputElement).value;
+    table.filter(value, 'dateSearch', 'contains');
+  }
+
+  clearDateSearchFilter(table: Table) {
+    this.dateSearchFilter = '';
+    table.filter('', 'dateSearch', 'contains');
   }
 
   openMenu(event: Event, business: Business) {

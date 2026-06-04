@@ -51,24 +51,36 @@
       <th style="width:40px"></th>
       <th style="width:50px"></th>
       <th style="width:110px">
-        <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
-          <ng-template pTemplate="filter" let-filter="filterCallback">
-            <div class="date-filter-wrapper">
-              <p-datepicker
-                [(ngModel)]="dateFromFilter"
-                [showIcon]="true"
-                [appendTo]="'body'"
-                dateFormat="dd/mm/yy"
-                styleClass="w-full"
-                (onSelect)="filter($event)">
-              </p-datepicker>
-              <button class="date-clear-btn" type="button"
-                      [style.display]="dateFromFilter ? 'flex' : 'none'"
-                      (mousedown)="$event.stopPropagation(); $event.preventDefault()"
-                      (click)="dateFromFilter = null; filter(null)">✕</button>
-            </div>
-          </ng-template>
-        </p-columnFilter>
+        <div class="date-column-filters">
+          <div class="date-text-filter-wrapper">
+            <input pInputText type="text" class="date-text-input"
+                   [(ngModel)]="dateSearchFilter"
+                   placeholder="π.χ. 260421"
+                   (input)="onDateSearchInput($event, dt)" />
+            <button class="date-text-clear-btn" type="button"
+                    *ngIf="dateSearchFilter"
+                    (click)="clearDateSearchFilter(dt)">✕</button>
+          </div>
+          <p-columnFilter field="date" matchMode="dateAfter" [showMenu]="false">
+            <ng-template pTemplate="filter" let-filter="filterCallback">
+              <div class="date-filter-wrapper">
+                <p-datepicker
+                  [(ngModel)]="dateFromFilter"
+                  [showIcon]="!dateFromFilter"
+                  [iconDisplay]="'input'"
+                  [appendTo]="'body'"
+                  dateFormat="dd/mm/yy"
+                  styleClass="w-full"
+                  (onSelect)="filter($event)">
+                </p-datepicker>
+                <button class="date-clear-btn" type="button"
+                        [style.display]="dateFromFilter ? 'flex' : 'none'"
+                        (mousedown)="$event.stopPropagation(); $event.preventDefault()"
+                        (click)="dateFromFilter = null; filter(null)">✕</button>
+              </div>
+            </ng-template>
+          </p-columnFilter>
+        </div>
       </th>
      <!-- <th>
         <p-columnFilter field="dateTo" matchMode="dateBefore" [showMenu]="false">

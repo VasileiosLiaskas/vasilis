@@ -75,10 +75,8 @@ export class BusinessComponent implements OnInit{
   selectedBusiness: Business | null = null;
   highlightedBusinessId: number | null = null;
   workTypeOptions: { label: string; value: string }[] = [];
-  fromWhoOptions: { label: string; value: string }[] = [];
   whoOptions: { label: string; value: string }[] = [];
   isLoadingWorkTypes = false;
-  isLoadingFromWho = false;
   isLoadingWho = false;
   private booleanClickCounts: Record<string, number> = {};
 
@@ -97,7 +95,6 @@ export class BusinessComponent implements OnInit{
     this.registerDateFilters();
     this.businessForm = this.businessService.initForm();
     this.loadWorkTypeOptions();
-    this.loadFromWhoOptions();
     this.loadWhoOptions();
 
     this.route.queryParams.subscribe(params => {
@@ -383,7 +380,6 @@ export class BusinessComponent implements OnInit{
      */ googleCalendarId:business.googleCalendarId
     });
     this.ensureCurrentDetailsOption(business.details);
-    this.ensureCurrentOption('fromWho', this.fromWhoOptions);
     this.ensureCurrentOption('who', this.whoOptions);
   }
 
@@ -402,20 +398,6 @@ export class BusinessComponent implements OnInit{
     });
   }
 
-  private loadFromWhoOptions() {
-    this.isLoadingFromWho = true;
-    this.parametricService.getTextareaValues('from_who').subscribe({
-      next: (data: string) => {
-        this.fromWhoOptions = this.parseParametricValues(data);
-        this.isLoadingFromWho = false;
-        this.ensureCurrentOption('fromWho', this.fromWhoOptions);
-      },
-      error: () => {
-        this.fromWhoOptions = [];
-        this.isLoadingFromWho = false;
-      }
-    });
-  }
 
   private loadWhoOptions() {
     this.isLoadingWho = true;

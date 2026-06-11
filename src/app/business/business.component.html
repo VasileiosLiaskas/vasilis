@@ -33,7 +33,7 @@
       <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th>
 -->
       <th style="width:100px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
-      <th style="width:100px" pSortableColumn="fromWho">Από Ποιον <p-sortIcon field="fromWho"/></th>
+      <th style="width:100px" pSortableColumn="fromWho">«Όνομα» <p-sortIcon field="fromWho"/></th>
       <th style="width:100px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
       <th style="width:100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
       <th style="width:150px">Λεπτομέρειες</th>
@@ -185,18 +185,7 @@
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Από Ποιον</label>
-        <p-dropdown
-          formControlName="fromWho"
-          [options]="fromWhoOptions"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Επιλογή..."
-          [filter]="true"
-          [showClear]="true"
-          [loading]="isLoadingFromWho"
-          appendTo="body"
-          [style]="{width:'100%'}">
-        </p-dropdown>
+        <input pInputText formControlName="fromWho" style="width:100%;">
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Ποιος</label>

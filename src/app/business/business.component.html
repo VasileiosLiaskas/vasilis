@@ -138,7 +138,7 @@
       <td [appBooleanColor]="business.payout" style="cursor:pointer;" (click)="onBooleanCellClick(business, 'payout')">{{ convertBoolean(business.payout) }}</td>
       <td [appBooleanColor]="business.filesCompleted" style="cursor:pointer;" (click)="onBooleanCellClick(business, 'filesCompleted')">{{ convertBoolean(business.filesCompleted) }}</td>
       <td [appBooleanColor]="business.filesDelivered" style="cursor:pointer;" (click)="onBooleanCellClick(business, 'filesDelivered')">{{ convertBoolean(business.filesDelivered) }}</td>
-      <td>{{ business.comments }}</td>
+      <td [pTooltip]="business.comments" tooltipPosition="top">{{ business.comments }}</td>
       <td>
         <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openMenu($event, business)" />
       </td>

@@ -27,6 +27,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Table} from 'primeng/table';
 import * as XLSX from 'xlsx-js-style';
 import {ParametricService} from '../parametric/parametric.service';
+import {TooltipModule} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-business',
@@ -50,7 +51,8 @@ import {ParametricService} from '../parametric/parametric.service';
     TextareaModule,
     IconFieldModule,
     InputIconModule,
-    DropdownModule
+    DropdownModule,
+    TooltipModule
   ],
   templateUrl: './business.component.html',
   standalone: true,

@@ -29,9 +29,7 @@
       <th style="width:40px">#</th>
       <th style="width:50px">Τιμολόγια</th>
       <th style="width:110px" pSortableColumn="date">Ημ/νία <p-sortIcon field="date"/></th>
-<!--
-      <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th>
--->
+      <!-- <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th> -->
       <th style="width:100px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
       <th style="width:100px" pSortableColumn="fromWho">«Όνομα» <p-sortIcon field="fromWho"/></th>
       <th style="width:100px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
@@ -55,7 +53,6 @@
           <div class="date-text-filter-wrapper">
             <input pInputText type="text" class="date-text-input"
                    [(ngModel)]="dateSearchFilter"
-                   placeholder="π.χ. 260421"
                    (input)="onDateSearchInput($event, dt)" />
             <button class="date-text-clear-btn" type="button"
                     *ngIf="dateSearchFilter"
@@ -80,22 +77,27 @@
               </div>
             </ng-template>
           </p-columnFilter>
+          <p-columnFilter field="dateTo" matchMode="dateBefore" [showMenu]="false">
+            <ng-template pTemplate="filter" let-filter="filterCallback">
+              <div class="date-filter-wrapper">
+                <p-datepicker
+                  [(ngModel)]="dateToFilter"
+                  [showIcon]="!dateToFilter"
+                  [iconDisplay]="'input'"
+                  [appendTo]="'body'"
+                  dateFormat="dd/mm/yy"
+                  styleClass="w-full"
+                  (onSelect)="filter($event)">
+                </p-datepicker>
+                <button class="date-clear-btn" type="button"
+                        [style.display]="dateToFilter ? 'flex' : 'none'"
+                        (mousedown)="$event.stopPropagation(); $event.preventDefault()"
+                        (click)="dateToFilter = null; filter(null)">✕</button>
+              </div>
+            </ng-template>
+          </p-columnFilter>
         </div>
       </th>
-     <!-- <th>
-        <p-columnFilter field="dateTo" matchMode="dateBefore" [showMenu]="false">
-          <ng-template pTemplate="filter" let-filter="filterCallback">
-            <p-datepicker
-              [(ngModel)]="dateToFilter"
-              [showIcon]="true"
-              [appendTo]="'body'"
-              dateFormat="dd/mm/yy"
-              styleClass="w-full"
-              (onSelect)="filter($event)">
-            </p-datepicker>
-          </ng-template>
-        </p-columnFilter>
-      </th>-->
       <th><p-columnFilter type="text" [showClearButton]="true" field="type" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" [showClearButton]="true" field="fromWho" [showMenu]="false" placeholder="Φίλτρο..." /></th>
       <th><p-columnFilter type="text" [showClearButton]="true" field="who" [showMenu]="false" placeholder="Φίλτρο..." /></th>
@@ -123,7 +125,7 @@
         </span>
       </td>
       <td style="width:110px">{{ formatDateAsYYMMDD(business.date) }}</td>
-     <!-- <td>{{ formatDateAsYYMMDD(business.dateTo) }}</td>-->
+      <!-- <td>{{ formatDateAsYYMMDD(business.dateTo) }}</td> -->
       <td>{{ business.type }}</td>
       <td>{{ business.fromWho }}</td>
       <td>{{ business.who }}</td>

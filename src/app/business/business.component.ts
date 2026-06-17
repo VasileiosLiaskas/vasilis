@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, OnInit, ViewChild, ViewChildren, QueryList} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TableModule} from 'primeng/table';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Business} from './business.model';
@@ -8,7 +8,6 @@ import {ToasterService} from '../toaster/toaster.service';
 import {BooleanColorDirective} from '../../boolean.color.directive';
 import {InvoiceDialogComponent} from '../invoice-dialog/invoice-dialog.component';
 import {GoogleCalendarService} from '../google-calendar.service';
-import {gapi} from 'gapi-script';
 import {ButtonModule} from 'primeng/button';
 import {ToolbarModule} from 'primeng/toolbar';
 import {DialogModule} from 'primeng/dialog';
@@ -201,52 +200,14 @@ export class BusinessComponent implements OnInit{
     business.date = this.convertToISODate(business.date);
     business.dateTo = this.convertToISODate(business.dateTo);
 
+    if (!business.dateTo) {
+      business.dateTo = business.date;
+    }
+
     this.businessService.save(business).subscribe({
       next: async (savedBusiness:Business) => {
         this.toasterService.showMessage('Αποθηκεύτηκε επιτυχώς', 'success');
         console.log("to saved", savedBusiness);
-        // try {
-        //
-        //   // Make sure the "end" date is +1 day so the event lasts through dateTo
-        //   const startDate = new Date(this.convertToISODateGoogle(business.date));
-        //   const endDate = new Date(this.convertToISODateGoogle(business.dateTo));
-        //
-        //   endDate.setDate(endDate.getDate() + 1);
-        //
-        //   const event = {
-        //     summary: business.type,
-        //     description: business.details + ' '+ business.who,
-        //     start: { date: startDate.toISOString().split('T')[0] },
-        //     end: { date: endDate.toISOString().split('T')[0] },
-        //   };
-
-        //   if (business.googleCalendarId) {
-        //     console.log("yparxei to google calendar")
-        //     try {
-        //       console.log('Checking event before update:', business.googleCalendarId);
-        //       const existing = await gapi.client.calendar.events.get({
-        //         calendarId: 'primary',
-        //         eventId: business.googleCalendarId,
-        //       });
-        //       console.log('Existing event found:', existing.result);
-        //     } catch (err) {
-        //       console.error('Event not found with this ID!', business.googleCalendarId, err);
-        //     }
-        //
-        //     // Use PATCH instead of UPDATE
-        //     const updatedEvent = await this.calendarService.patchEvent(business.googleCalendarId, event);
-        //     console.log('Google Calendar event updated:', updatedEvent);
-        //   }
-        //   else {
-        //     const createdEvent = await this.calendarService.createEvent(event);
-        //     console.log('Google Calendar new event created:', createdEvent);
-        //
-        //     business.googleCalendarId = createdEvent.id;
-        //     this.businessService.updateGoogleCalendarId(savedBusiness.id, createdEvent.id).subscribe();
-        //   }
-        // } catch (err) {
-        //   console.error('Error creating Google Calendar event:', err);
-        // }
 
         // Reset form and reload list
         this.businessForm.reset();
@@ -483,17 +444,6 @@ export class BusinessComponent implements OnInit{
     this.selectedBusiness = business;
   }
 
-
-  convertToISODateGoogle(dateInput: string | Date): string {
-    if (!dateInput) return '';
-    if (dateInput instanceof Date) {
-      return dateInput.toISOString().split('T')[0];
-    }
-    const parts = dateInput.split('-');
-    if (parts.length !== 3) return '';
-    const [day, month, year] = parts;
-    return `${year}-${month}-${day}`;
-  }
 
   exportToExcel() {
     const monthNames = ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος',

@@ -64,7 +64,7 @@ export class BusinessComponent implements OnInit{
   showForm:boolean= false;
   businessForm!: FormGroup;
   page: number = 0;
-  size: number = 10;
+  size: number = 50;
   totalElements: number = 0;
   searchValue: string = '';
   dateFromFilter: Date | null = null;
@@ -105,6 +105,34 @@ export class BusinessComponent implements OnInit{
       }
       this.loadBusinessList();
     });
+  }
+
+  setupAutomaticCalculation() {
+    const feeControl = this.businessForm.get('fee');
+    const advancePaymentControl = this.businessForm.get('advancePayment');
+    const remainingMoneyControl = this.businessForm.get('remainingMoney');
+    const payoutControl = this.businessForm.get('payout');
+
+    if (feeControl && advancePaymentControl && remainingMoneyControl && payoutControl) {
+      feeControl.valueChanges.subscribe(() => {
+        const fee = feeControl.value || 0;
+        const advancePayment = advancePaymentControl.value || 0;
+        remainingMoneyControl.setValue(fee - advancePayment, { emitEvent: false });
+      });
+
+      advancePaymentControl.valueChanges.subscribe(() => {
+        const fee = feeControl.value || 0;
+        const advancePayment = advancePaymentControl.value || 0;
+        remainingMoneyControl.setValue(fee - advancePayment, { emitEvent: false });
+      });
+
+      payoutControl.valueChanges.subscribe((isPaid: boolean) => {
+        if (isPaid) {
+          advancePaymentControl.setValue(0, { emitEvent: false });
+          remainingMoneyControl.setValue(0, { emitEvent: false });
+        }
+      });
+    }
   }
 
   registerDateFilters() {
@@ -189,6 +217,7 @@ export class BusinessComponent implements OnInit{
 
   addBusiness() {
     this.businessForm = this.businessService.initForm();
+    this.setupAutomaticCalculation();
     this.showForm = true;
   }
 
@@ -254,6 +283,11 @@ export class BusinessComponent implements OnInit{
       [field]: newValue
     };
 
+    if (field === 'payout' && newValue === true) {
+      payload.advancePayment = 0;
+      payload.remainingMoney = 0;
+    }
+
     // Search helper fields are UI-only and should not be sent to API.
     delete payload.dateSearch;
     delete payload.dateToSearch;
@@ -261,6 +295,10 @@ export class BusinessComponent implements OnInit{
     this.businessService.save(payload).subscribe({
       next: () => {
         business[field] = newValue;
+        if (field === 'payout' && newValue === true) {
+          business.advancePayment = 0;
+          business.remainingMoney = 0;
+        }
       },
       error: (error) => {
         console.error(error);
@@ -307,6 +345,7 @@ export class BusinessComponent implements OnInit{
     this.dateFromFilter = null;
     this.dateToFilter = null;
     this.dateSearchFilter = '';
+    this.loadBusinessList();
   }
 
   onDateSearchInput(event: Event, table: Table) {
@@ -317,6 +356,37 @@ export class BusinessComponent implements OnInit{
   clearDateSearchFilter(table: Table) {
     this.dateSearchFilter = '';
     table.filter('', 'dateSearch', 'contains');
+  }
+
+  sortOrder: number = 1; // 1 for asc, -1 for desc
+
+  onDateSort() {
+    this.sortOrder = this.sortOrder * -1; // Toggle sort order
+
+    const parseDate = (dateStr: any): Date => {
+      if (!dateStr) return new Date(0);
+      if (dateStr instanceof Date) return dateStr;
+
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        // Handles both DD-MM-YYYY and YYYY-MM-DD
+        if (parts[0].length === 4) {
+          return new Date(+parts[0], +parts[1] - 1, +parts[2]); // YYYY-MM-DD
+        } else {
+          return new Date(+parts[2], +parts[1] - 1, +parts[0]); // DD-MM-YYYY
+        }
+      }
+      return new Date(0); // Invalid date format
+    };
+
+    this.businessList.sort((a, b) => {
+      const dateA = parseDate(a.date);
+      const dateB = parseDate(b.date);
+      return (dateA.getTime() - dateB.getTime()) * this.sortOrder;
+    });
+
+    // This is important to trigger change detection if the reference hasn't changed.
+    this.businessList = [...this.businessList];
   }
 
   openMenu(event: Event, business: Business) {
@@ -342,6 +412,7 @@ export class BusinessComponent implements OnInit{
       dateTo: formattedDateTo,/*
      */ googleCalendarId:business.googleCalendarId
     });
+    this.setupAutomaticCalculation();
     this.ensureCurrentDetailsOption(business.details);
     this.ensureCurrentOption('who', this.whoOptions);
   }

@@ -28,13 +28,13 @@
     <tr>
       <th style="width:40px">#</th>
       <th style="width:50px">Τιμολόγια</th>
-      <th style="width:110px" pSortableColumn="date">Ημ/νία <p-sortIcon field="date"/></th>
+      <th style="width:110px; cursor: pointer;" (click)="onDateSort()">Ημ/νία <p-sortIcon field="date"/></th>
       <!-- <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th> -->
-      <th style="width:100px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
+      <th style="width:150px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
       <th style="width:100px" pSortableColumn="fromWho">«Όνομα» <p-sortIcon field="fromWho"/></th>
       <th style="width:100px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
       <th style="width:100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
-      <th style="width:150px">Λεπτομέρειες</th>
+      <th style="width:100px">Λεπτομέρειες</th>
       <th style="width:80px">Έξοδα</th>
       <th style="width:80px" pSortableColumn="fee">Αμοιβή <p-sortIcon field="fee"/></th>
       <th style="width:90px">Προκαταβολή</th>

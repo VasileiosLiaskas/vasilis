@@ -128,7 +128,6 @@ export class BusinessComponent implements OnInit{
 
       payoutControl.valueChanges.subscribe((isPaid: boolean) => {
         if (isPaid) {
-          advancePaymentControl.setValue(0, { emitEvent: false });
           remainingMoneyControl.setValue(0, { emitEvent: false });
         }
       });
@@ -283,8 +282,7 @@ export class BusinessComponent implements OnInit{
       [field]: newValue
     };
 
-    if (field === 'payout' && newValue === true) {
-      payload.advancePayment = 0;
+    if (field === 'payout' && newValue) {
       payload.remainingMoney = 0;
     }
 
@@ -295,8 +293,7 @@ export class BusinessComponent implements OnInit{
     this.businessService.save(payload).subscribe({
       next: () => {
         business[field] = newValue;
-        if (field === 'payout' && newValue === true) {
-          business.advancePayment = 0;
+        if (field === 'payout' && newValue) {
           business.remainingMoney = 0;
         }
       },

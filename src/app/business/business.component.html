@@ -27,7 +27,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th style="width:40px">#</th>
-      <th style="width:50px">Τιμολόγια</th>
+      <th style="width:50px"></th>
       <th style="width:80px; cursor: pointer;" (click)="onDateSort()">Ημ/νία <p-sortIcon field="date"/></th>
       <!-- <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th> -->
       <th style="width:160px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
@@ -172,41 +172,75 @@
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Τύπος</label>
-        <p-dropdown
-          formControlName="type"
-          [options]="workTypeOptions"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Επιλογή..."
-          [filter]="true"
-          [showClear]="true"
-          [loading]="isLoadingWorkTypes"
-          appendTo="body"
-          [style]="{width:'100%'}">
-        </p-dropdown>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <p-dropdown
+            formControlName="type"
+            [options]="workTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingWorkTypes"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+          <p-button icon="pi pi-plus" [text]="true" (onClick)="openAddParametricDialog('work_type')"></p-button>
+        </div>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">«Όνομα»</label>
-        <input pInputText formControlName="fromWho" style="width:100%;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <p-dropdown
+            formControlName="fromWho"
+            [options]="fromWhoOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingFromWho"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+          <p-button icon="pi pi-plus" [text]="true" (onClick)="openAddParametricDialog('from_who')"></p-button>
+        </div>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Ποιος</label>
-        <p-dropdown
-          formControlName="who"
-          [options]="whoOptions"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Επιλογή..."
-          [filter]="true"
-          [showClear]="true"
-          [loading]="isLoadingWho"
-          appendTo="body"
-          [style]="{width:'100%'}">
-        </p-dropdown>
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <p-dropdown
+            formControlName="who"
+            [options]="whoOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingWho"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+          <p-button icon="pi pi-plus" [text]="true" (onClick)="openAddParametricDialog('who')"></p-button>
+        </div>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Περιοχή</label>
-        <input pInputText formControlName="area" style="width:100%;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <p-dropdown
+            formControlName="area"
+            [options]="areaOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingArea"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+          <p-button icon="pi pi-plus" [text]="true" (onClick)="openAddParametricDialog('area')"></p-button>
+        </div>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Λεπτομέρειες</label>
@@ -252,6 +286,20 @@
       <p-button label="Save" icon="pi pi-save" type="submit" />
     </div>
   </form>
+</p-dialog>
+
+<p-dialog [(visible)]="showAddParametricDialog" styleClass="add-parametric-dialog-wrapper" [modal]="true" [closable]="true" [style]="{width:'min(90vw,400px)'}" (onHide)="newParametricValue=''; showAddParametricDialog=false">
+  <div class="add-parametric-dialog">
+    <h3 style="margin-top:0">Προσθήκη τιμής</h3>
+    <div style="display:flex; flex-direction:column; gap:0.5rem;">
+      <label style="font-weight:500;">Τιμή</label>
+      <input pInputText type="text" [(ngModel)]="newParametricValue" />
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:0.5rem;">
+        <p-button label="Ακύρωση" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="showAddParametricDialog=false; newParametricValue='';" />
+        <p-button label="Προσθήκη" icon="pi pi-check" (onClick)="saveNewParametricValue()" />
+      </div>
+    </div>
+  </div>
 </p-dialog>
 
 <ng-container *ngIf="selectedBusiness">

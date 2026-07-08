@@ -18,10 +18,14 @@ export class SettingsComponent implements OnInit {
   activeSection: string = 'parametric';
   parametricValues: string = '';
   whoValues: string = '';
+  areaValues: string = '';
+  fromWhoValues: string = '';
 
   menuItems = [
     {id: 'parametric', label: 'Παραμετρικές Τιμές Τύπου'},
-    {id: 'who', label: 'Παραμετρικές Τιμές Ποιος'}
+    {id: 'who', label: 'Παραμετρικές Τιμές Ποιος'},
+    {id: 'area', label: 'Παραμετρικές Τιμές Περιοχή'},
+    {id: 'fromWho', label: 'Παραμετρικές Τιμές Όνομα'}
   ];
 
   constructor(private parametricService: ParametricService,
@@ -30,6 +34,8 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.loadParametricValues();
    this.loadWhoValues();
+   this.loadAreaValues();
+   this.loadFromWhoValues();
   }
 
   selectSection(id: string) {
@@ -68,6 +74,34 @@ export class SettingsComponent implements OnInit {
 
   saveWhoValues() {
     this.parametricService.replaceFromTextarea('who', this.whoValues).subscribe({
+      next: () => { this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success'); },
+      error: () => { this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error'); }
+    });
+  }
+
+  loadAreaValues() {
+    this.parametricService.getTextareaValues('area').subscribe({
+      next: (data: string) => { this.areaValues = data || ''; },
+      error: () => { this.areaValues = ''; }
+    });
+  }
+
+  saveAreaValues() {
+    this.parametricService.replaceFromTextarea('area', this.areaValues).subscribe({
+      next: () => { this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success'); },
+      error: () => { this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error'); }
+    });
+  }
+
+  loadFromWhoValues() {
+    this.parametricService.getTextareaValues('from_who').subscribe({
+      next: (data: string) => { this.fromWhoValues = data || ''; },
+      error: () => { this.fromWhoValues = ''; }
+    });
+  }
+
+  saveFromWhoValues() {
+    this.parametricService.replaceFromTextarea('from_who', this.fromWhoValues).subscribe({
       next: () => { this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success'); },
       error: () => { this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error'); }
     });

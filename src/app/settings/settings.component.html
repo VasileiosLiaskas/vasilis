@@ -47,6 +47,30 @@
           <button class="btn-save" (click)="saveWhoValues()">Αποθήκευση</button>
         </div>
       </div>
+
+      <div *ngIf="activeSection === 'fromWho'" class="settings-panel">
+        <h4>Όνομα</h4>
+        <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
+        <textarea class="settings-textarea"
+                  [(ngModel)]="fromWhoValues"
+                  rows="10"
+                  placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
+        <div class="settings-actions">
+          <button class="btn-save" (click)="saveFromWhoValues()">Αποθήκευση</button>
+        </div>
+      </div>
+
+      <div *ngIf="activeSection === 'area'" class="settings-panel">
+        <h4>Περιοχή</h4>
+        <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
+        <textarea class="settings-textarea"
+                  [(ngModel)]="areaValues"
+                  rows="10"
+                  placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
+        <div class="settings-actions">
+          <button class="btn-save" (click)="saveAreaValues()">Αποθήκευση</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

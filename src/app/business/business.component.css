@@ -549,3 +549,26 @@
   background: rgba(0,0,0,0.08);
 }
 
+
+/* Reduce padding specifically for the inline add-parametric dialog header */
+::ng-deep .add-parametric-dialog-wrapper .p-dialog-header {
+  padding: 0.4rem 1rem !important;
+}
+
+::ng-deep .add-parametric-dialog-wrapper .p-dialog-title {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 1rem !important;
+}
+
+::ng-deep .add-parametric-dialog-wrapper .p-dialog-content {
+  padding: 0.5rem 1rem !important;
+}
+
+/* Make the header close icon more compact */
+::ng-deep .add-parametric-dialog-wrapper .p-dialog-header .p-dialog-header-icon {
+  margin: 0 !important;
+  padding: 0.25rem !important;
+}
+
+

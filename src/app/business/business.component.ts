@@ -77,9 +77,17 @@ export class BusinessComponent implements OnInit{
   highlightedBusinessId: number | null = null;
   workTypeOptions: { label: string; value: string }[] = [];
   whoOptions: { label: string; value: string }[] = [];
+  areaOptions: { label: string; value: string }[] = [];
+  fromWhoOptions: { label: string; value: string }[] = [];
   isLoadingWorkTypes = false;
   isLoadingWho = false;
+  isLoadingArea = false;
+  isLoadingFromWho = false;
   private booleanClickCounts: Record<string, number> = {};
+  // Add-parametric dialog state
+  showAddParametricDialog: boolean = false;
+  addParametricFieldType: string = '';
+  newParametricValue: string = '';
 
 
   constructor(
@@ -97,6 +105,8 @@ export class BusinessComponent implements OnInit{
     this.businessForm = this.businessService.initForm();
     this.loadWorkTypeOptions();
     this.loadWhoOptions();
+    this.loadAreaOptions();
+    this.loadFromWhoOptions();
 
     this.route.queryParams.subscribe(params => {
       const highlightId = params['highlightBusinessId'];
@@ -412,6 +422,8 @@ export class BusinessComponent implements OnInit{
     this.setupAutomaticCalculation();
     this.ensureCurrentDetailsOption(business.details);
     this.ensureCurrentOption('who', this.whoOptions);
+    this.ensureCurrentOption('area', this.areaOptions);
+    this.ensureCurrentOption('fromWho', this.fromWhoOptions);
   }
 
   private loadWorkTypeOptions() {
@@ -441,6 +453,92 @@ export class BusinessComponent implements OnInit{
       error: () => {
         this.whoOptions = [];
         this.isLoadingWho = false;
+      }
+    });
+  }
+
+  private loadAreaOptions() {
+    this.isLoadingArea = true;
+    this.parametricService.getTextareaValues('area').subscribe({
+      next: (data: string) => {
+        this.areaOptions = this.parseParametricValues(data);
+        this.isLoadingArea = false;
+        this.ensureCurrentOption('area', this.areaOptions);
+      },
+      error: () => {
+        this.areaOptions = [];
+        this.isLoadingArea = false;
+      }
+    });
+  }
+
+  private loadFromWhoOptions() {
+    this.isLoadingFromWho = true;
+    this.parametricService.getTextareaValues('from_who').subscribe({
+      next: (data: string) => {
+        this.fromWhoOptions = this.parseParametricValues(data);
+        this.isLoadingFromWho = false;
+        this.ensureCurrentOption('fromWho', this.fromWhoOptions);
+      },
+      error: () => {
+        this.fromWhoOptions = [];
+        this.isLoadingFromWho = false;
+      }
+    });
+  }
+
+  openAddParametricDialog(type: string) {
+    this.addParametricFieldType = type; // e.g. 'from_who' or 'area'
+    this.newParametricValue = '';
+    this.showAddParametricDialog = true;
+  }
+
+  saveNewParametricValue() {
+    const value = (this.newParametricValue || '').trim();
+    if (!value) {
+      this.toasterService.showMessage('Παρακαλώ εισάγετε μία τιμή', 'error');
+      return;
+    }
+
+    const type = this.addParametricFieldType;
+    // Load existing textarea values, append if missing, then replace
+    this.parametricService.getTextareaValues(type).subscribe({
+      next: (data: string) => {
+        const lines = (data || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+        if (!lines.includes(value)) {
+          lines.unshift(value); // put new value on top
+        }
+        const updatedText = lines.join('\n');
+        this.parametricService.replaceFromTextarea(type, updatedText).subscribe({
+          next: () => {
+            // Reload options for the specific type
+            if (type === 'from_who') {
+              this.loadFromWhoOptions();
+              this.businessForm.patchValue({ fromWho: value });
+            } else if (type === 'area') {
+              this.loadAreaOptions();
+              this.businessForm.patchValue({ area: value });
+            } else if (type === 'work_type') {
+              this.loadWorkTypeOptions();
+              this.businessForm.patchValue({ type: value });
+            } else if (type === 'who') {
+              this.loadWhoOptions();
+              this.businessForm.patchValue({ who: value });
+            }
+
+            this.toasterService.showMessage('Η τιμή προστέθηκε', 'success');
+            this.showAddParametricDialog = false;
+            this.newParametricValue = '';
+          },
+          error: (err) => {
+            console.error(err);
+            this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error');
+          }
+        });
+      },
+      error: (err) => {
+        console.error(err);
+        this.toasterService.showMessage('Σφάλμα κατά την φόρτωση τρεχουσών τιμών', 'error');
       }
     });
   }
@@ -678,3 +776,5 @@ export class BusinessComponent implements OnInit{
     }
   }*/
 }
+
+

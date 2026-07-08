@@ -28,13 +28,13 @@
     <tr>
       <th style="width:40px">#</th>
       <th style="width:50px">Τιμολόγια</th>
-      <th style="width:110px; cursor: pointer;" (click)="onDateSort()">Ημ/νία <p-sortIcon field="date"/></th>
+      <th style="width:80px; cursor: pointer;" (click)="onDateSort()">Ημ/νία <p-sortIcon field="date"/></th>
       <!-- <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th> -->
-      <th style="width:150px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
-      <th style="width:120px" pSortableColumn="fromWho">«Όνομα» <p-sortIcon field="fromWho"/></th>
+      <th style="width:160px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
+      <th style="width:160px" pSortableColumn="fromWho">«Όνομα» <p-sortIcon field="fromWho"/></th>
       <th style="width:120px" pSortableColumn="who">Ποιος <p-sortIcon field="who"/></th>
       <th style="width:100px" pSortableColumn="area">Περιοχή <p-sortIcon field="area"/></th>
-      <th style="width:110px">Λεπτομέρειες</th>
+      <th style="width:90px">Λεπτομέρειες</th>
       <th style="width:60px">Έξοδα</th>
       <th style="width:80px" pSortableColumn="fee">Αμοιβή <p-sortIcon field="fee"/></th>
       <th style="width:80px">Προκαταβολή</th>
@@ -163,11 +163,11 @@
   <form [formGroup]="businessForm" (ngSubmit)="submitBusiness()">
     <div class="form-grid">
       <div class="form-field">
-        <label style="font-weight:500;">Ημερομηνία</label>
+        <label style="font-weight:500;">Ημ/νία</label>
         <input type="date" pInputText formControlName="date" style="width:100%;">
       </div>
       <div class="form-field">
-        <label style="font-weight:500;">Ημερομηνία Έως</label>
+        <label style="font-weight:500;">Ημ. Έως</label>
         <input type="date" pInputText formControlName="dateTo" style="width:100%;">
       </div>
       <div class="form-field">
@@ -186,7 +186,7 @@
         </p-dropdown>
       </div>
       <div class="form-field">
-        <label style="font-weight:500;">Από Ποιον</label>
+        <label style="font-weight:500;">«Όνομα»</label>
         <input pInputText formControlName="fromWho" style="width:100%;">
       </div>
       <div class="form-field">
@@ -233,10 +233,10 @@
         <textarea pTextarea formControlName="comments" rows="3" style="width:100%;"></textarea>
       </div>
     </div>
-    <div class="form-checkboxes" style="display:flex; gap:2rem; margin-top:1.2rem; align-items:center;">
+      <div class="form-checkboxes" style="display:flex; gap:2rem; margin-top:1.2rem; align-items:center;">
       <div style="display:flex; align-items:center; gap:0.5rem;">
         <p-checkbox formControlName="payout" [binary]="true" inputId="payout" />
-        <label for="payout">Αποπληρωμή</label>
+        <label for="payout">Εξοφλ.</label>
       </div>
       <div style="display:flex; align-items:center; gap:0.5rem;">
         <p-checkbox formControlName="filesCompleted" [binary]="true" inputId="filesCompleted" />
@@ -244,7 +244,7 @@
       </div>
       <div style="display:flex; align-items:center; gap:0.5rem;">
         <p-checkbox formControlName="filesDelivered" [binary]="true" inputId="filesDelivered" />
-        <label for="filesDelivered">Παράδοση</label>
+        <label for="filesDelivered">Παράδ.</label>
       </div>
     </div>
     <div class="form-actions" style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">

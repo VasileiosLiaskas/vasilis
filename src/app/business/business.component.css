@@ -52,6 +52,13 @@
   border-top: 2px solid #43454a !important;
 }
 
+/* Make the footer totals larger and more prominent */
+::ng-deep .p-datatable .p-datatable-tfoot > tr > td {
+  font-size: 0.9rem !important; /* slightly larger than body */
+  font-weight: 700 !important;
+  padding-top: 0.4rem !important;
+}
+
 /* Paginator styling - dropdown on left, pagination on right */
 ::ng-deep .p-paginator {
   display: flex !important;
@@ -392,6 +399,13 @@
   .table-caption-actions .button-group .p-button {
     flex: 1 !important;
     width: auto !important;
+  }
+}
+
+/* On small screens make footer totals a bit smaller so they fit */
+@media (max-width: 768px) {
+  ::ng-deep .p-datatable .p-datatable-tfoot > tr > td {
+    font-size: 0.95rem !important;
   }
 }
 

@@ -29,9 +29,17 @@ export class StatsComponent implements OnInit {
   pieOptions: any;
   whoBreakdown: { who: string; amount: number; color: string }[] = [];
 
+  fromWhoPieData: any;
+  fromWhoPieOptions: any;
+  fromWhoBreakdown: { fromWho: string; amount: number; color: string }[] = [];
+
   typePieData: any;
   typePieOptions: any;
   typeBreakdown: { type: string; amount: number; color: string }[] = [];
+
+  areaPieData: any;
+  areaPieOptions: any;
+  areaBreakdown: { area: string; amount: number; color: string }[] = [];
 
   barData: any;
   barOptions: any;
@@ -67,6 +75,8 @@ export class StatsComponent implements OnInit {
     this.buildPieChart();
     this.buildTypePieChart();
     this.buildBarChart();
+    this.buildFromWhoPieChart();
+    this.buildAreaPieChart();
   }
 
   private parseDate(dateStr: string): Date | null {
@@ -129,6 +139,51 @@ export class StatsComponent implements OnInit {
     };
   }
 
+  private buildFromWhoPieChart() {
+    const map = new Map<string, number>();
+    this.filteredList.forEach(b => {
+      const key = (b.fromWho && b.fromWho.trim()) || 'Άγνωστο';
+      map.set(key, (map.get(key) || 0) + (b.fee || 0));
+    });
+
+    const labels = Array.from(map.keys());
+    const data = Array.from(map.values());
+    const backgroundColors = this.generateColors(labels.length);
+
+    this.fromWhoBreakdown = labels.map((fromWho, i) => ({
+      fromWho,
+      amount: data[i],
+      color: backgroundColors[i]
+    })).sort((a, b) => b.amount - a.amount);
+
+    this.fromWhoPieData = {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: backgroundColors,
+        hoverBackgroundColor: backgroundColors.map(c => c + 'CC')
+      }]
+    };
+
+    this.fromWhoPieOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context: any) => {
+              const value = context.parsed;
+              const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+              const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+              return `${context.label}: ${value.toLocaleString('el-GR')}€ (${pct}%)`;
+            }
+          }
+        }
+      }
+    };
+  }
+
   private buildTypePieChart() {
     const typeMap = new Map<string, number>();
     this.filteredList.forEach(b => {
@@ -156,6 +211,51 @@ export class StatsComponent implements OnInit {
     };
 
     this.typePieOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context: any) => {
+              const value = context.parsed;
+              const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+              const pct = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+              return `${context.label}: ${value.toLocaleString('el-GR')}€ (${pct}%)`;
+            }
+          }
+        }
+      }
+    };
+  }
+
+  private buildAreaPieChart() {
+    const map = new Map<string, number>();
+    this.filteredList.forEach(b => {
+      const key = (b.area && b.area.trim()) || 'Άγνωστο';
+      map.set(key, (map.get(key) || 0) + (b.fee || 0));
+    });
+
+    const labels = Array.from(map.keys());
+    const data = Array.from(map.values());
+    const backgroundColors = this.generateColors(labels.length);
+
+    this.areaBreakdown = labels.map((area, i) => ({
+      area,
+      amount: data[i],
+      color: backgroundColors[i]
+    })).sort((a, b) => b.amount - a.amount);
+
+    this.areaPieData = {
+      labels,
+      datasets: [{
+        data,
+        backgroundColor: backgroundColors,
+        hoverBackgroundColor: backgroundColors.map(c => c + 'CC')
+      }]
+    };
+
+    this.areaPieOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {

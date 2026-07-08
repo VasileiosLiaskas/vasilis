@@ -83,6 +83,54 @@
         Δεν υπάρχουν δεδομένα
       </div>
     </div>
+
+    <!-- Pie Chart - Income by FromWho (Όνομα) -->
+    <div class="chart-container">
+      <h3 style="margin:0 0 1rem 0; color:#333; font-size:1.1rem;">Αμοιβή ανά Όνομα (From Who)</h3>
+      <div class="pie-content">
+        <div *ngIf="fromWhoPieData" class="pie-chart-wrapper">
+          <p-chart type="pie" [data]="fromWhoPieData" [options]="fromWhoPieOptions" />
+        </div>
+        <div *ngIf="fromWhoPieData && filteredList.length > 0" class="pie-table-wrapper">
+          <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+            <tr *ngFor="let item of fromWhoBreakdown" style="border-bottom:1px solid #eee;">
+              <td style="padding:0.4rem 0.5rem;">
+                <span [style.background-color]="item.color" style="display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:0.5rem;"></span>
+                {{ item.fromWho }}
+              </td>
+              <td style="padding:0.4rem 0.5rem; text-align:right; font-weight:500;">{{ item.amount.toLocaleString('el-GR') }}€</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="!fromWhoPieData || filteredList.length === 0" style="text-align:center; padding:3rem; color:#999;">
+        Δεν υπάρχουν δεδομένα
+      </div>
+    </div>
+
+    <!-- Pie Chart - Income by Area -->
+    <div class="chart-container">
+      <h3 style="margin:0 0 1rem 0; color:#333; font-size:1.1rem;">Αμοιβή ανά Περιοχή</h3>
+      <div class="pie-content">
+        <div *ngIf="areaPieData" class="pie-chart-wrapper">
+          <p-chart type="pie" [data]="areaPieData" [options]="areaPieOptions" />
+        </div>
+        <div *ngIf="areaPieData && filteredList.length > 0" class="pie-table-wrapper">
+          <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+            <tr *ngFor="let item of areaBreakdown" style="border-bottom:1px solid #eee;">
+              <td style="padding:0.4rem 0.5rem;">
+                <span [style.background-color]="item.color" style="display:inline-block; width:12px; height:12px; border-radius:50%; margin-right:0.5rem;"></span>
+                {{ item.area }}
+              </td>
+              <td style="padding:0.4rem 0.5rem; text-align:right; font-weight:500;">{{ item.amount.toLocaleString('el-GR') }}€</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="!areaPieData || filteredList.length === 0" style="text-align:center; padding:3rem; color:#999;">
+        Δεν υπάρχουν δεδομένα
+      </div>
+    </div>
   </div>
 </div>
 

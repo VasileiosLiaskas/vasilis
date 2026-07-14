@@ -50,6 +50,9 @@ export class HeaderComponent implements OnInit {
   lastCommitDate: Date | null = null;
   lastCommitHash: string | null = null;
   version: string | null = null;
+  newlyCreatedUsername: string = '';
+  newlyCreatedPassword: string = '';
+  newlyCreatedUserRole: string = 'ADMIN';
 
   private userApiUrl = environment.apiUrl + 'user';
 
@@ -207,6 +210,9 @@ export class HeaderComponent implements OnInit {
     this.currentPassword = '';
     this.newPassword = '';
     this.confirmPassword = '';
+    this.newlyCreatedUsername = '';
+    this.newlyCreatedPassword = '';
+    this.newlyCreatedUserRole = 'USER';
   }
 
   closeSettingsModal() {
@@ -285,6 +291,25 @@ export class HeaderComponent implements OnInit {
       },
       error: () => {
         this.toasterService.showMessage('Σφάλμα κατά την αλλαγή κωδικού', 'error');
+      }
+    });
+  }
+
+  createUser() {
+    const username = this.newlyCreatedUsername.trim();
+    const password = this.newlyCreatedPassword.trim();
+    const role = this.newlyCreatedUserRole;
+    if (!username || !password) return;
+
+    this.http.post(`${this.userApiUrl}/create`, { username, password, role }, { responseType: 'text' }).subscribe({
+      next: () => {
+        this.toasterService.showMessage('Ο χρήστης δημιουργήθηκε', 'success');
+        this.newlyCreatedUsername = '';
+        this.newlyCreatedPassword = '';
+        this.newlyCreatedUserRole = 'USER';
+      },
+      error: () => {
+        this.toasterService.showMessage('Σφάλμα κατά τη δημιουργία χρήστη', 'error');
       }
     });
   }

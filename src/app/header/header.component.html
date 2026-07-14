@@ -117,6 +117,31 @@
           <button class="btn-save" (click)="changePassword()" [disabled]="!currentPassword.trim() || !newPassword.trim() || !confirmPassword.trim()">Αποθήκευση</button>
         </div>
       </div>
+
+      <hr class="account-divider" />
+
+      <!-- Create New User -->
+      <div class="account-section">
+        <h4>Δημιουργία Νέου Χρήστη</h4>
+        <div class="account-field">
+          <label>Όνομα Χρήστη</label>
+          <input type="text" [(ngModel)]="newlyCreatedUsername" placeholder="Όνομα χρήστη" class="account-input" />
+        </div>
+        <div class="account-field">
+          <label>Κωδικός</label>
+          <input type="password" [(ngModel)]="newlyCreatedPassword" placeholder="Κωδικός" class="account-input" />
+        </div>
+        <div class="account-field">
+          <label>Ρόλος</label>
+          <select [(ngModel)]="newlyCreatedUserRole" class="account-input">
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <div class="account-field-actions">
+          <button class="btn-save" (click)="createUser()" [disabled]="!newlyCreatedUsername.trim() || !newlyCreatedPassword.trim()">Δημιουργία</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

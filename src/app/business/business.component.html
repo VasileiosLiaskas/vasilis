@@ -190,21 +190,7 @@
       </div>
       <div class="form-field">
         <label style="font-weight:500;">«Όνομα»</label>
-        <div style="display:flex; align-items:center; gap:0.5rem;">
-          <p-dropdown
-            formControlName="fromWho"
-            [options]="fromWhoOptions"
-            optionLabel="label"
-            optionValue="value"
-            placeholder="Επιλογή..."
-            [filter]="true"
-            [showClear]="true"
-            [loading]="isLoadingFromWho"
-            appendTo="body"
-            [style]="{width:'100%'}">
-          </p-dropdown>
-          <p-button icon="pi pi-plus" [text]="true" (onClick)="openAddParametricDialog('from_who')"></p-button>
-        </div>
+        <input pInputText formControlName="fromWho" style="width:100%;" />
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Ποιος</label>
@@ -244,7 +230,21 @@
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Λεπτομέρειες</label>
-        <input pInputText formControlName="details" style="width:100%;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <p-dropdown
+            formControlName="details"
+            [options]="detailsOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingDetails"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+          <p-button icon="pi pi-plus" [text]="true" (onClick)="openAddParametricDialog('details')"></p-button>
+        </div>
       </div>
       <div class="form-field">
         <label style="font-weight:500;">Αμοιβή</label>

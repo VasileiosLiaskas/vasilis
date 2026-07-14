@@ -78,7 +78,8 @@ export class BusinessComponent implements OnInit{
   workTypeOptions: { label: string; value: string }[] = [];
   whoOptions: { label: string; value: string }[] = [];
   areaOptions: { label: string; value: string }[] = [];
-  fromWhoOptions: { label: string; value: string }[] = [];
+  detailsOptions: { label: string; value: string }[] = [];
+  isLoadingDetails = false;
   isLoadingWorkTypes = false;
   isLoadingWho = false;
   isLoadingArea = false;
@@ -106,7 +107,7 @@ export class BusinessComponent implements OnInit{
     this.loadWorkTypeOptions();
     this.loadWhoOptions();
     this.loadAreaOptions();
-    this.loadFromWhoOptions();
+    this.loadDetailsOptions();
 
     this.route.queryParams.subscribe(params => {
       const highlightId = params['highlightBusinessId'];
@@ -421,9 +422,9 @@ export class BusinessComponent implements OnInit{
     });
     this.setupAutomaticCalculation();
     this.ensureCurrentDetailsOption(business.details);
+    this.ensureCurrentOption('details', this.detailsOptions);
     this.ensureCurrentOption('who', this.whoOptions);
     this.ensureCurrentOption('area', this.areaOptions);
-    this.ensureCurrentOption('fromWho', this.fromWhoOptions);
   }
 
   private loadWorkTypeOptions() {
@@ -472,19 +473,23 @@ export class BusinessComponent implements OnInit{
     });
   }
 
-  private loadFromWhoOptions() {
-    this.isLoadingFromWho = true;
-    this.parametricService.getTextareaValues('from_who').subscribe({
+  private loadDetailsOptions() {
+    this.isLoadingDetails = true;
+    this.parametricService.getTextareaValues('details').subscribe({
       next: (data: string) => {
-        this.fromWhoOptions = this.parseParametricValues(data);
-        this.isLoadingFromWho = false;
-        this.ensureCurrentOption('fromWho', this.fromWhoOptions);
+        this.detailsOptions = this.parseParametricValues(data);
+        this.isLoadingDetails = false;
+        this.ensureCurrentOption('details', this.detailsOptions);
       },
       error: () => {
-        this.fromWhoOptions = [];
-        this.isLoadingFromWho = false;
+        this.detailsOptions = [];
+        this.isLoadingDetails = false;
       }
     });
+  }
+
+  private loadFromWhoOptions() {
+    // 'from_who' parametric values removed — no longer loaded
   }
 
   openAddParametricDialog(type: string) {
@@ -512,12 +517,12 @@ export class BusinessComponent implements OnInit{
         this.parametricService.replaceFromTextarea(type, updatedText).subscribe({
           next: () => {
             // Reload options for the specific type
-            if (type === 'from_who') {
-              this.loadFromWhoOptions();
-              this.businessForm.patchValue({ fromWho: value });
-            } else if (type === 'area') {
+            if (type === 'area') {
               this.loadAreaOptions();
               this.businessForm.patchValue({ area: value });
+            } else if (type === 'details') {
+              this.loadDetailsOptions();
+              this.businessForm.patchValue({ details: value });
             } else if (type === 'work_type') {
               this.loadWorkTypeOptions();
               this.businessForm.patchValue({ type: value });

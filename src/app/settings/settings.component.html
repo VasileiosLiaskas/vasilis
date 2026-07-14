@@ -48,15 +48,17 @@
         </div>
       </div>
 
-      <div *ngIf="activeSection === 'fromWho'" class="settings-panel">
-        <h4>Όνομα</h4>
+      <!-- 'fromWho' (Όνομα) removed from parametric settings: now a free text field in the business form -->
+
+      <div *ngIf="activeSection === 'details'" class="settings-panel">
+        <h4>Λεπτομέρειες</h4>
         <p class="settings-hint">Κάθε γραμμή αντιστοιχεί σε μία τιμή</p>
         <textarea class="settings-textarea"
-                  [(ngModel)]="fromWhoValues"
+                  [(ngModel)]="detailsValues"
                   rows="10"
                   placeholder="Γράψτε μία τιμή ανά γραμμή..."></textarea>
         <div class="settings-actions">
-          <button class="btn-save" (click)="saveFromWhoValues()">Αποθήκευση</button>
+          <button class="btn-save" (click)="saveDetailsValues()">Αποθήκευση</button>
         </div>
       </div>
 

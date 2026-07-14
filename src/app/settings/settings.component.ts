@@ -19,13 +19,12 @@ export class SettingsComponent implements OnInit {
   parametricValues: string = '';
   whoValues: string = '';
   areaValues: string = '';
-  fromWhoValues: string = '';
-
+  detailsValues: string = '';
   menuItems = [
     {id: 'parametric', label: 'Παραμετρικές Τιμές Τύπου'},
     {id: 'who', label: 'Παραμετρικές Τιμές Ποιος'},
     {id: 'area', label: 'Παραμετρικές Τιμές Περιοχή'},
-    {id: 'fromWho', label: 'Παραμετρικές Τιμές Όνομα'}
+    {id: 'details', label: 'Παραμετρικές Τιμές Λεπτομέρειες'}
   ];
 
   constructor(private parametricService: ParametricService,
@@ -33,9 +32,9 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
     this.loadParametricValues();
-   this.loadWhoValues();
-   this.loadAreaValues();
-   this.loadFromWhoValues();
+    this.loadWhoValues();
+    this.loadAreaValues();
+    this.loadDetailsValues();
   }
 
   selectSection(id: string) {
@@ -93,18 +92,26 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  loadFromWhoValues() {
-    this.parametricService.getTextareaValues('from_who').subscribe({
-      next: (data: string) => { this.fromWhoValues = data || ''; },
-      error: () => { this.fromWhoValues = ''; }
+  loadDetailsValues() {
+    this.parametricService.getTextareaValues('details').subscribe({
+      next: (data: string) => { this.detailsValues = data || ''; },
+      error: () => { this.detailsValues = ''; }
     });
   }
 
-  saveFromWhoValues() {
-    this.parametricService.replaceFromTextarea('from_who', this.fromWhoValues).subscribe({
+  saveDetailsValues() {
+    this.parametricService.replaceFromTextarea('details', this.detailsValues).subscribe({
       next: () => { this.toasterService.showMessage('Οι τιμές αποθηκεύτηκαν', 'success'); },
       error: () => { this.toasterService.showMessage('Σφάλμα κατά την αποθήκευση', 'error'); }
     });
+  }
+
+  loadFromWhoValues() {
+    // Removed: 'from_who' parametric values are no longer managed here.
+  }
+
+  saveFromWhoValues() {
+    // Removed: not applicable when 'from_who' is not a parametric textarea
   }
 
   closeModal() {

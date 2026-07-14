@@ -347,8 +347,14 @@ export class StatsComponent implements OnInit {
   }
 
   private buildFeeBarChart() {
-    const labels = this.filteredList.map(b => b.details || 'Άγνωστο');
-    const data = this.filteredList.map(b => b.fee || 0);
+    const feeMap = new Map<string, number>();
+    this.filteredList.forEach(b => {
+      const details = b.details || 'Άγνωστο';
+      feeMap.set(details, (feeMap.get(details) || 0) + (b.fee || 0));
+    });
+
+    const labels = Array.from(feeMap.keys());
+    const data = Array.from(feeMap.values());
 
     this.feeBarData = {
       labels,

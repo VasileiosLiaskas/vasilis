@@ -132,5 +132,16 @@
       </div>
     </div>
   </div>
+
+  <!-- Bar Chart - Fee Details -->
+  <div class="chart-container" style="margin-top:1.5rem;">
+    <h3 style="margin:0 0 1rem 0; color:#333; font-size:1.1rem;">Λεπτομέρειες</h3>
+    <div *ngIf="feeBarData" class="bar-wrapper">
+      <p-chart type="bar" [data]="feeBarData" [options]="feeBarOptions" />
+    </div>
+    <div *ngIf="!feeBarData || filteredList.length === 0" style="text-align:center; padding:3rem; color:#999;">
+      Δεν υπάρχουν δεδομένα
+    </div>
+  </div>
 </div>
 

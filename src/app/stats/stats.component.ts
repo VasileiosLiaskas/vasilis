@@ -44,6 +44,9 @@ export class StatsComponent implements OnInit {
   barData: any;
   barOptions: any;
 
+  feeBarData: any;
+  feeBarOptions: any;
+
   constructor(private businessService: BusinessService) {}
 
   ngOnInit() {
@@ -77,6 +80,7 @@ export class StatsComponent implements OnInit {
     this.buildBarChart();
     this.buildFromWhoPieChart();
     this.buildAreaPieChart();
+    this.buildFeeBarChart();
   }
 
   private parseDate(dateStr: string): Date | null {
@@ -321,6 +325,44 @@ export class StatsComponent implements OnInit {
     };
 
     this.barOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (context: any) => `${context.parsed.y.toLocaleString('el-GR')}€`
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (value: any) => `${value.toLocaleString('el-GR')}€`
+          }
+        }
+      }
+    };
+  }
+
+  private buildFeeBarChart() {
+    const labels = this.filteredList.map(b => b.details || 'Άγνωστο');
+    const data = this.filteredList.map(b => b.fee || 0);
+
+    this.feeBarData = {
+      labels,
+      datasets: [{
+        label: 'Αμοιβή (€)',
+        data,
+        backgroundColor: '#66BB6A',
+        borderColor: '#388E3C',
+        borderWidth: 1,
+        borderRadius: 6
+      }]
+    };
+
+    this.feeBarOptions = {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {

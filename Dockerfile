@@ -10,7 +10,7 @@ ENV GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
 ENV APP_BUILD_DATE=${APP_BUILD_DATE}
 
 COPY package*.json ./
-RUN npm ci --ignore-scripts
+RUN npm ci --ignore-scripts --no-audit --no-fund && npm cache clean --force
 
 COPY . .
 RUN npm run build --configuration=production

@@ -1,0 +1,290 @@
+<div class="business-view" *ngIf="business as currentBusiness">
+  <div class="business-view__header">
+    <div>
+      <h2 style="margin:0;">Προβολή</h2>
+      <p style="margin:0.35rem 0 0; color:#666;">
+        <span *ngIf="currentBusiness.date">{{ formatDateAsYYMMDD(currentBusiness.date) }}</span>
+        <span *ngIf="currentBusiness.area"> · {{ currentBusiness.area }}</span>
+        <span *ngIf="currentBusiness.type"> · {{ currentBusiness.type }}</span>
+      </p>
+    </div>
+    <p-button label="Πίσω" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="goBack()" />
+  </div>
+
+  <div class="business-view__section">
+    <div class="business-view__section-header">
+      <h3>Πληροφορίες</h3>
+      <p-button label="Αποθήκευση" icon="pi pi-save" (onClick)="saveBusiness()" />
+    </div>
+
+    <form [formGroup]="businessForm" class="business-view__form">
+      <div class="business-view__grid">
+        <div class="business-view__field">
+          <label>Ημ/νία</label>
+          <input type="date" pInputText formControlName="date" />
+        </div>
+        <div class="business-view__field">
+          <label>Ημ. Έως</label>
+          <input type="date" pInputText formControlName="dateTo" />
+        </div>
+        <div class="business-view__field">
+          <label>Τύπος</label>
+          <p-dropdown
+            formControlName="type"
+            [options]="workTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingWorkTypes"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+        </div>
+        <div class="business-view__field">
+          <label>«Όνομα»</label>
+          <input pInputText formControlName="fromWho" />
+        </div>
+        <div class="business-view__field">
+          <label>Ποιος</label>
+          <p-dropdown
+            formControlName="who"
+            [options]="whoOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingWho"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+        </div>
+        <div class="business-view__field">
+          <label>Περιοχή</label>
+          <p-dropdown
+            formControlName="area"
+            [options]="areaOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingArea"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+        </div>
+        <div class="business-view__field business-view__field--full">
+          <label>Λεπτομέρειες</label>
+          <p-dropdown
+            formControlName="details"
+            [options]="detailsOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Επιλογή..."
+            [filter]="true"
+            [showClear]="true"
+            [loading]="isLoadingDetails"
+            appendTo="body"
+            [style]="{width:'100%'}">
+          </p-dropdown>
+        </div>
+        <div class="business-view__field">
+          <label>Έξοδα</label>
+          <p-inputNumber formControlName="costs" [style]="{width:'100%'}"></p-inputNumber>
+        </div>
+        <div class="business-view__field">
+          <label>Αμοιβή</label>
+          <p-inputNumber formControlName="fee" [style]="{width:'100%'}"></p-inputNumber>
+        </div>
+        <div class="business-view__field">
+          <label>Προκαταβολή</label>
+          <p-inputNumber formControlName="advancePayment" [style]="{width:'100%'}"></p-inputNumber>
+        </div>
+        <div class="business-view__field">
+          <label>Υπόλοιπο</label>
+          <p-inputNumber formControlName="remainingMoney" [style]="{width:'100%'}"></p-inputNumber>
+        </div>
+        <div class="business-view__field business-view__field--check">
+          <p-checkbox formControlName="payout" [binary]="true" inputId="view-payout"></p-checkbox>
+          <label for="view-payout">Εξοφλ.</label>
+        </div>
+        <div class="business-view__field business-view__field--check">
+          <p-checkbox formControlName="filesCompleted" [binary]="true" inputId="view-filesCompleted"></p-checkbox>
+          <label for="view-filesCompleted">Αρχεία</label>
+        </div>
+        <div class="business-view__field business-view__field--check">
+          <p-checkbox formControlName="filesDelivered" [binary]="true" inputId="view-filesDelivered"></p-checkbox>
+          <label for="view-filesDelivered">Παράδ.</label>
+        </div>
+        <div class="business-view__field business-view__field--full">
+          <label>Σχόλια</label>
+          <textarea pTextarea formControlName="comments" rows="4"></textarea>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="business-view__section">
+    <div class="business-view__section-header">
+      <div>
+        <h3 style="margin:0;">Τιμολόγια</h3>
+        <small style="color:#666;">{{ invoiceList.length }} εγγραφές</small>
+      </div>
+      <div class="business-view__section-actions">
+        <p-button label="Νέο Τιμολόγιο" icon="pi pi-plus" (onClick)="addInvoice()" />
+      </div>
+    </div>
+
+    <div class="business-view__record-list">
+      <div class="business-view__record-card" *ngFor="let invoice of invoiceList; let i = index">
+        <div class="business-view__record-icon business-view__record-icon--invoice">
+          <i class="pi pi-file"></i>
+        </div>
+        <div class="business-view__record-content">
+          <div class="business-view__record-title-row">
+            <div>
+              <div class="business-view__record-title">{{ invoice.fileName || ('Τιμολόγιο ' + (i + 1)) }}</div>
+              <div class="business-view__record-meta">
+                <span *ngIf="invoice.invoiceNumber">Αρ. {{ invoice.invoiceNumber }}</span>
+                <span *ngIf="invoice.invoiceDate">{{ invoice.invoiceDate }}</span>
+                <span *ngIf="invoice.description">{{ invoice.description }}</span>
+              </div>
+            </div>
+            <span class="business-view__record-badge">{{ invoice.invoiceType | invoiceTypeTranslate }}</span>
+          </div>
+        </div>
+        <div class="business-view__record-actions">
+          <p-button icon="pi pi-download" [text]="true" [rounded]="true" severity="success" (onClick)="downloadInvoice(invoice)" pTooltip="Λήψη αρχείου"></p-button>
+          <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openInvoiceMenu($event, invoice)"></p-button>
+        </div>
+      </div>
+
+      <div class="business-view__empty-state" *ngIf="!invoiceList.length">
+        Δεν βρέθηκαν τιμολόγια
+      </div>
+    </div>
+  </div>
+
+  <div class="business-view__section">
+    <div class="business-view__section-header">
+      <div>
+        <h3 style="margin:0;">Αρχεία</h3>
+        <small style="color:#666;">{{ fileList.length }} εγγραφές</small>
+      </div>
+      <div class="business-view__section-actions">
+        <p-button label="Νέο Αρχείο" icon="pi pi-plus" severity="secondary" (onClick)="addFile()" />
+      </div>
+    </div>
+
+    <div class="business-view__record-list">
+      <div class="business-view__record-card" *ngFor="let file of fileList; let i = index">
+        <div class="business-view__record-icon business-view__record-icon--file">
+          <i class="pi pi-paperclip"></i>
+        </div>
+        <div class="business-view__record-content">
+          <div class="business-view__record-title-row">
+            <div>
+              <div class="business-view__record-title">{{ file.fileName || ('Αρχείο ' + (i + 1)) }}</div>
+              <div class="business-view__record-meta">
+                <span *ngIf="file.description">{{ file.description }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="business-view__record-actions">
+          <p-button icon="pi pi-download" [text]="true" [rounded]="true" severity="success" (onClick)="downloadFile(file)" pTooltip="Λήψη αρχείου"></p-button>
+          <p-button icon="pi pi-ellipsis-v" [text]="true" [rounded]="true" (onClick)="openFileMenu($event, file)"></p-button>
+        </div>
+      </div>
+
+      <div class="business-view__empty-state" *ngIf="!fileList.length">
+        Δεν βρέθηκαν αρχεία
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-menu #invoiceRowMenu [popup]="true" [model]="invoiceMenuItems" appendTo="body"></p-menu>
+<p-menu #fileRowMenu [popup]="true" [model]="fileMenuItems" appendTo="body"></p-menu>
+
+<p-dialog header="Τιμολόγιο" [(visible)]="showInvoiceDialog" [modal]="true" [style]="{width:'min(95vw, 650px)'}" [closable]="true" (onHide)="closeInvoiceDialog()">
+  <form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
+    <div class="business-view__dialog-grid">
+      <div class="business-view__field">
+        <label>Αριθμός Τιμολογίου</label>
+        <input pInputText formControlName="invoiceNumber" />
+      </div>
+      <div class="business-view__field">
+        <label>Ημερομηνία</label>
+        <input type="date" pInputText formControlName="invoiceDate" />
+      </div>
+      <div class="business-view__field">
+        <label>Όνομα Αρχείου</label>
+        <input pInputText formControlName="fileName" />
+      </div>
+      <div class="business-view__field">
+        <label>Τύπος Τιμολογίου</label>
+        <p-dropdown formControlName="invoiceType" [options]="[{label:'Τιμολόγιο Παροχής Υπηρεσιών', value:'FEE_INVOICE'}, {label:'Τιμολόγιο Αγοράς', value:'PURCHASE_INVOICE'}]" optionLabel="label" optionValue="value" [style]="{width:'100%'}"></p-dropdown>
+      </div>
+      <div class="business-view__field business-view__field--full">
+        <label>Περιγραφή</label>
+        <textarea pTextarea formControlName="description" rows="3"></textarea>
+      </div>
+      <div class="business-view__field business-view__field--full">
+        <label>Αρχείο</label>
+        <div class="business-view__upload">
+          <p-button label="Επιλογή Αρχείου" icon="pi pi-upload" severity="secondary" [outlined]="true" (onClick)="triggerInvoiceFileInput()" />
+          <input id="invoiceViewFileInput" type="file" (change)="onInvoiceFileSelected($event)" accept=".pdf,.doc,.docx,.jpg,.png" style="display:none;" />
+          <div *ngIf="selectedInvoiceUpload" class="business-view__selected-file">
+            <i class="pi pi-file"></i>
+            <span>{{ selectedInvoiceUpload.name }}</span>
+            <p-button icon="pi pi-times" severity="danger" [text]="true" [rounded]="true" size="small" (onClick)="removeInvoiceFile()"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="business-view__dialog-actions">
+      <p-button label="Ακύρωση" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="closeInvoiceDialog()" type="button"></p-button>
+      <p-button label="Αποθήκευση" icon="pi pi-save" type="submit"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog header="Αρχείο" [(visible)]="showFileDialog" [modal]="true" [style]="{width:'min(95vw, 550px)'}" [closable]="true" (onHide)="closeFileDialog()">
+  <form [formGroup]="fileForm" (ngSubmit)="submitFile()">
+    <div class="business-view__dialog-grid">
+      <div class="business-view__field business-view__field--full">
+        <label>Όνομα Αρχείου</label>
+        <input pInputText formControlName="fileName" />
+      </div>
+      <div class="business-view__field business-view__field--full">
+        <label>Περιγραφή</label>
+        <textarea pTextarea formControlName="description" rows="3"></textarea>
+      </div>
+      <div class="business-view__field business-view__field--full">
+        <label>Αρχείο</label>
+        <div class="business-view__upload">
+          <p-button label="Επιλογή Αρχείου" icon="pi pi-upload" severity="secondary" [outlined]="true" (onClick)="triggerFileInput()" />
+          <input id="fileViewFileInput" type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.jpg,.png" style="display:none;" />
+          <div *ngIf="selectedFileUpload" class="business-view__selected-file">
+            <i class="pi pi-file"></i>
+            <span>{{ selectedFileUpload.name }}</span>
+            <p-button icon="pi pi-times" severity="danger" [text]="true" [rounded]="true" size="small" (onClick)="removeFile()"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="business-view__dialog-actions">
+      <p-button label="Ακύρωση" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="closeFileDialog()" type="button"></p-button>
+      <p-button label="Αποθήκευση" icon="pi pi-save" type="submit"></p-button>
+    </div>
+  </form>
+</p-dialog>
+
+
+

@@ -23,7 +23,7 @@ import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {DropdownModule} from 'primeng/dropdown';
 import {FilterService, MenuItem} from 'primeng/api';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Table} from 'primeng/table';
 import * as XLSX from 'xlsx-js-style';
 import {ParametricService} from '../parametric/parametric.service';
@@ -83,7 +83,6 @@ export class BusinessComponent implements OnInit{
   isLoadingWorkTypes = false;
   isLoadingWho = false;
   isLoadingArea = false;
-  isLoadingFromWho = false;
   private booleanClickCounts: Record<string, number> = {};
   // Add-parametric dialog state
   showAddParametricDialog: boolean = false;
@@ -97,6 +96,7 @@ export class BusinessComponent implements OnInit{
     private calendarService: GoogleCalendarService,
     private filterService: FilterService,
     private route: ActivatedRoute,
+    private router: Router,
     private parametricService: ParametricService
   ) { }
 
@@ -399,6 +399,7 @@ export class BusinessComponent implements OnInit{
 
   openMenu(event: Event, business: Business) {
     this.activeMenuItems = [
+      { label: 'Προβολή', icon: 'pi pi-eye', command: () => this.viewRow(business) },
       { label: 'Επεξεργασία', icon: 'pi pi-pencil', command: () => this.editRow(business) },
       { label: 'Διαγραφή', icon: 'pi pi-trash', command: () => this.deleteRow(business) }
     ];
@@ -406,6 +407,10 @@ export class BusinessComponent implements OnInit{
       this.activeMenuItems.push({ label: 'Διαγραφή Google Event', icon: 'pi pi-calendar-minus', command: () => this.deleteGoogleEvent(business) });
     }*/
     this.rowMenu.toggle(event);
+  }
+
+  viewRow(business: Business) {
+    this.router.navigate([`/business/${business.id}/view`]);
   }
 
   editRow(business: Business) {
@@ -488,9 +493,6 @@ export class BusinessComponent implements OnInit{
     });
   }
 
-  private loadFromWhoOptions() {
-    // 'from_who' parametric values removed — no longer loaded
-  }
 
   openAddParametricDialog(type: string) {
     this.addParametricFieldType = type; // e.g. 'from_who' or 'area'

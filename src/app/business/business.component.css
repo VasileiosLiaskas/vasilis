@@ -151,6 +151,7 @@
   background: var(--color-surface);
 }
 
+
 /* Keep the date column sticky on the left while horizontal scrolling */
 ::ng-deep .p-datatable .frozen-date-column {
   position: sticky !important;

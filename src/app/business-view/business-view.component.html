@@ -1,11 +1,11 @@
 <div class="business-view" *ngIf="business as currentBusiness">
   <div class="business-view__header">
     <div>
-      <h2 style="margin:0;">Προβολή</h2>
+      <h2 *ngIf="currentBusiness.date">{{ formatDateAsYYMMDD(currentBusiness.date) }}</h2>
       <p style="margin:0.35rem 0 0; color:#666;">
-        <span *ngIf="currentBusiness.date">{{ formatDateAsYYMMDD(currentBusiness.date) }}</span>
-        <span *ngIf="currentBusiness.area"> · {{ currentBusiness.area }}</span>
-        <span *ngIf="currentBusiness.type"> · {{ currentBusiness.type }}</span>
+        <span *ngIf="currentBusiness.type"> {{ currentBusiness.type }}   </span>
+        <span *ngIf="currentBusiness.area"> - {{ currentBusiness.area }}</span>
+
       </p>
     </div>
     <p-button label="Πίσω" icon="pi pi-arrow-left" severity="secondary" [outlined]="true" (onClick)="goBack()" />

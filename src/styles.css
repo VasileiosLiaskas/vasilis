@@ -5,12 +5,89 @@
   --font-input:  sans-serif;
   --font-alt: "Play", sans-serif;
 
-  --color-black:#43454a;
+  --color-black: #43454a;
+
+  /* Base surfaces */
+  --color-page-bg: #f1f1f1;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f9fafb;
+  --color-surface-muted: #fafbff;
+  --color-surface-elevated: #f4f4f4;
+  --color-surface-dark: #2a2a2a;
+  --color-surface-darker: #1e1e1e;
+  --color-surface-overlay: rgba(0, 0, 0, 0.64);
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-overlay-strong: rgba(0, 0, 0, 0.88);
+  --color-icon-surface: rgba(205, 205, 205, 0.62);
+  --color-border-inverse: rgba(250, 250, 250, 0.29);
+  --color-surface-hover: #303030;
+
+  /* Text */
+  --color-text: #43454a;
+  --color-text-strong: #000000;
+  --color-text-inverse: #ffffff;
+  --color-text-muted: #666666;
+  --color-text-subtle: #777777;
+  --color-text-soft: #888888;
+  --color-text-disabled: #999999;
+  --color-text-on-dark: #e0e0e0;
+  --color-text-on-dark-soft: #dcdcdc;
+  --color-text-on-dark-muted: #cccccc;
+
+  /* Borders */
+  --color-border: #e9ecef;
+  --color-border-soft: #e6e8ef;
+  --color-border-muted: #dddddd;
+  --color-border-dark: #555555;
+  --color-border-darker: #333333;
+  --color-border-input: #444444;
+  --color-border-accent: #6c9bd4;
+
+  /* Brand / action colors */
+  --color-primary: #007bff;
+  --color-primary-soft: #42A5F5;
+  --color-primary-strong: #1E88E5;
+  --color-primary-600: #1976d2;
+  --color-primary-700: #145ea8;
+  --color-accent: #4b6eaf;
+  --color-accent-hover: #5a7fbf;
+  --color-accent-soft: #6c9bd4;
+  --color-accent-dark: #3c3f41;
+  --color-link: #4338ca;
+  --color-link-soft: #eef2ff;
+
+  /* Semantic/status colors */
+  --color-success: #28a745;
+  --color-success-strong: #10b981;
+  --color-info: #17a2b8;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-danger-strong: #e74c3c;
+  --color-danger-hover: #d32f2f;
+  --color-danger-soft: #fff3cd;
+
+  /* Additional neutrals */
+  --color-gray-100: #f8f9fa;
+  --color-gray-200: #f2f2f2;
+  --color-gray-300: #e3f2fd;
+  --color-gray-400: #f8f9fa;
+  --color-gray-500: #6c757d;
+  --color-gray-600: #999999;
+  --color-gray-700: #cccccc;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-panel: 0 4px 20px rgba(0, 0, 0, 0.2);
+  --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-modal-strong: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-frozen: 2px 0 0 0 rgba(0, 0, 0, 0.06);
 }
 
 /* Apply font globally */
 body {
-  font-family:  sans-serif;
+  font-family: sans-serif;
 }
 
 .dropdown {
@@ -38,7 +115,7 @@ html, body {
   padding:0;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: #f1f1f1;
-  color: #43454a;
+  background-color: var(--color-page-bg);
+  color: var(--color-text);
 
 }

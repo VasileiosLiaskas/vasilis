@@ -9,8 +9,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgb(255, 255, 255);
-  color: #000000;
+  background: var(--color-surface);
+  color: var(--color-text-strong);
   padding: 15px;
   margin: 0;
 
@@ -54,7 +54,7 @@ ul li a {
   margin: 0 10px;
   cursor: pointer;
   font-size: 18px;
-  background-color: rgba(205, 205, 205, 0.62); /* You can change this to any color */
+  background-color: var(--color-icon-surface); /* You can change this to any color */
   padding: 10px; /* Adds space around the icon */
   border-radius: 20%; /* Makes the background circular */
   color:var(--color-black); /* Makes the icon color white */
@@ -72,16 +72,16 @@ ul li a {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.64); /* Dark overlay */
+  background-color: var(--color-surface-overlay); /* Dark overlay */
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background-color: rgb(255, 255, 255);
+  background-color: var(--color-surface);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-panel);
   position: relative;
   width: 95%;
   height: 80%;
@@ -97,11 +97,11 @@ ul li a {
   right: 3px;
   font-size: 2rem;
   cursor: pointer;
-  color: #333;
+  color: var(--color-border-darker);
 }
 
 .close:hover {
-  color: #5a5a5a;
+  color: var(--color-text-muted);
 }
 
 .logo-image {
@@ -120,11 +120,11 @@ ul li a {
   top: 100%;
   right: 0;
   margin-top: 0.2rem;
-  background-color: #43454a;
-  color:white;
-  border: 1px solid rgba(250, 250, 250, 0.29);
+  background-color: var(--color-black);
+  color: var(--color-text-inverse);
+  border: 1px solid var(--color-border-inverse);
   border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-lg);
   z-index: 1000;
   min-width: 180px;
   padding: 0.5rem 0;
@@ -146,7 +146,7 @@ ul li a {
 }
 
 .profile-dropdown li:hover {
-  background-color: rgb(48, 48, 48);
+  background-color: var(--color-surface-hover);
   border-radius: 8px;
 }
 
@@ -161,8 +161,8 @@ ul li a {
   position: absolute;
   top: -4px;
   right: -4px;
-  background: #e74c3c;
-  color: #fff;
+  background: var(--color-danger-strong);
+  color: var(--color-text-inverse);
   font-size: 0.65rem;
   font-weight: bold;
   width: 18px;
@@ -176,8 +176,8 @@ ul li a {
 
 /* Comments Modal */
 .comments-modal {
-  background: #1e1e1e;
-  color: #e0e0e0;
+  background: var(--color-surface-darker);
+  color: var(--color-text-on-dark);
   width: 420px;
   max-width: 95vw;
   max-height: 85vh;
@@ -185,13 +185,13 @@ ul li a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-modal);
 }
 
 /* About Modal - use same dark styling as comments modal */
 .about-modal {
-  background: #1e1e1e;
-  color: #e0e0e0;
+  background: var(--color-surface-darker);
+  color: var(--color-text-on-dark);
   width: 420px;
   max-width: 95vw;
   max-height: 85vh;
@@ -199,7 +199,7 @@ ul li a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-modal);
 }
 
 .about-header {
@@ -207,7 +207,7 @@ ul li a {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.2rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--color-border-darker);
 }
 
 .about-title {
@@ -222,7 +222,7 @@ ul li a {
   padding: 1.2rem;
   overflow-y: auto;
   flex: 1;
-  color: #dcdcdc;
+  color: var(--color-text-on-dark-soft);
 }
 
 .comments-header {
@@ -230,7 +230,7 @@ ul li a {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.2rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--color-border-darker);
 }
 
 .comments-title {
@@ -242,8 +242,8 @@ ul li a {
 }
 
 .comments-count {
-  background: #444;
-  color: #ccc;
+  background: var(--color-border-input);
+  color: var(--color-text-on-dark-muted);
   font-size: 0.75rem;
   padding: 0.15rem 0.5rem;
   border-radius: 10px;
@@ -252,12 +252,12 @@ ul li a {
 .close-comments {
   font-size: 1.5rem;
   cursor: pointer;
-  color: #999;
+  color: var(--color-text-disabled);
   line-height: 1;
 }
 
 .close-comments:hover {
-  color: #fff;
+  color: var(--color-text-inverse);
 }
 
 /* Comments List */
@@ -269,13 +269,13 @@ ul li a {
 
 .no-comments {
   text-align: center;
-  color: #666;
+  color: var(--color-text-muted);
   padding: 2rem 0;
 }
 
 .comment-item {
   padding: 0.8rem 0;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--color-surface-dark);
 }
 
 .comment-item:last-child {
@@ -292,12 +292,12 @@ ul li a {
 .comment-author {
   font-weight: 600;
   font-size: 0.85rem;
-  color: #e0e0e0;
+  color: var(--color-text-on-dark);
 }
 
 .comment-date {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--color-text-soft);
 }
 
 .comment-body {
@@ -310,7 +310,7 @@ ul li a {
 .comment-text {
   margin: 0;
   font-size: 0.9rem;
-  color: #ccc;
+  color: var(--color-text-on-dark-muted);
   line-height: 1.4;
   flex: 1;
   word-break: break-word;
@@ -332,16 +332,16 @@ ul li a {
 .comment-action-btn {
   cursor: pointer;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--color-text-soft);
   transition: color 0.2s;
 }
 
 .comment-action-btn:hover {
-  color: #42A5F5;
+  color: var(--color-primary-soft);
 }
 
 .comment-action-btn.delete:hover {
-  color: #EF5350;
+  color: var(--color-danger);
 }
 
 /* Edit mode */
@@ -351,10 +351,10 @@ ul li a {
 
 .comment-edit-input {
   width: 100%;
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--color-surface-dark);
+  border: 1px solid var(--color-border-input);
   border-radius: 6px;
-  color: #e0e0e0;
+  color: var(--color-text-on-dark);
   padding: 0.5rem;
   font-size: 0.85rem;
   resize: vertical;
@@ -363,7 +363,7 @@ ul li a {
 
 .comment-edit-input:focus {
   outline: none;
-  border-color: #42A5F5;
+  border-color: var(--color-primary-soft);
 }
 
 .comment-edit-actions {
@@ -382,35 +382,35 @@ ul li a {
 }
 
 .btn-save {
-  background: #42A5F5;
-  color: #fff;
+  background: var(--color-primary-soft);
+  color: var(--color-text-inverse);
 }
 
 .btn-save:hover {
-  background: #1E88E5;
+  background: var(--color-primary-strong);
 }
 
 .btn-cancel {
-  background: #444;
-  color: #ccc;
+  background: var(--color-border-input);
+  color: var(--color-text-on-dark-muted);
 }
 
 .btn-cancel:hover {
-  background: #555;
+  background: var(--color-border-dark);
 }
 
 /* Input Section */
 .comment-input-section {
   padding: 1rem 1.2rem;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--color-border-darker);
 }
 
 .comment-input {
   width: 100%;
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--color-surface-dark);
+  border: 1px solid var(--color-border-input);
   border-radius: 8px;
-  color: #e0e0e0;
+  color: var(--color-text-on-dark);
   padding: 0.6rem 0.8rem;
   font-size: 0.9rem;
   resize: none;
@@ -419,11 +419,11 @@ ul li a {
 
 .comment-input:focus {
   outline: none;
-  border-color: #42A5F5;
+  border-color: var(--color-primary-soft);
 }
 
 .comment-input::placeholder {
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .comment-input-footer {
@@ -433,8 +433,8 @@ ul li a {
 }
 
 .btn-comment {
-  background: #EF5350;
-  color: #fff;
+  background: var(--color-danger);
+  color: var(--color-text-inverse);
   border: none;
   padding: 0.4rem 1.2rem;
   border-radius: 6px;
@@ -445,7 +445,7 @@ ul li a {
 }
 
 .btn-comment:hover:not(:disabled) {
-  background: #d32f2f;
+  background: var(--color-danger-hover);
 }
 
 .btn-comment:disabled {
@@ -455,8 +455,8 @@ ul li a {
 
 /* Account Modal */
 .account-modal {
-  background: #1e1e1e;
-  color: #e0e0e0;
+  background: var(--color-surface-darker);
+  color: var(--color-text-on-dark);
   width: 450px;
   max-width: 95vw;
   max-height: 85vh;
@@ -464,7 +464,7 @@ ul li a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-modal);
 }
 
 .account-header {
@@ -472,7 +472,7 @@ ul li a {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.2rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--color-border-darker);
 }
 
 .account-title {
@@ -492,7 +492,7 @@ ul li a {
 .account-section h4 {
   margin: 0 0 0.8rem 0;
   font-size: 0.95rem;
-  color: #ccc;
+  color: var(--color-text-on-dark-muted);
 }
 
 .account-field {
@@ -502,16 +502,16 @@ ul li a {
 .account-field label {
   display: block;
   font-size: 0.8rem;
-  color: #999;
+  color: var(--color-text-disabled);
   margin-bottom: 0.3rem;
 }
 
 .account-input {
   width: 100%;
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--color-surface-dark);
+  border: 1px solid var(--color-border-input);
   border-radius: 6px;
-  color: #e0e0e0;
+  color: var(--color-text-on-dark);
   padding: 0.5rem 0.8rem;
   font-size: 0.9rem;
   font-family: inherit;
@@ -519,7 +519,7 @@ ul li a {
 
 .account-input:focus {
   outline: none;
-  border-color: #42A5F5;
+  border-color: var(--color-primary-soft);
 }
 
 .account-field-actions {
@@ -530,14 +530,14 @@ ul li a {
 
 .account-divider {
   border: none;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--color-border-darker);
   margin: 1.2rem 0;
 }
 
 /* Settings Modal */
 .settings-modal {
-  background: #1e1e1e;
-  color: #e0e0e0;
+  background: var(--color-surface-darker);
+  color: var(--color-text-on-dark);
   width: 600px;
   max-width: 95vw;
   height: 400px;
@@ -546,7 +546,7 @@ ul li a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: var(--shadow-modal);
 }
 
 .settings-header {
@@ -554,7 +554,7 @@ ul li a {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.2rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--color-border-darker);
 }
 
 .settings-title {
@@ -568,12 +568,12 @@ ul li a {
 .close-settings {
   font-size: 1.5rem;
   cursor: pointer;
-  color: #999;
+  color: var(--color-text-disabled);
   line-height: 1;
 }
 
 .close-settings:hover {
-  color: #fff;
+  color: var(--color-text-inverse);
 }
 
 .settings-body {
@@ -584,9 +584,9 @@ ul li a {
 
 .settings-menu {
   width: 200px;
-  background: #2a2a2a;
+  background: var(--color-surface-dark);
   padding: 1rem;
-  border-right: 1px solid #333;
+  border-right: 1px solid var(--color-border-darker);
 }
 
 .settings-menu ul {
@@ -604,12 +604,12 @@ ul li a {
 }
 
 .settings-menu li.active {
-  background: #42A5F5;
-  color: #fff;
+  background: var(--color-primary-soft);
+  color: var(--color-text-inverse);
 }
 
 .settings-menu li:not(.active):hover {
-  background: #3a3a3a;
+  background: var(--color-accent-dark);
 }
 
 .settings-content {
@@ -622,10 +622,10 @@ ul li a {
 .settings-textarea {
   flex: 1;
   width: 100%;
-  background: #2a2a2a;
-  border: 1px solid #444;
+  background: var(--color-surface-dark);
+  border: 1px solid var(--color-border-input);
   border-radius: 8px;
-  color: #e0e0e0;
+  color: var(--color-text-on-dark);
   padding: 0.6rem 0.8rem;
   font-size: 0.9rem;
   resize: none;
@@ -634,7 +634,7 @@ ul li a {
 
 .settings-textarea:focus {
   outline: none;
-  border-color: #42A5F5;
+  border-color: var(--color-primary-soft);
 }
 
 .settings-actions {

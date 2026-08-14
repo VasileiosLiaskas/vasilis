@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0,0,0,0.5);
+  background-color: var(--color-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,13 +12,13 @@
 }
 
 .dialog-container {
-  background: #fff;
+  background: var(--color-surface);
   padding: 1rem;
   max-width: 90vw;  /* instead of fixed 50rem */
   width: 60%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: var(--shadow-panel);
   position: relative;
   z-index: 800; /* Still above everything else */
   max-height: 90vh;
@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid rgb(143, 143, 143);
+  border-bottom: 1px solid var(--color-text-disabled);
 }
 .close-btn {
   position: absolute;
@@ -38,12 +38,12 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #666;
+  color: var(--color-text-muted);
   transition: color 0.2s ease;
 }
 
 .close-btn:hover {
-  color: #000;
+  color: var(--color-text-strong);
 }
 
 .dialog-file-container{
@@ -53,7 +53,7 @@
   justify-content: center;
   padding: 2rem;
   margin-top: 2rem;
-  background-color: #f4f4f4;
+  background-color: var(--color-surface-elevated);
   border-radius: 5px;
   gap:1rem;
 
@@ -79,10 +79,10 @@
   flex-direction: column;
   gap: 1rem;
   width: 40%;
-  background: #fff;
+  background: var(--color-surface);
   padding: 1.2rem 1.5rem;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border-muted);
 
 }
 
@@ -107,15 +107,15 @@ textarea.input-text {
   font-size: 0.9rem;
 }
 .invoice-type input[type="radio"] {
-  accent-color: black;
+  accent-color: var(--color-text-strong);
 }
 
 
 .btn {
   all: unset;
   display: inline-block;
-  background-color: #444;
-  color: #fff;
+  background-color: var(--color-border-input);
+  color: var(--color-text-inverse);
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -125,16 +125,16 @@ textarea.input-text {
   text-align: center;
 }
 .btn:hover {
-  background-color: #1976d2;
+  background-color: var(--color-primary-600);
   transform: translateY(-1px);
 }
 
 .btn.primary {
-  background-color: #202020;
+  background-color: var(--color-surface-darker);
 }
 
 .btn.primary:hover {
-  background-color: #145ea8;
+  background-color: var(--color-primary-700);
 }
 
 
@@ -173,12 +173,12 @@ textarea.input-text {
 .dialog-table th,
 .dialog-table td,
 .dialog-table input{
-  border: 1px solid #333; /* table borders */
+  border: 1px solid var(--color-border-darker); /* table borders */
   padding: 8px;
 }
 
 .dialog-table th {
-  background-color: #f2f2f2;
+  background-color: var(--color-gray-200);
 }
 
 .dropdown {
@@ -190,7 +190,7 @@ textarea.input-text {
 .dropdown-menu{
   width: auto;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.88);
+  background-color: var(--color-overlay-strong);
   list-style: none;
   margin: 0;
   z-index: 99999;
@@ -213,7 +213,7 @@ textarea.input-text {
   align-items: center;
 }
 .dropdown-menu li button:hover{
-  background-color: rgb(113, 112, 112);
+  background-color: var(--color-text-muted);
 }
 .menu-btn {
   background: none;
@@ -221,7 +221,7 @@ textarea.input-text {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  color: #333; /* Ensures visibility */
+  color: var(--color-border-darker); /* Ensures visibility */
 }
 
 .actions-buttons{
@@ -232,11 +232,11 @@ textarea.input-text {
 
 }
 .save-btn {
-  color: green;
+  color: var(--color-success-strong);
 }
 
 .cancel-btn {
-  color: red;
+  color: var(--color-danger);
 }
 
 
@@ -276,11 +276,11 @@ textarea.input-text {
 
 .existing-file label {
   font-size: 13px;
-  color: #555;
+  color: var(--color-border-dark);
 }
 
 .editable-file-name {
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border-muted);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 13px;

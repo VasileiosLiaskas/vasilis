@@ -1,5 +1,6 @@
 export class Invoice {
   public id!: number;
+  public businessDate!: string;
   public fileName!: string;
   public date!: Date;
   public description!: string;

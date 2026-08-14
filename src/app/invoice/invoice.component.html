@@ -28,17 +28,19 @@
         <tr>
           <th>#</th>
           <th pSortableColumn="invoiceNumber">Αριθμός Τιμολογίου <p-sortIcon field="invoiceNumber"/></th>
+          <th pSortableColumn="businessDate">Δουλειά <p-sortIcon field="businessDate"/></th>
           <th pSortableColumn="invoiceDate">Ημερομηνία <p-sortIcon field="invoiceDate"/></th>
           <th pSortableColumn="fileName">Όνομα Αρχείου <p-sortIcon field="fileName"/></th>
           <th pSortableColumn="description">Περιγραφή <p-sortIcon field="description"/></th>
           <th pSortableColumn="invoiceType">Τύπος Τιμολογίου <p-sortIcon field="invoiceType"/></th>
           <th>Αρχείο</th>
-          <th>Δουλειά</th>
+          <th>Μετάβαση</th>
           <th></th>
         </tr>
         <tr>
           <th></th>
           <th><p-columnFilter type="text" field="invoiceNumber" [showMenu]="false" placeholder="Φίλτρο..." /></th>
+          <th><p-columnFilter type="text" field="businessDate" [showMenu]="false" placeholder="Φίλτρο..." /></th>
           <th>
             <p-columnFilter field="invoiceDate" matchMode="dateAfter" [showMenu]="false">
               <ng-template pTemplate="filter" let-value let-filter="filterCallback">
@@ -58,6 +60,7 @@
         <tr>
           <td>{{ (page * size) + i + 1 }}</td>
           <td>{{ invoice.invoiceNumber }}</td>
+          <td>{{ invoice.businessDate }}</td>
           <td>{{ invoice.invoiceDate }}</td>
           <td>{{ invoice.fileName }}</td>
           <td>{{ invoice.description }}</td>

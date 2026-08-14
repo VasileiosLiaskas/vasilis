@@ -28,7 +28,7 @@
     <tr>
       <th style="width:40px">#</th>
       <th style="width:50px"></th>
-      <th style="width:80px; cursor: pointer;" (click)="onDateSort()">Ημ/νία <p-sortIcon field="date"/></th>
+      <th class="frozen-date-column" style="width:110px; cursor: pointer;" (click)="onDateSort()">Ημ/νία <p-sortIcon field="date"/></th>
       <!-- <th style="width:110px" pSortableColumn="dateTo">Ημ. Έως <p-sortIcon field="dateTo"/></th> -->
       <th style="width:160px" pSortableColumn="type">Τύπος <p-sortIcon field="type"/></th>
       <th style="width:160px" pSortableColumn="fromWho">«Όνομα» <p-sortIcon field="fromWho"/></th>
@@ -48,7 +48,7 @@
     <tr>
       <th style="width:40px"></th>
       <th style="width:50px"></th>
-      <th style="width:110px">
+      <th class="frozen-date-column" style="width:110px">
         <div class="date-column-filters">
           <div class="date-text-filter-wrapper">
             <input pInputText type="text" class="date-text-input"
@@ -124,7 +124,7 @@
           <span *ngIf="business.invoicesId?.length" class="invoice-badge">{{ business.invoicesId.length }}</span>
         </span>
       </td>
-      <td style="width:110px">{{ formatDateAsYYMMDD(business.date) }}</td>
+      <td class="frozen-date-column" style="width:110px">{{ formatDateAsYYMMDD(business.date) }}</td>
       <!-- <td>{{ formatDateAsYYMMDD(business.dateTo) }}</td> -->
       <td>{{ business.type }}</td>
       <td>{{ business.fromWho }}</td>

@@ -151,6 +151,34 @@
   background: var(--color-surface);
 }
 
+/* Keep the date column sticky on the left while horizontal scrolling */
+::ng-deep .p-datatable .frozen-date-column {
+  position: sticky !important;
+  left: 0 !important;
+  width: 110px !important;
+  min-width: 110px !important;
+  max-width: 110px !important;
+  background-color: inherit;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th.frozen-date-column {
+  z-index: 4;
+  background-color: var(--color-black) !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td.frozen-date-column,
+::ng-deep .p-datatable .p-datatable-tfoot > tr > td.frozen-date-column {
+  z-index: 3;
+}
+
+/* Make sure the column doesn’t collapse on mobile */
+::ng-deep .p-datatable .frozen-date-column,
+::ng-deep .p-datatable .frozen-date-column.p-frozen-column {
+  width: 110px !important;
+  min-width: 110px !important;
+  max-width: 110px !important;
+}
+
 ::ng-deep .p-datatable .p-frozen-column {
   box-shadow: var(--shadow-frozen);
 }

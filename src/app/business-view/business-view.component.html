@@ -76,7 +76,7 @@
             [style]="{width:'100%'}">
           </p-dropdown>
         </div>
-        <div class="business-view__field business-view__field--full">
+        <div class="business-view__field">
           <label>Λεπτομέρειες</label>
           <p-dropdown
             formControlName="details"
@@ -107,17 +107,22 @@
           <label>Υπόλοιπο</label>
           <p-inputNumber formControlName="remainingMoney" [style]="{width:'100%'}"></p-inputNumber>
         </div>
-        <div class="business-view__field business-view__field--check">
-          <p-checkbox formControlName="payout" [binary]="true" inputId="view-payout"></p-checkbox>
-          <label for="view-payout">Εξοφλ.</label>
-        </div>
-        <div class="business-view__field business-view__field--check">
-          <p-checkbox formControlName="filesCompleted" [binary]="true" inputId="view-filesCompleted"></p-checkbox>
-          <label for="view-filesCompleted">Αρχεία</label>
-        </div>
-        <div class="business-view__field business-view__field--check">
-          <p-checkbox formControlName="filesDelivered" [binary]="true" inputId="view-filesDelivered"></p-checkbox>
-          <label for="view-filesDelivered">Παράδ.</label>
+        <div class="business-view__field business-view__field--full business-view__field--checks">
+          <span class="business-view__checks-label">Κατάσταση</span>
+          <div class="business-view__checks-row">
+            <label class="business-view__check-item" for="view-payout">
+              <p-checkbox formControlName="payout" [binary]="true" inputId="view-payout"></p-checkbox>
+              <span>Εξοφλ.</span>
+            </label>
+            <label class="business-view__check-item" for="view-filesCompleted">
+              <p-checkbox formControlName="filesCompleted" [binary]="true" inputId="view-filesCompleted"></p-checkbox>
+              <span>Αρχεία</span>
+            </label>
+            <label class="business-view__check-item" for="view-filesDelivered">
+              <p-checkbox formControlName="filesDelivered" [binary]="true" inputId="view-filesDelivered"></p-checkbox>
+              <span>Παράδ.</span>
+            </label>
+          </div>
         </div>
         <div class="business-view__field business-view__field--full">
           <label>Σχόλια</label>

@@ -17,7 +17,7 @@
 .business-view__section {
   background: #fff;
   border-radius: 12px;
-  padding: 1rem;
+  padding: 1.35rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -135,7 +135,7 @@
 .business-view__dialog-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.15rem;
 }
 
 .business-view__field {
@@ -144,21 +144,55 @@
   gap: 0.35rem;
 }
 
+.business-view__field label,
+.business-view__checks-label {
+  font-weight: 600;
+  color: #374151;
+}
+
 .business-view__field--full {
   grid-column: 1 / -1;
 }
 
-.business-view__field--check {
-  flex-direction: row;
+.business-view__field--checks {
+  padding-top: 0.2rem;
+}
+
+.business-view__checks-label {
+  margin-bottom: 0.2rem;
+}
+
+.business-view__checks-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+
+.business-view__check-item {
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding-top: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  color: #374151;
+  font-weight: 500;
 }
 
 .business-view__upload {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.business-view__form input,
+.business-view__form textarea,
+.business-view__form .p-dropdown,
+.business-view__form .p-inputnumber {
+  width: 100%;
 }
 
 .business-view__selected-file {
@@ -190,6 +224,10 @@
   .business-view__record-actions {
     grid-column: 1 / -1;
     justify-content: flex-end;
+  }
+
+  .business-view__checks-row {
+    gap: 0.5rem 0.9rem;
   }
 }
 

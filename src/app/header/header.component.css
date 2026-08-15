@@ -10,10 +10,13 @@ header {
   justify-content: space-between;
   align-items: center;
   background: var(--color-surface);
-  color: var(--color-text-strong);
-  padding: 15px;
+  color: var(--color-text-inverse);
+  padding: 12px 24px;
   margin: 0;
-
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+  position: relative;
+  z-index: 20;
 }
 
 .logo {
@@ -48,20 +51,27 @@ ul li a {
   display: flex;
   align-items: center;
   position: relative;
+  gap: 8px;
 }
 
  .profile,.calendar{
-  margin: 0 10px;
+   margin: 0;
   cursor: pointer;
   font-size: 18px;
-  background-color: var(--color-icon-surface); /* You can change this to any color */
-  padding: 10px; /* Adds space around the icon */
-  border-radius: 20%; /* Makes the background circular */
-  color:var(--color-black); /* Makes the icon color white */
+   background-color: rgba(255, 255, 255, 0.12);
+   padding: 11px;
+    border: 2px solid var(--color-primary-soft);
+   border-radius: 10px;
+   color: var(--color-primary-700);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+ .profile:hover, .calendar:hover {
+   background: rgba(136, 208, 200, 0.18);
+   color: var(--color-primary-700);
+ }
 
 /* Styles for modal */
 .modal {
@@ -97,17 +107,20 @@ ul li a {
   right: 3px;
   font-size: 2rem;
   cursor: pointer;
-  color: var(--color-border-darker);
+   color: var(--color-border-darker);
 }
 
 .close:hover {
-  color: var(--color-text-muted);
+   color: var(--color-text-muted);
 }
 
 .logo-image {
   width: 180px; /* You can adjust the size as needed */
   height: auto;  /* Ensures the aspect ratio of the logo image is maintained */
   display: block; /* Ensures no extra space around the image */
+  /* CSS filter reproduces --color-primary-700 for the existing logo image. */
+  filter: brightness(0) saturate(100%) invert(38%) sepia(22%) saturate(838%) hue-rotate(126deg) brightness(88%) contrast(89%);
+  opacity: 0.9;
 }
 .profile {
   cursor: pointer;
@@ -120,9 +133,9 @@ ul li a {
   top: 100%;
   right: 0;
   margin-top: 0.2rem;
-  background-color: var(--color-black);
-  color: var(--color-text-inverse);
-  border: 1px solid var(--color-border-inverse);
+   background-color: rgba(13, 19, 28, 0.98);
+   color: var(--color-text-inverse);
+   border: 1px solid rgba(136, 208, 200, 0.24);
   border-radius: 8px;
   box-shadow: var(--shadow-lg);
   z-index: 1000;
@@ -146,7 +159,7 @@ ul li a {
 }
 
 .profile-dropdown li:hover {
-  background-color: var(--color-surface-hover);
+   background-color: rgba(136, 208, 200, 0.14);
   border-radius: 8px;
 }
 
@@ -161,7 +174,7 @@ ul li a {
   position: absolute;
   top: -4px;
   right: -4px;
-  background: var(--color-danger-strong);
+   background: var(--color-danger-strong);
   color: var(--color-text-inverse);
   font-size: 0.65rem;
   font-weight: bold;
@@ -176,7 +189,7 @@ ul li a {
 
 /* Comments Modal */
 .comments-modal {
-  background: var(--color-surface-darker);
+  background: linear-gradient(145deg, #172333, #0d131c);
   color: var(--color-text-on-dark);
   width: 420px;
   max-width: 95vw;
@@ -190,7 +203,7 @@ ul li a {
 
 /* About Modal - use same dark styling as comments modal */
 .about-modal {
-  background: var(--color-surface-darker);
+  background: linear-gradient(145deg, #172333, #0d131c);
   color: var(--color-text-on-dark);
   width: 420px;
   max-width: 95vw;
@@ -208,6 +221,8 @@ ul li a {
   align-items: center;
   padding: 1rem 1.2rem;
   border-bottom: 1px solid var(--color-border-darker);
+  background: var(--color-primary-700);
+  color: var(--color-text-inverse);
 }
 
 .about-title {
@@ -231,6 +246,8 @@ ul li a {
   align-items: center;
   padding: 1rem 1.2rem;
   border-bottom: 1px solid var(--color-border-darker);
+  background: var(--color-primary-700);
+  color: var(--color-text-inverse);
 }
 
 .comments-title {
@@ -252,12 +269,12 @@ ul li a {
 .close-comments {
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--color-text-disabled);
+   color: var(--color-text-disabled);
   line-height: 1;
 }
 
 .close-comments:hover {
-  color: var(--color-text-inverse);
+   color: var(--color-text-inverse);
 }
 
 /* Comments List */
@@ -455,7 +472,7 @@ ul li a {
 
 /* Account Modal */
 .account-modal {
-  background: var(--color-surface-darker);
+  background: linear-gradient(145deg, #172333, #0d131c);
   color: var(--color-text-on-dark);
   width: 450px;
   max-width: 95vw;
@@ -473,6 +490,8 @@ ul li a {
   align-items: center;
   padding: 1rem 1.2rem;
   border-bottom: 1px solid var(--color-border-darker);
+  background: var(--color-primary-700);
+  color: var(--color-text-inverse);
 }
 
 .account-title {
@@ -536,7 +555,7 @@ ul li a {
 
 /* Settings Modal */
 .settings-modal {
-  background: var(--color-surface-darker);
+  background: linear-gradient(145deg, #172333, #0d131c);
   color: var(--color-text-on-dark);
   width: 600px;
   max-width: 95vw;
@@ -555,6 +574,8 @@ ul li a {
   align-items: center;
   padding: 1rem 1.2rem;
   border-bottom: 1px solid var(--color-border-darker);
+  background: var(--color-primary-700);
+  color: var(--color-text-inverse);
 }
 
 .settings-title {
@@ -568,12 +589,12 @@ ul li a {
 .close-settings {
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--color-text-disabled);
+   color: var(--color-text-disabled);
   line-height: 1;
 }
 
 .close-settings:hover {
-  color: var(--color-text-inverse);
+   color: var(--color-text-inverse);
 }
 
 .settings-body {
@@ -606,6 +627,21 @@ ul li a {
 .settings-menu li.active {
   background: var(--color-primary-soft);
   color: var(--color-text-inverse);
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 10px 12px;
+  }
+
+  .logo-image {
+    width: 145px;
+  }
+
+  .profile, .calendar {
+    padding: 9px;
+    font-size: 16px;
+  }
 }
 
 .settings-menu li:not(.active):hover {

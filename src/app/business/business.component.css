@@ -1,12 +1,15 @@
 .business{
-  padding: 2rem;
-  border-radius: 5px;
-  background-color: var(--color-surface);
-
+  margin: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: var(--shadow-lg);
+  min-width: 0;
 }
 ::ng-deep .p-datatable {
   border-radius: 12px;
   overflow: hidden;
+  border: 1px solid var(--color-border);
 }
 
 ::ng-deep .p-datatable-header {
@@ -14,8 +17,20 @@
 }
 
 ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background-color: var(--color-black) !important;
+  background: var(--color-primary-700) !important;
   color: var(--color-text-inverse) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  font-weight: 600;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr:nth-child(2) > th {
+  background: #1b2432 !important;
+}
+
+::ng-deep .p-datatable .p-datatable-thead .p-inputtext {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--color-text) !important;
+  border-color: rgba(136, 208, 200, 0.35) !important;
 }
 
 ::ng-deep .p-paginator-bottom {
@@ -47,6 +62,15 @@
   background-color: var(--color-gray-300) !important;
 }
 
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  color: var(--color-text);
+  border-bottom-color: var(--color-border-soft) !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  letter-spacing: normal;
+}
+
 /* Divider line before footer totals */
 ::ng-deep .p-datatable .p-datatable-tfoot > tr > td {
   border-top: 2px solid var(--color-black) !important;
@@ -67,6 +91,8 @@
   align-items: center !important;
   gap: 0.5rem !important;
   justify-content: flex-end !important;
+  background: var(--color-surface-soft) !important;
+  border-top: 1px solid var(--color-border) !important;
 }
 
 ::ng-deep .p-paginator .p-dropdown {
@@ -143,7 +169,7 @@
 
 ::ng-deep .p-datatable .p-datatable-thead > tr > th.p-frozen-column {
   z-index: 3;
-  background-color: var(--color-black) !important;
+  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary)) !important;
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td.p-frozen-column,
@@ -164,7 +190,7 @@
 
 ::ng-deep .p-datatable .p-datatable-thead > tr > th.frozen-date-column {
   z-index: 4;
-  background-color: var(--color-black) !important;
+  background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary)) !important;
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td.frozen-date-column,
@@ -334,7 +360,8 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .business {
-    padding: 1rem;
+    margin: 0.75rem;
+    padding: 0.75rem;
   }
 
   /* Make table more mobile-friendly */
@@ -440,6 +467,7 @@
 
 @media (max-width: 480px) {
   .business {
+    margin: 0.5rem;
     padding: 0.5rem;
   }
 

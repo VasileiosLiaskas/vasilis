@@ -1,12 +1,15 @@
 .invoice{
-  padding: 2rem;
-  border-radius: 5px;
-  background-color: rgb(255 255 255);
-
+  margin: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: var(--shadow-lg);
+  min-width: 0;
 }
 ::ng-deep .p-datatable {
   border-radius: 12px;
   overflow: hidden;
+  border: 1px solid var(--color-border);
 }
 
 ::ng-deep .p-datatable-header {
@@ -14,8 +17,20 @@
 }
 
 ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-  background-color: #43454a !important;
-  color: white !important;
+  /*background: linear-gradient(135deg, var(--color-primary-700), var(--color-primary)) !important;*/
+  background: var(--color-primary-700) !important;
+  color: var(--color-text-inverse) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+::ng-deep .p-datatable .p-datatable-thead > tr:nth-child(2) > th {
+  background: #1b2432 !important;
+}
+
+::ng-deep .p-datatable .p-datatable-thead .p-inputtext {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: var(--color-text) !important;
+  border-color: rgba(136, 208, 200, 0.35) !important;
 }
 
 ::ng-deep .p-paginator-bottom {
@@ -44,7 +59,16 @@
 }
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr:hover {
-  background-color: #e3f2fd !important;
+  background-color: var(--color-gray-300) !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  color: var(--color-text);
+  border-bottom-color: var(--color-border-soft) !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 400 !important;
+  letter-spacing: normal;
 }
 
 /* Paginator styling - dropdown on left, pagination on right */
@@ -55,6 +79,8 @@
   align-items: center !important;
   gap: 0.5rem !important;
   justify-content: flex-end !important;
+  background: var(--color-surface-soft) !important;
+  border-top: 1px solid var(--color-border) !important;
 }
 
 ::ng-deep .p-paginator .p-dropdown {
@@ -119,7 +145,8 @@
 /* Reduce overall component padding on small screens */
 @media (max-width: 640px){
   .invoice{
-    padding: 0.75rem; /* reduce from 2rem to 0.75rem on mobile */
+    margin: 0.75rem;
+    padding: 0.75rem;
   }
 }
 

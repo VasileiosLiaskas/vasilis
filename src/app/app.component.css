@@ -1,12 +1,35 @@
+.main-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.spacer {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem 1rem;
+  background: rgba(255, 255, 255, 0.42);
+  border-bottom: 1px solid rgba(51, 122, 116, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 /* Tabs container */
 .tabs-menu {
   position: relative;
   display: flex;
   justify-content: center;
-  background: var(--color-surface);
+  background: rgba(255, 255, 255, 0.96);
   border-radius: 12px;
   padding: 10px 15px;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   overflow: hidden;
   gap: 1rem;
 }
@@ -36,7 +59,8 @@
 
 .tab:hover,
 .tab.active {
-  color: var(--color-primary);
+  color: var(--color-primary-700);
+  font-weight: 700;
 }
 
 .tab:hover i,
@@ -51,7 +75,7 @@
   left: 0;
   height: 3px;
   width: 33.33%; /* 100 / 3 tabs */
-  background-color: var(--color-primary);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-soft));
   transition: all 0.3s ease;
 }
 @media (max-width: 768px) {
@@ -63,6 +87,7 @@
     -ms-overflow-style: none;      /* Hide scrollbar (IE/Edge) */
     gap: 5px;
     padding: 8px 10px;
+    max-width: 100%;
   }
 
   /* Hide scrollbar for Chrome/Safari */

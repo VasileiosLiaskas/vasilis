@@ -1,7 +1,9 @@
 .stats-container {
-  padding: 2rem;
-  background-color: var(--color-surface);
-  border-radius: 5px;
+  margin: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
 }
 
 .summary-cards {
@@ -12,7 +14,7 @@
 }
 
 .card {
-  background: var(--color-surface-soft);
+  background: linear-gradient(145deg, #f7fbfb, #eaf5f4);
   padding: 1.2rem 2rem;
   border-radius: 1rem;
   box-shadow: var(--shadow-sm);
@@ -23,7 +25,7 @@
 .card .value {
   font-size: 2rem;
   font-weight: bold;
-  color: var(--color-success-strong);
+  color: var(--color-primary-700);
 }
 
 .filter-section {
@@ -39,6 +41,7 @@
   border-radius: 1rem;
   padding: 1.5rem;
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-soft);
   min-height: auto;
   display: flex;
   flex-direction: column;
@@ -76,6 +79,7 @@
 
 @media (max-width: 768px) {
   .stats-container {
+    margin: 0.75rem;
     padding: 1rem;
   }
 

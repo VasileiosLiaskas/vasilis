@@ -1,19 +1,55 @@
-<div class="container">
-  <div class="form-container">
-    <form (ngSubmit)="onLogin()">
-<!--      <h1 style="color:white"> Οoso</h1>-->
-      <div class="input-box">
-        <input type="text" placeholder="Username"  [(ngModel)]="username"  name="username" required>
-        <i class="fa-solid fa-user"></i>
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-hero">
+      <div class="brand-mark">
+        <i class="fa-solid fa-shield-halved"></i>
       </div>
-      <div class="input-box">
-        <input type="password" placeholder="Password" name="password" [(ngModel)]="password"  required>
-        <i class="fa-solid fa-key"></i>
-      </div>
-      <div class="input-box">
-      <button class="input-box" type="submit">Είσοδος</button>
+      <p class="eyebrow">motherfucker</p>
+      <h1>Welcome back</h1>
+      <!--<p class="subtitle">Sign in to manage your invoices, customers, and business activity.</p>-->
+    </div>
+
+    <form class="login-form" (ngSubmit)="onLogin()">
+      <div class="form-field">
+        <label for="username">Username</label>
+        <div class="input-box">
+          <i class="fa-solid fa-user"></i>
+          <input
+            id="username"
+            type="text"
+            placeholder="Enter your username"
+            [(ngModel)]="username"
+            name="username"
+            autocomplete="username"
+            required
+          >
+        </div>
       </div>
 
+      <div class="form-field">
+        <label for="password">Password</label>
+        <div class="input-box">
+          <i class="fa-solid fa-key"></i>
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter your password"
+            name="password"
+            [(ngModel)]="password"
+            autocomplete="current-password"
+            required
+          >
+        </div>
+      </div>
+
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <button class="submit-button" type="submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Sign in</span>
+        <span *ngIf="isLoading">Signing in…</span>
+      </button>
+
+      <p class="hint">Secure access for authorized users only.</p>
     </form>
   </div>
 </div>

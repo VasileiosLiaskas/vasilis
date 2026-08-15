@@ -17,7 +17,14 @@
   <!-- Total Income Card -->
   <div class="summary-cards">
     <div class="card">
-      <div style="font-size:0.9rem; color:#6c757d; margin-bottom:0.3rem;">Συνολική Αμοιβή</div>
+      <div class="income-label" style="font-size:0.9rem; color:#6c757d; margin-bottom:0.3rem;">
+        <span>Συνολική Αμοιβή</span>
+        <span class="falling-money" aria-hidden="true">
+          <span class="banknote banknote-one"><span class="banknote-symbol">€</span><span class="banknote-lines"></span></span>
+          <span class="banknote banknote-two"><span class="banknote-symbol">€</span><span class="banknote-lines"></span></span>
+          <span class="banknote banknote-three"><span class="banknote-symbol">€</span><span class="banknote-lines"></span></span>
+        </span>
+      </div>
       <div class="value">{{ totalIncome.toLocaleString('el-GR') }}€</div>
       <div style="font-size:0.8rem; color:#999; margin-top:0.3rem;">{{ filteredList.length }} εγγραφές</div>
     </div>

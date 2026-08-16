@@ -1,6 +1,6 @@
 <div class="invoice">
   <div class="invoice__table">
-    <p-table #dt [value]="invoiceList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
+    <p-table #dt [value]="filteredInvoiceList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
              [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
              paginatorDropdownAppendTo="body"
              currentPageReportTemplate="Εμφάνιση {first} έως {last} από {totalRecords} εγγραφές"
@@ -12,6 +12,18 @@
         <div class="invoice-caption">
           <div class="caption-left">
             <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
+          </div>
+          <div class="caption-center">
+            <div class="invoice-type-filters">
+              <div class="invoice-type-filter">
+                <p-checkbox [(ngModel)]="showInvoices" [binary]="true" inputId="showInvoices" (onChange)="applyTypeFilter()" />
+                <label for="showInvoices">Τιμολόγια</label>
+              </div>
+              <div class="invoice-type-filter">
+                <p-checkbox [(ngModel)]="showFileAttachments" [binary]="true" inputId="showFileAttachments" (onChange)="applyTypeFilter()" />
+                <label for="showFileAttachments">Συνημμένα αρχεία</label>
+              </div>
+            </div>
           </div>
           <div class="caption-right">
             <div class="caption-actions">
@@ -32,7 +44,7 @@
           <th pSortableColumn="invoiceDate">Ημερομηνία <p-sortIcon field="invoiceDate"/></th>
           <th pSortableColumn="fileName">Όνομα Αρχείου <p-sortIcon field="fileName"/></th>
           <th pSortableColumn="description">Περιγραφή <p-sortIcon field="description"/></th>
-          <th pSortableColumn="invoiceType">Τύπος Τιμολογίου <p-sortIcon field="invoiceType"/></th>
+          <th pSortableColumn="invoiceType">Τύπος <p-sortIcon field="invoiceType"/></th>
           <th>Αρχείο</th>
           <th>Μετάβαση</th>
           <th></th>

@@ -165,19 +165,36 @@ button, input, textarea, select {
   padding: 1.15rem 1.4rem;
 }
 
-.p-dialog .p-dialog-header-icon,
-.p-dialog .p-dialog-header-close,
-.p-dialog .p-dialog-header-icon:hover,
-.p-dialog .p-dialog-header-close:hover,
-.p-dialog .p-dialog-header-icon:focus,
-.p-dialog .p-dialog-header-close:focus {
-  --p-button-text-secondary-color: var(--color-text-muted) !important;
-  --p-button-text-secondary-hover-color: var(--color-text-muted) !important;
-  --p-button-text-secondary-active-color: var(--color-text-muted) !important;
-  color: var(--color-text-muted) !important;
+.p-dialog .p-dialog-close-button,
+.p-dialog .p-dialog-close-button:hover,
+.p-dialog .p-dialog-close-button:active,
+.p-dialog .p-dialog-close-button:focus,
+.p-dialog .p-dialog-close-button:focus-visible {
+  --p-button-text-secondary-color: var(--color-text-inverse) !important;
+  --p-button-text-secondary-hover-color: var(--color-text-inverse) !important;
+  --p-button-text-secondary-active-color: var(--color-text-inverse) !important;
+  --p-button-text-secondary-focus-color: var(--color-text-inverse) !important;
+  color: var(--color-text-inverse) !important;
   opacity: 1 !important;
-  background: #ffffff !important;
+  background: transparent !important;
+  border: none !important;
   border-radius: 8px !important;
+}
+
+.p-dialog .p-dialog-close-button .p-button-icon,
+.p-dialog .p-dialog-close-button .p-icon,
+.p-dialog .p-dialog-close-button svg,
+.p-dialog .p-dialog-close-button i {
+  color: var(--color-text-inverse) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.p-dialog .p-dialog-close-button:hover,
+.p-dialog .p-dialog-close-button:focus,
+.p-dialog .p-dialog-close-button:focus-visible {
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 
@@ -186,3 +203,64 @@ button, input, textarea, select {
   padding:1rem;
 }
 
+@media (max-width: 768px) {
+  .p-dialog.invoice-list-dialog,
+  .p-dialog.invoice-form-dialog {
+    width: calc(100vw - 2rem) !important;
+    max-width: none !important;
+  }
+
+  .p-dialog.invoice-form-dialog .invoice-form-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .p-dialog.invoice-form-dialog .invoice-form-grid > div {
+    grid-column: 1 !important;
+  }
+
+  .p-dialog.invoice-form-dialog .invoice-form-actions {
+    flex-direction: column-reverse !important;
+  }
+
+  .p-dialog.invoice-form-dialog .invoice-form-actions .p-button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .p-dialog.invoice-list-dialog .invoice-dialog-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem;
+  }
+
+  .p-dialog.invoice-list-dialog .invoice-dialog-toolbar .p-iconfield,
+  .p-dialog.invoice-list-dialog .invoice-dialog-toolbar .p-inputtext {
+    width: 100% !important;
+  }
+
+  .p-dialog.invoice-list-dialog .invoice-dialog-toolbar > p-button .p-button {
+    width: auto !important;
+  }
+
+  .p-dialog.invoice-list-dialog .p-paginator {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  .p-dialog.invoice-list-dialog .p-paginator .p-paginator-current {
+    flex: 0 0 100%;
+    order: -1;
+    min-width: 0;
+    padding: 0 0.25rem;
+    text-align: center;
+    white-space: normal !important;
+    font-size: 0.8rem;
+  }
+
+  .p-dialog.invoice-list-dialog .p-paginator .p-select {
+    min-width: 4.5rem;
+  }
+}

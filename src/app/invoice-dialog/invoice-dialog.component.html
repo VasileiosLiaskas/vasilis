@@ -1,6 +1,6 @@
 
-<p-dialog [header]="'Τιμολόγια - ' + business.who" [(visible)]="showDialog" [modal]="true" [style]="{width:'1200px'}" [closable]="true" (onHide)="closeDialog()">
-  <div style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+<p-dialog [header]="'Τιμολόγια - ' + business.who" [(visible)]="showDialog" [modal]="true" [style]="{width:'1200px'}" styleClass="invoice-list-dialog" [closable]="true" (onHide)="closeDialog()">
+  <div class="invoice-dialog-toolbar" style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
     <p-button label="Νέο Τιμολόγιο" icon="pi pi-plus" (onClick)="addInvoice()" />
     <p-iconfield iconPosition="left">
       <p-inputicon styleClass="pi pi-search" />
@@ -52,9 +52,9 @@
 
 <p-menu #invoiceRowMenu [popup]="true" [model]="activeMenuItems" appendTo="body" />
 
-<p-dialog header="Τιμολόγιο" [(visible)]="showInvoiceForm" [modal]="true" [style]="{width:'600px'}" [closable]="true" (onHide)="closeInvoiceForm()">
+<p-dialog header="Τιμολόγιο" [(visible)]="showInvoiceForm" [modal]="true" [style]="{width:'600px'}" styleClass="invoice-form-dialog" [closable]="true" (onHide)="closeInvoiceForm()">
   <form [formGroup]="invoiceForm" (ngSubmit)="submitInvoice()">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
+    <div class="invoice-form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.2rem;">
       <div style="display:flex; flex-direction:column; gap:0.4rem;">
         <label style="font-weight:500;">Αριθμός Τιμολογίου</label>
         <input pInputText formControlName="invoiceNumber" style="width:100%;">
@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+    <div class="invoice-form-actions" style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
       <p-button label="Ακύρωση" icon="pi pi-times" severity="secondary" [outlined]="true" (onClick)="closeInvoiceForm()" type="button" />
       <p-button label="Αποθήκευση" icon="pi pi-save" type="submit" />
     </div>

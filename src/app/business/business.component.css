@@ -380,6 +380,27 @@
     font-size: 0.75rem !important;
   }
 
+  ::ng-deep .p-datatable .p-paginator {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  ::ng-deep .p-datatable .p-paginator .p-paginator-current {
+    flex: 0 0 100%;
+    order: -1;
+    min-width: 0;
+    padding: 0 0.25rem;
+    text-align: center;
+    white-space: normal !important;
+    font-size: 0.8rem;
+  }
+
+  ::ng-deep .p-datatable .p-paginator .p-select {
+    min-width: 4.5rem;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
     gap: 1rem;

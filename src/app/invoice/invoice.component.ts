@@ -16,6 +16,7 @@ import {InputIconModule} from 'primeng/inputicon';
 import {Menu, MenuModule} from 'primeng/menu';
 import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
+import {CheckboxModule} from 'primeng/checkbox';
 import {InputTextarea} from 'primeng/inputtextarea';
 import {TooltipModule} from 'primeng/tooltip';
 import {MenuItem} from 'primeng/api';
@@ -35,6 +36,7 @@ import {Router} from '@angular/router';
     MenuModule,
     DialogModule,
     DropdownModule,
+    CheckboxModule,
     TooltipModule,
     NgIf,
     InvoiceTypePipe,
@@ -52,11 +54,14 @@ export class InvoiceComponent implements OnInit{
 
   // Table data and pagination
   invoiceList: Invoice[] = [];
+  filteredInvoiceList: Invoice[] = [];
   page: number = 0;
   size: number = 10;
   totalElements: number = 0;
   searchValue: string = '';
   dateFilterValue: string = '';
+  showInvoices: boolean = true;
+  showFileAttachments: boolean = true;
 
   // Form and dialog
   invoiceForm!: FormGroup;
@@ -89,12 +94,13 @@ export class InvoiceComponent implements OnInit{
       .subscribe({
         next: (response) => {
           this.invoiceList = response;
-          this.totalElements = response.length; // Set total count
+          this.applyTypeFilter();
         },
         error: (error) => {
           console.error('Error loading invoices:', error);
           this.toasterService.showMessage('Σφάλμα κατά τη φόρτωση των τιμολογίων', 'error');
           this.invoiceList = [];
+          this.filteredInvoiceList = [];
           this.totalElements = 0;
         }
       });
@@ -104,6 +110,17 @@ export class InvoiceComponent implements OnInit{
     table.clear();
     this.searchValue = '';
     this.dateFilterValue = '';
+    this.showInvoices = true;
+    this.showFileAttachments = true;
+    this.applyTypeFilter();
+  }
+
+  applyTypeFilter() {
+    this.filteredInvoiceList = this.invoiceList.filter((invoice) =>
+      (this.showInvoices && ['FEE_INVOICE', 'PURCHASE_INVOICE'].includes(invoice.invoiceType)) ||
+      (this.showFileAttachments && invoice.invoiceType === 'FILE_ATTACHMENT')
+    );
+    this.totalElements = this.filteredInvoiceList.length;
   }
 
   private initializeForm() {
@@ -361,7 +378,7 @@ export class InvoiceComponent implements OnInit{
   }
 
   goToBusiness(businessId: number) {
-    this.router.navigate(['/business'], { queryParams: { highlightBusinessId: businessId } });
+    this.router.navigate(['/business', businessId, 'view']);
   }
 
   private initializeMenuItems() {

@@ -101,19 +101,21 @@
 
 /* Responsive caption (Clear, Create, Search) for invoice table */
 .invoice-caption{
-  display:flex;
-  justify-content:space-between;
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto minmax(0, 1fr);
   align-items:center;
   gap:0.5rem;
-  flex-wrap:wrap; /* allow wrapping on small screens */
 }
 .caption-left{
-  flex: 0 0 auto;
+  justify-self: start;
+}
+.caption-center {
+  justify-self: center;
 }
 .caption-right{
   display:flex;
-  flex: 1 1 auto;
   justify-content:flex-end;
+  justify-self: end;
 }
 .caption-actions{
   display:flex;
@@ -122,16 +124,37 @@
   flex-wrap:wrap;
 }
 
+.invoice-type-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.invoice-type-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.invoice-type-filter label {
+  cursor: pointer;
+}
+
 /* Mobile: stack the controls vertically */
 @media (max-width: 640px){
   .invoice-caption{
+    display: flex;
     flex-direction:column;
     align-items:stretch;
   }
   .caption-left,
+  .caption-center,
   .caption-right{
     width:100%;
   }
+  .caption-center { justify-self: auto; }
   .caption-right{ justify-content:flex-start; }
   .caption-actions{ width:100%; justify-content:flex-start; }
   /* make the search field take available width on mobile */
@@ -147,6 +170,29 @@
   .invoice{
     margin: 0.75rem;
     padding: 0.75rem;
+  }
+
+  ::ng-deep .p-datatable .p-paginator {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.4rem !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  ::ng-deep .p-datatable .p-paginator .p-paginator-current {
+    flex: 0 0 100%;
+    order: -1;
+    min-width: 0;
+    padding: 0 0.25rem;
+    text-align: center;
+    white-space: normal !important;
+    font-size: 0.8rem !important;
+  }
+
+  ::ng-deep .p-datatable .p-paginator .p-dropdown,
+  ::ng-deep .p-datatable .p-paginator .p-select {
+    min-width: 4.5rem;
+    margin-right: 0 !important;
   }
 }
 

@@ -112,7 +112,7 @@
 
 ::ng-deep .p-datatable-wrapper {
   /* PrimeNG manages the scroll container internally for scrollable tables */
-  overflow: hidden !important;
+  overflow: auto !important;
 }
 
 /* Ensure the datatable scroll body is the actual horizontal scroll container */

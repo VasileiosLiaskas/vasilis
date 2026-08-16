@@ -116,8 +116,9 @@ html, body {
   height: 100%;
   margin: 0; /* Remove any default margin */
   padding:0;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
+  touch-action: pan-x pan-y pinch-zoom;
   background:
     radial-gradient(circle at 0% 0%, rgba(136, 208, 200, 0.32), transparent 32%),
     radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.72), transparent 38%),

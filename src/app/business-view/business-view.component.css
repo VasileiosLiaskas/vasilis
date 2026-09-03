@@ -2,7 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1rem;
+  padding: 2rem 12rem;
+
+  @media (max-width: 1200px) {
+    padding: 1rem;
+  }
 }
 
 .business-view__header,
@@ -211,7 +215,7 @@
   margin-top: 1.25rem;
 }
 
-@media (max-width: 900px) {
+
   .business-view__grid,
   .business-view__dialog-grid {
     grid-template-columns: 1fr;

@@ -6,6 +6,10 @@
   box-shadow: var(--shadow-lg);
   min-width: 0;
 }
+
+.table-zoom-controls {
+  display: none;
+}
 ::ng-deep .p-datatable {
   border-radius: 12px;
   overflow: hidden;
@@ -113,6 +117,13 @@
 ::ng-deep .p-datatable-wrapper {
   /* PrimeNG manages the scroll container internally for scrollable tables */
   overflow: auto !important;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+/* Keep pinch-zoom available when the gesture starts on table content. */
+::ng-deep .p-datatable,
+::ng-deep .p-datatable th,
+::ng-deep .p-datatable td {
   touch-action: pan-x pan-y pinch-zoom;
 }
 
@@ -363,6 +374,20 @@
   .business {
     margin: 0.75rem;
     padding: 0.75rem;
+  }
+
+  .table-zoom-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .table-zoom-controls .p-button {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    padding: 0.35rem 0.55rem !important;
   }
 
   /* Make table more mobile-friendly */

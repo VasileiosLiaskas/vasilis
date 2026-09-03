@@ -67,6 +67,7 @@ export class BusinessComponent implements OnInit{
   size: number = 50;
   totalElements: number = 0;
   searchValue: string = '';
+  tableZoom = 1;
   dateFromFilter: Date | null = null;
   dateToFilter: Date | null = null;
   dateSearchFilter: string = '';
@@ -229,6 +230,18 @@ export class BusinessComponent implements OnInit{
     this.businessForm = this.businessService.initForm();
     this.setupAutomaticCalculation();
     this.showForm = true;
+  }
+
+  increaseTableZoom(): void {
+    this.tableZoom = Math.min(2, +(this.tableZoom + 0.1).toFixed(1));
+  }
+
+  decreaseTableZoom(): void {
+    this.tableZoom = Math.max(0.5, +(this.tableZoom - 0.1).toFixed(1));
+  }
+
+  resetTableZoom(): void {
+    this.tableZoom = 1;
   }
 
 

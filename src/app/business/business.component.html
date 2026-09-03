@@ -1,10 +1,16 @@
 <div class="business">
   <div class="business__table">
+    <div class="table-zoom-controls" aria-label="Μεγέθυνση πίνακα">
+      <p-button label="−" [outlined]="true" severity="secondary" ariaLabel="Σμίκρυνση πίνακα" (onClick)="decreaseTableZoom()" />
+      <p-button [label]="tableZoom * 100 + '%'" [outlined]="true" severity="secondary" ariaLabel="Επαναφορά μεγέθους πίνακα" (onClick)="resetTableZoom()" />
+      <p-button label="+" [outlined]="true" severity="secondary" ariaLabel="Μεγέθυνση πίνακα" (onClick)="increaseTableZoom()" />
+    </div>
 <p-table #dt [value]="businessList" [paginator]="true" [rows]="size" [totalRecords]="totalElements"
          [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true"
          paginatorDropdownAppendTo="body"
          currentPageReportTemplate="Εμφάνιση {first} έως {last} από {totalRecords} εγγραφές"
          [scrollable]="true" scrollDirection="horizontal"
+         [style.zoom]="tableZoom"
          [tableStyle]="{'table-layout':'fixed','min-width':'1600px','width':'100%'}"
          styleClass="p-datatable-striped"
          [globalFilterFields]="['date','dateTo','dateSearch','dateToSearch','type','fromWho','who','area','details','costs','fee','advancePayment','remainingMoney','comments']">

@@ -19,6 +19,7 @@
       <p-button label="Clear" icon="pi pi-filter-slash" [outlined]="true" severity="secondary" (onClick)="clearFilters(dt)" />
       <div class="table-caption-actions" style="display:flex; align-items:center; gap:0.5rem;">
 
+
         <p-iconfield iconPosition="left">
           <p-inputicon styleClass="pi pi-search" />
           <input pInputText type="text" [(ngModel)]="searchValue" placeholder="Αναζήτηση..." (input)="dt.filterGlobal(searchValue, 'contains')" />

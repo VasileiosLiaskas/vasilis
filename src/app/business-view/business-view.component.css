@@ -215,7 +215,7 @@
   margin-top: 1.25rem;
 }
 
-
+@media (max-width: 768px) {
   .business-view__grid,
   .business-view__dialog-grid {
     grid-template-columns: 1fr;
@@ -233,6 +233,7 @@
   .business-view__checks-row {
     gap: 0.5rem 0.9rem;
   }
+}
 
 
 
